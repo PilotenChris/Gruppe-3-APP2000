@@ -1,0 +1,75 @@
+[{
+  "_id": {
+    "$oid": "63d045d3c985c0f89a75ba11"
+  },
+  "Tesla": {
+    "Model 3": {
+      "versions": [
+        "Standard",
+        "Long Range",
+        "Performance"
+      ],
+      "range_km": {
+        "Standard": 424,
+        "Long Range": 570,
+        "Performance": 500
+      },
+      "battery_capacity_kWh": {
+        "Standard": 50,
+        "Long Range": 75,
+        "Performance": 75
+      },
+      "charging_speed_kW": {
+        "Standard": 150,
+        "Long Range": 250,
+        "Performance": 250
+      }
+    },
+    "Model Y": {
+      "versions": [
+        "Standard Range",
+        "Long Range",
+        "Performance"
+      ],
+      "range_km": {
+        "Standard Range": 450,
+        "Long Range": 528,
+        "Performance": 483
+      },
+      "battery_capacity_kWh": {
+        "Standard Range": 50,
+        "Long Range": 75,
+        "Performance": 75
+      },
+      "charging_speed_kW": {
+        "Standard Range": 150,
+        "Long Range": 250,
+        "Performance": 250
+      }
+    }
+  }
+},{
+  "_id": {
+    "$oid": "63d04756c985c0f89a75ba12"
+  },
+  "Nissan": {
+    "Nissan Leaf": {
+      "versions": [
+        "Standard",
+        "Plus"
+      ],
+      "range_km": {
+        "Standard": 243,
+        "Plus": 364
+      },
+      "battery_capacity_kWh": {
+        "Standard": 39,
+        "Plus": 59
+      },
+      "charging_speed_kW": {
+        "Standard": 1,
+        "Plus": 2
+      }
+    }
+  }
+}]
