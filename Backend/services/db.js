@@ -44,26 +44,6 @@ async function getCars(company) {
   return result;
 }
 
-// Get all versions for a given car model
-async function getVersion(company, carModel) {
-  let result = {};
-  try {
-    await client.connect();
-    const db = client.db(config.db.name);
-    const coll = db.collection("ElCars");
-    const carData = await coll.find({ [company]: { [carModel]: { $exists: true } } }).toArray();
-    if (carData.length > 0) {
-      result = carData[0][company][carModel]["versions"];
-    }
-  } catch (error) {
-    console.error(error);
-    result = { "Error Message": error.message };
-  } finally {
-    await client.close();
-  }
-  return result;
-}
-
 // Get battery capacity for a given car model and version
 async function getBattery(company, carModel, modelVersion) {
   let result = {};
@@ -84,6 +64,7 @@ async function getBattery(company, carModel, modelVersion) {
   return result;
 }
 
+// Get all details of a car model
 async function getCarDetails(company, carModel) {
   let result = [];
   try {
@@ -111,4 +92,4 @@ async function getCarDetails(company, carModel) {
   return result;
 }
 
-  export { getCompanies, getCars, getVersion, getBattery };
+  export { getCompanies, getCars, getBattery, getCarDetails };

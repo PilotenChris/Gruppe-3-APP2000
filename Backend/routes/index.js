@@ -1,4 +1,4 @@
-import { getCompanies, getCars, getVersion, getBattery } from "../services/db.js";
+import { getCompanies, getCars, getBattery, getCarDetails } from "../services/db.js";
 
 // Helper functions for delivering output
 function writeData(res) {
@@ -27,28 +27,81 @@ const routes = (app) => {
   });
 
   // Deliver a specific car in JSON format
-  // Note the use of :company which match all company and car names.
   app.get("/ElCars/:company/", (req, res) => {
     let company = req.params["company"];
     getCars(company).then(writeData(res), writeError(res));
   });
 
-   // Deliver a specific car and battery in JSON format
-  // Note the use of :company, :car which match all company and car names.
+   // Deliver a specific car and version in JSON format
+  // Works at the moment only with the first car of each company
   app.get("/ElCars/:company/:car/", (req, res) => {
     let company = req.params["company"];
     let car = req.params["car"];
-    getBattery(company, car).then(writeData(res), writeError(res));
+    getCarDetails(company, car).then(data => {
+      let result = [];
+      if (Array.isArray(data)) {
+        for (let carData of data) {
+          if (carData.Company === company && carData["Car Model"] === car) {
+            result.push({"Versions": carData.Details.versions});
+          }
+        }
+        res.send(result);
+      } else {
+        res.send(data);
+      }
+    }, writeError(res));
   });
 
   // Deliver a specific version and battery in JSON format
-  // Note the use of :company, :car which match all company, car and version names.
-  app.get("/ElCars/:company/:car/version", (req, res) => {
+  app.get("/ElCars/:company/:car/:version", (req, res) => {
     let company = req.params["company"];
     let car = req.params["car"];
-    let battery = req.params["version"];
-    getBattery(company, car, version).then(writeData(res), writeError(res));
+    let version = req.params["version"];
+    getBattery(company, car, version).then(data => {
+      let result = {};
+      if (Array.isArray(data)) {
+        for (let carData of data) {
+          if (carData.Company === company && carData["Car Model"] === car && carData.Details.versions.includes(version)) {
+            result = {
+              "Company": company,
+              "Car Model": car,
+              "Version": version,
+              "Battery Details": carData.Details.battery[version]
+            };
+            break;
+          }
+        }
+        res.send(result);
+      } else {
+        res.send(data);
+      }
+    }, writeError(res));
   });
+  /*
+  app.get("/ElCars/:company/:car/:verison", (req, res) => {
+    let company = req.params["company"];
+    let car = req.params["car"];
+    getCarDetails(company, car).then(data => {
+      let result = [];
+      if (Array.isArray(data)) {
+        for (let carData of data) {
+          if (carData.Company === company && carData["Car Model"] === car) {
+            result.push({"Battery capacity": carData.Details.battery_capacity_kWh});
+          }
+        }
+        res.send(result);
+      } else {
+        res.send(data);
+      }
+    }, writeError(res));
+  });*/
+
+  // Test of getCarDetails
+ /* app.get("/ElCars/:company/:car/", (req, res) => {
+    let company = req.params["company"];
+    let car = req.params["car"];
+    getCarDetails(company, car).then(writeData(res), writeError(res));
+  });*/
 
   // Catch all other requests and deliver an error message.
   app.get("*", function (req, res) {
