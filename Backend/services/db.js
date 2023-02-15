@@ -44,28 +44,10 @@ async function getCars(company) {
   return result;
 }
 
-// Get battery capacity for a given car model and version
-async function getBattery(company, carModel, modelVersion) {
-  let result = {};
-  try {
-    await client.connect();
-    const db = client.db(config.db.name);
-    const coll = db.collection("ElCars");
-    const carData = await coll.findOne({ [company]: { [carModel]: { $exists: true } } });
-    if (carData) {
-      result = carData[company][carModel]["battery_capacity_kWh"][modelVersion];
-    }
-  } catch (error) {
-    console.error(error);
-    result = { "Error Message": error.message };
-  } finally {
-    await client.close();
-  }
-  return result;
-}
 
-// Get all details of a car model
-async function getCarDetails(company, carModel) {
+
+// Get all details of a car model and version
+async function getCarDetails(company, carModel, version) {
   let result = [];
   try {
     await client.connect();
@@ -74,12 +56,30 @@ async function getCarDetails(company, carModel) {
     const cars = await coll.find({ [company]: { $exists: true } }).toArray();
     if (cars.length > 0) {
       for (const car of cars) {
-        if (Object.keys(car[company])[0] === carModel) {
-          result.push({
-            "Company": company,
-            "Car Model": carModel,
-            "Details": car[company][carModel]
-          });
+        for (const model in car[company]) {
+          if (car[company].hasOwnProperty(model) && car[company][model].hasOwnProperty('versions')) {
+            if (model === carModel) {
+              const details = car[company][model];
+              if (version && details.versions.includes(version)) {
+                result.push({
+                  "Company": company,
+                  "Car Model": carModel,
+                  "Version": version,
+                  "Details": {
+                    "Range (km)": details.range_km[version],
+                    "Battery Capacity (kWh)": details.battery_capacity_kWh[version],
+                    "Charging Speed (kW)": details.charging_speed_kW[version]
+                  }
+                });
+              } else if (!version) {
+                result.push({
+                  "Company": company,
+                  "Car Model": carModel,
+                  "Details": details
+                });
+              }
+            }
+          }
         }
       }
     }
@@ -92,4 +92,4 @@ async function getCarDetails(company, carModel) {
   return result;
 }
 
-  export { getCompanies, getCars, getBattery, getCarDetails };
+  export { getCompanies, getCars, getCarDetails };
