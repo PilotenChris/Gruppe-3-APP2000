@@ -17,7 +17,11 @@ const Sidenav = (props) => {
       <div
         id="mySidenav"
         className="sidenav"
-        style={{ width: isSidenavOpen ? "250px" : "0" }}
+        style={{
+          width: isSidenavOpen ? "250px" : "0",
+          position: "absolute",
+          zIndex: "1"
+        }}
       >
         <a href="javascript:void(0)" className="closebtn" onClick={closeSidenav}>
           &times;
@@ -39,7 +43,7 @@ const Sidenav = (props) => {
         </div>
       </div>
 
-      <div style={{ height: "100%", width: "100%" }}>
+      <div style={{ position: "relative", height: "100%", width: "100%" }}>
         <span
           style={{ fontSize: "30px", cursor: "pointer" }}
           onClick={openSidenav}
