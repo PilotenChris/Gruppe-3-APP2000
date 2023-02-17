@@ -1,10 +1,10 @@
 import Sidenav from "./Sidenav";
+import Map from "./Map";
 
 const Home = () => {
     return (
-        <div>
-          <Sidenav>
-          </Sidenav>
+        <div><Map></Map>
+          <Sidenav></Sidenav>
         </div>
       );
 
