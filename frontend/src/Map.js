@@ -7,7 +7,7 @@ const center = { lat: 59.911491, lng: 10.757933 } //midlertidig koordinat
 function Map() {
 
   const {isLoaded} = useLoadScript({
-    googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
+    googleMapsApiKey: "AIzaSyACqMueWvLFhHETTGHO27NgnjTCBstiZWo",
   })
 
   if (!isLoaded) {

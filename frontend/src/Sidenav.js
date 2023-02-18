@@ -23,9 +23,9 @@ const Sidenav = (props) => {
           zIndex: "1"
         }}
       >
-        <a href="javascript:void(0)" className="closebtn" onClick={closeSidenav}>
+        <button className="closebtn" onClick={closeSidenav}>
           &times;
-        </a>
+        </button>
         <div className="menu-container">
           <select className="menu-dropdown">
             <option value="Firma">Firma</option>
