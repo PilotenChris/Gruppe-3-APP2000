@@ -2,3 +2,4 @@ node_modules/
 api.env
 test.js
 .env.local
+.env

@@ -1,4 +1,6 @@
 import { getCompanies, getCars, getCarDetails } from "../services/db.js";
+import dotenv from 'dotenv';
+dotenv.config();
 
 // Helper functions for delivering output
 function writeData(res) {
@@ -21,6 +23,11 @@ function writeError(res) {
 
 // Define the routes in the REST API.
 const routes = (app) => {
+  // Deliver the API key in JSON format
+  app.get("/api-key", (req, res) => {
+    res.send({ apiKey: process.env.REACT_APP_API_KEY });
+  });
+  
   // Deliver all companies in JSON format
   app.get("/ElCars", (req, res) => {
     getCompanies().then(writeData(res), writeError(res));
