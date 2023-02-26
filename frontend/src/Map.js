@@ -131,8 +131,8 @@ function Map() {
     return <div>...Loading...</div>;
   }
     return (
-       <div class="screen">
-        <div class="map-container">
+       <div className="screen">
+        <div className="map-container">
           <GoogleMap
             center={center}
             zoom={10}
