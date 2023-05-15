@@ -58,7 +58,7 @@ const routes = (app) => {
     }, writeError(res));
   });
 
-  // Deliver a specific version and battery in JSON format
+  // Deliver range, battery and charging information in JSON format
   app.get("/ElCars/:company/:car/:version", (req, res) => {
     let company = req.params["company"];
     let car = req.params["car"];
@@ -117,49 +117,5 @@ const routes = (app) => {
     res.end();
   });
 };
-
-// Testing setCompanies and setCars functions in console
-/*async function test() {
-  // Test setCompanies function
-  try {
-    await setCompanies("BYD");
-    await setCompanies("BMW");
-    await setCompanies("Tesla"); // Testing duplicate company
-  } catch (error) {
-    console.error(error);
-  }
-
-  // Test setCars and editCars function
-  try {
-    // Set car details
-    await setCars("Tesla", "Model S", "Long Range", 500, 100, 50); 
-    await setCars("Tesla", "Model 3", "Short Range", 400, 75, 30);
-    await setCars("BMW", "i3", "2021", 250, 50, 20);
-  
-    // Edit car details company, oldCarModel, newCarModel, oldVersion, newVersion, updatedDetails
-    await editCars("BMW", "i3", "i5", "Super Long Range", "Long Range", {
-      range_km: 450,
-      battery_capacity_kWh: 40,
-      charging_speed_kW: 40
-    });
-  } catch (error) {
-    console.error(error);
-  }
-  try {
-    await editCompanies("BYD", "BMW");
-  } catch (error) {
-    console.error(error);
-  }
-
-  try { 
-    await editCars("BMW", "i3", "Super Long Range", 350, 30, 30);
-  } catch (error) {
-    console.error(error);
-  }
-
-}*/
-
-// Run the test function
-test();
 
 export { routes };

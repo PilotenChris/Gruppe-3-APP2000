@@ -8,6 +8,8 @@ const Sidenav = (props) => {
   const [carModels, setCarModels] = useState([]);
   const [selectedCarModel, setSelectedCarModel] = useState("");
   const [versions, setVersions] = useState([]);
+  const [selectedCarVersion, setSelectedCarVersion] = useState("");
+  const [selectedCarDetails, setSelectedCarDetails] = useState(null);
 
   useEffect(() => {
     fetch("http://localhost:3030/ElCars")
@@ -28,6 +30,7 @@ const Sidenav = (props) => {
     setSelectedCompany(company);
     setSelectedCarModel("");
     setVersions([]);
+    setSelectedCarDetails(null);
     fetch(`http://localhost:3030/ElCars/${company}`)
       .then((response) => response.json())
       .then((data) => setCarModels(data));
@@ -37,9 +40,29 @@ const Sidenav = (props) => {
     const carModel = event.target.value;
     setSelectedCarModel(carModel);
     setVersions([]);
+    setSelectedCarDetails(null);
     fetch(`http://localhost:3030/ElCars/${selectedCompany}/${carModel}`)
       .then((response) => response.json())
       .then((data) => setVersions(data[0].Versions));
+  };
+
+  const handleCarVersionChange = (event) => {
+    const carVersion = event.target.value;
+    setSelectedCarVersion(carVersion);
+  
+    fetch(`http://localhost:3030/ElCars/${selectedCompany}/${selectedCarModel}/${carVersion}`)
+      .then((response) => response.json())
+      .then((data) => {
+        if (Array.isArray(data) && data.length > 0) {
+          setSelectedCarDetails(data[0]);
+        } else {
+          setSelectedCarDetails(null);
+        }
+      })
+      .catch((error) => {
+        console.error("Error retrieving car details:", error);
+        setSelectedCarDetails(null);
+      });
   };
 
   return (
@@ -88,31 +111,44 @@ const Sidenav = (props) => {
         )}
         {selectedCarModel && (
           <div className="menu-container">
-            <select className="menu-dropdown">
-              <option value="">Versjon</option>
-              {versions.map((version) => (
-                <option key={version} value={version}>
-                  {version}
-                  </option>
-              ))}
-            </select>
-          </div>
-        )}
-      </div>
+            <select
+  className="menu-dropdown"
+  value={selectedCarVersion}
+  onChange={handleCarVersionChange}
+>
+  <option value="">Versjon</option>
+  {versions.map((version) => (
+    <option key={version} value={version}>
+      {version}
+    </option>
+  ))}
+</select>
 
-      <div style={{ position: "relative", height: "100%", width: "100%" }}>
-        <span
-          style={{ fontSize: "30px", cursor: "pointer" }}
-          onClick={openSidenav}
-        >
-          &#9776;
-        </span>
-        <div className="App" style={{ height: "100%", width: "100%" }}>
-          {props.children}
         </div>
+      )}
+      {selectedCarDetails && (
+      <div className="car-details">
+        <p>Range (km): {selectedCarDetails.Details["Range (km)"]}</p>
+        <p>Battery Capacity (kWh): {selectedCarDetails.Details["Battery Capacity (kWh)"]}</p>
+        <p>Charging Speed (kW): {selectedCarDetails.Details["Charging Speed (kW)"]}</p>
       </div>
-    </>
-  );
+    )}
+
+    </div>
+    <div style={{ position: "relative", height: "100%", width: "100%" }}>
+      <span
+        style={{ fontSize: "30px", cursor: "pointer" }}
+        onClick={openSidenav}
+      >
+        &#9776;
+      </span>
+      <div className="App" style={{ height: "100%", width: "100%" }}>
+        {props.children}
+      </div>
+    </div>
+  </>
+);
 };
 
 export default Sidenav;
+
