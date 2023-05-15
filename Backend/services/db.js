@@ -92,4 +92,73 @@ async function getCarDetails(company, carModel, version) {
   return result;
 }
 
-  export { getCompanies, getCars, getCarDetails };
+// Inser company into database
+async function setCompanies(company) {
+  try {
+    await client.connect();
+    const db = client.db(config.db.name);
+    const coll = db.collection("ElCars");
+    const existingCars = await coll.find().toArray();
+    const existingCompanies = existingCars.map((car) => Object.keys(car)[1]);
+    if (!existingCompanies.includes(company)) {
+      const newComp = { [company]: {} };
+      await coll.insertOne(newComp);
+      console.log(`Successfully inserted ${company} into the database.`);
+    } else {
+      console.log(`${company} already exists in the database.`);
+    }
+  } catch (error) {
+    console.error(error);
+  } finally {
+    await client.close();
+  }
+}
+async function setCars(company, carModel, version, range, batteryCapacity, chargingSpeed) {
+  try {
+    await client.connect();
+    const db = client.db(config.db.name);
+    const coll = db.collection("ElCars");
+
+    // Check if the company exists in the database
+    const existingCompany = await coll.findOne({ [company]: { $exists: true } });
+    if (!existingCompany) {
+      console.log(`${company} does not exist in the database. Please insert the company first.`);
+      return;
+    }
+
+    // Check if the car model exists for the company
+    if (!existingCompany[company][carModel]) {
+      // Create a new car model if it doesn't exist
+      existingCompany[company][carModel] = {
+        versions: [],
+        range_km: {},
+        battery_capacity_kWh: {},
+        charging_speed_kW: {}
+      };
+    }
+
+    // Check if the version already exists for the car model
+    const existingVersion = existingCompany[company][carModel].versions.includes(version);
+    if (existingVersion) {
+      console.log(`${version} already exists for ${company} ${carModel}. Please choose a different version.`);
+      return;
+    }
+
+    // Update the car details
+    existingCompany[company][carModel].versions.push(version);
+    existingCompany[company][carModel].range_km[version] = range;
+    existingCompany[company][carModel].battery_capacity_kWh[version] = batteryCapacity;
+    existingCompany[company][carModel].charging_speed_kW[version] = chargingSpeed;
+
+    await coll.replaceOne({ _id: existingCompany._id }, existingCompany);
+
+    console.log(`Successfully added car details for ${company} ${carModel} ${version} to the database.`);
+  } catch (error) {
+    console.error(error);
+  } finally {
+    await client.close();
+  }
+}
+
+
+  export { getCompanies, getCars, getCarDetails, setCompanies, setCars };

@@ -1,4 +1,4 @@
-import { getCompanies, getCars, getCarDetails } from "../services/db.js";
+import { getCompanies, getCars, getCarDetails, setCompanies, setCars } from "../services/db.js";
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -66,6 +66,28 @@ const routes = (app) => {
     getCarDetails(company, car, version).then(writeData(res), writeError(res));
   });
 
+  // Insert a company into the database
+  app.post("/ElCars/:company", (req, res) => {
+    let company = req.params["company"];
+    setCompanies(company).then(() => {
+      res.sendStatus(200);
+    }, writeError(res));
+  });
+
+    // Insert car details from a webpage into the database
+    app.post("/ElCars/:company/:car/:version", (req, res) => {
+      let company = req.params["company"];
+      let carModel = req.params["car"];
+      let version = req.params["version"];
+      let range = req.body.range;
+      let batteryCapacity = req.body.batteryCapacity;
+      let chargingSpeed = req.body.chargingSpeed;
+  
+      setCars(company, carModel, version, range, batteryCapacity, chargingSpeed).then(() => {
+        res.sendStatus(200);
+      }, writeError(res));
+    });
+
   // Catch all other requests and deliver an error message.
   app.get("*", function (req, res) {
     res.status(404);
@@ -74,5 +96,31 @@ const routes = (app) => {
     res.end();
   });
 };
+
+// Testing setCompanies and setCars functions in console
+async function test() {
+  // Test setCompanies function
+  try {
+    await setCompanies("BYD");
+    await setCompanies("BMW");
+    await setCompanies("Tesla"); // Testing duplicate company
+  } catch (error) {
+    console.error(error);
+  }
+
+  // Test setCars function
+  try { // company, carModel, version, range, batteryCapacity, chargingSpeed
+    //await setCars("Tesla", "Model S", "Long Range", 500, 100, 50); 
+    //await setCars("Tesla", "Model 3", "Short Range", 400, 75, 30);
+    //await setCars("BMW", "i3", "2021", 250, 50, 20);
+    await setCars("BMW", "i3", "Super Long Range", 350, 30, 30);
+    await setCars("BMW", "i4", "Long Range", 30, 10, 40);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Run the test function
+test();
 
 export { routes };
