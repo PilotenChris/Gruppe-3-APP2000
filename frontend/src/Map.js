@@ -127,6 +127,12 @@ function Map() {
     googleMapsApiKey: "AIzaSyACqMueWvLFhHETTGHO27NgnjTCBstiZWo",
   })
 
+  // Function to hide components on map
+  const options = {
+    disableDefaultUI: true,
+    zoom: false,
+  }
+
   if (!isLoaded) {
     return <div>...Loading...</div>;
   }
@@ -134,6 +140,7 @@ function Map() {
        <div className="screen">
         <div className="map-container">
           <GoogleMap
+          options={options}
             center={center}
             zoom={10}
             mapContainerStyle={{ width: '100%', height: '100%' }}
