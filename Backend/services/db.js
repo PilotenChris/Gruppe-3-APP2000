@@ -113,6 +113,7 @@ async function setCompanies(company) {
     await client.close();
   }
 }
+
 async function setCars(company, carModel, version, range, batteryCapacity, chargingSpeed) {
   try {
     await client.connect();
@@ -160,5 +161,113 @@ async function setCars(company, carModel, version, range, batteryCapacity, charg
   }
 }
 
+// Edit company name in the database
+async function editCompanies(oldCompany, newCompany) {
+  try {
+    await client.connect();
+    const db = client.db(config.db.name);
+    const coll = db.collection("ElCars");
 
-  export { getCompanies, getCars, getCarDetails, setCompanies, setCars };
+    // Check if the old company exists in the database
+    const existingCompany = await coll.findOne({ [oldCompany]: { $exists: true } });
+    if (!existingCompany) {
+      console.log(`${oldCompany} does not exist in the database. Please insert the company first.`);
+      return;
+    }
+
+    // Check if the new company already exists in the database
+    const existingNewCompany = await coll.findOne({ [newCompany]: { $exists: true } });
+    if (existingNewCompany) {
+      console.log(`${newCompany} already exists in the database. Please choose a different company name.`);
+      return;
+    }
+
+    // Update the company name
+    existingCompany[newCompany] = existingCompany[oldCompany];
+    delete existingCompany[oldCompany];
+    await coll.replaceOne({ _id: existingCompany._id }, existingCompany);
+
+    console.log(`Successfully updated ${oldCompany} to ${newCompany} in the database.`);
+  } catch (error) {
+    console.error(error);
+  } finally {
+    await client.close();
+  }
+}
+
+// Edit car model, version and details
+async function editCars(company, oldCarModel, newCarModel, oldVersion, newVersion, updatedDetails) {
+  try {
+    await client.connect();
+    const db = client.db(config.db.name);
+    const coll = db.collection("ElCars");
+
+    // Check if the company exists in the database
+    const existingCompany = await coll.findOne({ [company]: { $exists: true } });
+    if (!existingCompany) {
+      console.log(`${company} does not exist in the database. Please insert the company first.`);
+      return;
+    }
+
+    // Check if the old car model exists for the company
+    if (!existingCompany[company][oldCarModel]) {
+      console.log(`${oldCarModel} does not exist for ${company}. Please choose a different car model.`);
+      return;
+    }
+
+    // Check if the old version exists for the car model
+    if (!existingCompany[company][oldCarModel].versions.includes(oldVersion)) {
+      console.log(`${oldVersion} does not exist for ${company} ${oldCarModel}. Please choose a different version.`);
+      return;
+    }
+
+    // Update the car details
+    const carDetails = existingCompany[company][oldCarModel];
+    if (newCarModel) {
+      existingCompany[company][newCarModel] = existingCompany[company][oldCarModel];
+      delete existingCompany[company][oldCarModel];
+      carDetails.versions.forEach((version) => {
+        carDetails.range_km[version] = carDetails.range_km[version] || carDetails.range_km[oldVersion];
+        carDetails.battery_capacity_kWh[version] = carDetails.battery_capacity_kWh[version] || carDetails.battery_capacity_kWh[oldVersion];
+        carDetails.charging_speed_kW[version] = carDetails.charging_speed_kW[version] || carDetails.charging_speed_kW[oldVersion];
+      });
+    }
+    if (newVersion) {
+      const versionIndex = carDetails.versions.indexOf(oldVersion);
+      if (versionIndex > -1) {
+        carDetails.versions.splice(versionIndex, 1, newVersion);
+        carDetails.range_km[newVersion] = carDetails.range_km[newVersion] || carDetails.range_km[oldVersion];
+        carDetails.battery_capacity_kWh[newVersion] = carDetails.battery_capacity_kWh[newVersion] || carDetails.battery_capacity_kWh[oldVersion];
+        carDetails.charging_speed_kW[newVersion] = carDetails.charging_speed_kW[newVersion] || carDetails.charging_speed_kW[oldVersion];
+        delete carDetails.range_km[oldVersion];
+        delete carDetails.battery_capacity_kWh[oldVersion];
+        delete carDetails.charging_speed_kW[oldVersion];
+      } else {
+        console.log(`${oldVersion} does not exist for ${company} ${oldCarModel}. Please choose a different version.`);
+        return;
+      }
+    }
+    if (updatedDetails.range_km) {
+      carDetails.range_km[newVersion] = updatedDetails.range_km;
+    }
+    if (updatedDetails.battery_capacity_kWh) {
+      carDetails.battery_capacity_kWh[newVersion] = updatedDetails.battery_capacity_kWh;
+    }
+    if (updatedDetails.charging_speed_kW) {
+      carDetails.charging_speed_kW[newVersion] = updatedDetails.charging_speed_kW;
+    }
+
+    await coll.replaceOne({ _id: existingCompany._id }, existingCompany);
+
+    console.log(`Successfully updated car details for ${company} ${oldCarModel} ${oldVersion} in the database.`);
+
+    } catch (error) {
+      console.error(error);
+    } finally {
+      await client.close();
+    }
+  }
+
+
+
+  export { getCompanies, getCars, getCarDetails, setCompanies, setCars, editCompanies, editCars };

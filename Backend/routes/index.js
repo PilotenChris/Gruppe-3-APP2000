@@ -1,4 +1,4 @@
-import { getCompanies, getCars, getCarDetails, setCompanies, setCars } from "../services/db.js";
+import { getCompanies, getCars, getCarDetails, setCompanies, setCars, editCars, editCompanies } from "../services/db.js";
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -88,6 +88,27 @@ const routes = (app) => {
       }, writeError(res));
     });
 
+    // Edit a company in the database
+    app.put("/ElCars/:oldCompany/:newCompany", (req, res) => {
+      let oldCompany = req.params["oldCompany"];
+      let newCompany = req.params["newCompany"];
+      editCompanies(oldCompany, newCompany).then(() => {
+        res.sendStatus(200);
+      }, writeError(res));
+    });
+
+    // Edit car details in the database
+    app.put("/ElCars/:company/:car/:version", (req, res) => {
+      let company = req.params["company"];
+      let carModel = req.params["car"];
+      let version = req.params["version"];
+      let updatedDetails = req.body;
+
+      editCars(company, carModel, version, updatedDetails).then(() => {
+        res.sendStatus(200);
+      }, writeError(res));
+    });
+
   // Catch all other requests and deliver an error message.
   app.get("*", function (req, res) {
     res.status(404);
@@ -98,7 +119,7 @@ const routes = (app) => {
 };
 
 // Testing setCompanies and setCars functions in console
-async function test() {
+/*async function test() {
   // Test setCompanies function
   try {
     await setCompanies("BYD");
@@ -108,17 +129,35 @@ async function test() {
     console.error(error);
   }
 
-  // Test setCars function
-  try { // company, carModel, version, range, batteryCapacity, chargingSpeed
-    //await setCars("Tesla", "Model S", "Long Range", 500, 100, 50); 
-    //await setCars("Tesla", "Model 3", "Short Range", 400, 75, 30);
-    //await setCars("BMW", "i3", "2021", 250, 50, 20);
-    await setCars("BMW", "i3", "Super Long Range", 350, 30, 30);
-    await setCars("BMW", "i4", "Long Range", 30, 10, 40);
+  // Test setCars and editCars function
+  try {
+    // Set car details
+    await setCars("Tesla", "Model S", "Long Range", 500, 100, 50); 
+    await setCars("Tesla", "Model 3", "Short Range", 400, 75, 30);
+    await setCars("BMW", "i3", "2021", 250, 50, 20);
+  
+    // Edit car details company, oldCarModel, newCarModel, oldVersion, newVersion, updatedDetails
+    await editCars("BMW", "i3", "i5", "Super Long Range", "Long Range", {
+      range_km: 450,
+      battery_capacity_kWh: 40,
+      charging_speed_kW: 40
+    });
   } catch (error) {
     console.error(error);
   }
-}
+  try {
+    await editCompanies("BYD", "BMW");
+  } catch (error) {
+    console.error(error);
+  }
+
+  try { 
+    await editCars("BMW", "i3", "Super Long Range", 350, 30, 30);
+  } catch (error) {
+    console.error(error);
+  }
+
+}*/
 
 // Run the test function
 test();
