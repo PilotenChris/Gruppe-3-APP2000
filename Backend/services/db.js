@@ -7,7 +7,7 @@ const client = new MongoClient(config.db.url);
 
 // Functions:
 
-// Get all companies
+// Get all companies from the database
 async function getCompanies() {
   let result = [];
   try {
@@ -24,7 +24,7 @@ async function getCompanies() {
   return result;
 }
 
-// Get all cars for a given company
+// Get all cars from a selected company
 async function getCars(company) {
   let result = [];
   try {
@@ -46,7 +46,7 @@ async function getCars(company) {
 
 
 
-// Get all details of a car model and version
+// Get all details of a chosen car model and version
 async function getCarDetails(company, carModel, version) {
   let result = [];
   try {
@@ -92,7 +92,7 @@ async function getCarDetails(company, carModel, version) {
   return result;
 }
 
-// Inser company into database
+// Inser a new company into database
 async function setCompanies(company) {
   try {
     await client.connect();
@@ -103,7 +103,7 @@ async function setCompanies(company) {
     if (!existingCompanies.includes(company)) {
       const newComp = { [company]: {} };
       await coll.insertOne(newComp);
-      console.log(`Successfully inserted ${company} into the database.`);
+      console.log(`${company} is added to the database.`);
     } else {
       console.log(`${company} already exists in the database.`);
     }
@@ -114,6 +114,7 @@ async function setCompanies(company) {
   }
 }
 
+// Insert a new car into the database
 async function setCars(company, carModel, version, range, batteryCapacity, chargingSpeed) {
   try {
     await client.connect();
@@ -123,11 +124,11 @@ async function setCars(company, carModel, version, range, batteryCapacity, charg
     // Check if the company exists in the database
     const existingCompany = await coll.findOne({ [company]: { $exists: true } });
     if (!existingCompany) {
-      console.log(`${company} does not exist in the database. Please insert the company first.`);
+      console.log(`${company} does not exist in the database.`);
       return;
     }
 
-    // Check if the car model exists for the company
+    // Check if the car model exists for the chosen company
     if (!existingCompany[company][carModel]) {
       // Create a new car model if it doesn't exist
       existingCompany[company][carModel] = {
@@ -138,10 +139,10 @@ async function setCars(company, carModel, version, range, batteryCapacity, charg
       };
     }
 
-    // Check if the version already exists for the car model
+    // Check if the version already exists of a car model
     const existingVersion = existingCompany[company][carModel].versions.includes(version);
     if (existingVersion) {
-      console.log(`${version} already exists for ${company} ${carModel}. Please choose a different version.`);
+      console.log(`${version} already exists for this ${carModel}.`);
       return;
     }
 
@@ -153,7 +154,7 @@ async function setCars(company, carModel, version, range, batteryCapacity, charg
 
     await coll.replaceOne({ _id: existingCompany._id }, existingCompany);
 
-    console.log(`Successfully added car details for ${company} ${carModel} ${version} to the database.`);
+    console.log(`Successfully added details for ${company} ${carModel} ${version} to the database.`);
   } catch (error) {
     console.error(error);
   } finally {
@@ -161,7 +162,7 @@ async function setCars(company, carModel, version, range, batteryCapacity, charg
   }
 }
 
-// Edit company name in the database
+// Edit a company name in the database
 async function editCompanies(oldCompany, newCompany) {
   try {
     await client.connect();
@@ -171,23 +172,23 @@ async function editCompanies(oldCompany, newCompany) {
     // Check if the old company exists in the database
     const existingCompany = await coll.findOne({ [oldCompany]: { $exists: true } });
     if (!existingCompany) {
-      console.log(`${oldCompany} does not exist in the database. Please insert the company first.`);
+      console.log(`${oldCompany} does not exist in the database.`);
       return;
     }
 
     // Check if the new company already exists in the database
     const existingNewCompany = await coll.findOne({ [newCompany]: { $exists: true } });
     if (existingNewCompany) {
-      console.log(`${newCompany} already exists in the database. Please choose a different company name.`);
+      console.log(`${newCompany} already exists in the database.`);
       return;
     }
 
-    // Update the company name
+    // Update the chosen companys name
     existingCompany[newCompany] = existingCompany[oldCompany];
     delete existingCompany[oldCompany];
     await coll.replaceOne({ _id: existingCompany._id }, existingCompany);
 
-    console.log(`Successfully updated ${oldCompany} to ${newCompany} in the database.`);
+    console.log(`Successfully updated ${oldCompany} to ${newCompany}.`);
   } catch (error) {
     console.error(error);
   } finally {
@@ -195,7 +196,7 @@ async function editCompanies(oldCompany, newCompany) {
   }
 }
 
-// Edit car model, version and details
+// Edit a car model, version and details
 async function editCars(company, oldCarModel, newCarModel, oldVersion, newVersion, updatedDetails) {
   try {
     await client.connect();
@@ -205,23 +206,23 @@ async function editCars(company, oldCarModel, newCarModel, oldVersion, newVersio
     // Check if the company exists in the database
     const existingCompany = await coll.findOne({ [company]: { $exists: true } });
     if (!existingCompany) {
-      console.log(`${company} does not exist in the database. Please insert the company first.`);
+      console.log(`${company} does not exist in the database.`);
       return;
     }
 
     // Check if the old car model exists for the company
     if (!existingCompany[company][oldCarModel]) {
-      console.log(`${oldCarModel} does not exist for ${company}. Please choose a different car model.`);
+      console.log(`${oldCarModel} does not exist for ${company}.`);
       return;
     }
 
     // Check if the old version exists for the car model
     if (!existingCompany[company][oldCarModel].versions.includes(oldVersion)) {
-      console.log(`${oldVersion} does not exist for ${company} ${oldCarModel}. Please choose a different version.`);
+      console.log(`${oldVersion} does not exist for ${oldCarModel}.`);
       return;
     }
 
-    // Update the car details
+    // Update the details of the car
     const carDetails = existingCompany[company][oldCarModel];
     if (newCarModel) {
       existingCompany[company][newCarModel] = existingCompany[company][oldCarModel];
@@ -243,7 +244,7 @@ async function editCars(company, oldCarModel, newCarModel, oldVersion, newVersio
         delete carDetails.battery_capacity_kWh[oldVersion];
         delete carDetails.charging_speed_kW[oldVersion];
       } else {
-        console.log(`${oldVersion} does not exist for ${company} ${oldCarModel}. Please choose a different version.`);
+        console.log(`${oldVersion} does not exist for ${oldCarModel}. `);
         return;
       }
     }
@@ -268,6 +269,61 @@ async function editCars(company, oldCarModel, newCarModel, oldVersion, newVersio
     }
   }
 
+  // Delete a company from the database
+async function deleteCompany(company) {
+  try {
+    await client.connect();
+    const db = client.db(config.db.name);
+    const coll = db.collection("ElCars");
 
+    // Check if the company exists in the database
+    const existingCompany = await coll.findOne({ [company]: { $exists: true } });
+    if (!existingCompany) {
+      console.log(`${company} does not exist in the database.`);
+      return;
+    }
 
-  export { getCompanies, getCars, getCarDetails, setCompanies, setCars, editCompanies, editCars };
+    // Delete the company from the collection
+    await coll.deleteOne({ _id: existingCompany._id });
+
+    console.log(`Successfully deleted ${company} from the database.`);
+  } catch (error) {
+    console.error(error);
+  } finally {
+    await client.close();
+  }
+}
+// Delete a car model from the database
+async function deleteCarModel(company, carModel) {
+  try {
+    await client.connect();
+    const db = client.db(config.db.name);
+    const coll = db.collection("ElCars");
+
+    // Check if the company exists in the database
+    const existingCompany = await coll.findOne({ [company]: { $exists: true } });
+    if (!existingCompany) {
+      console.log(`${company} does not exist in the database.`);
+      return;
+    }
+
+    // Check if the car model exists for the company
+    if (!existingCompany[company][carModel]) {
+      console.log(`${carModel} does not exist for ${company}.`);
+      return;
+    }
+
+    // Delete car model of a company
+    delete existingCompany[company][carModel];
+
+    await coll.replaceOne({ _id: existingCompany._id }, existingCompany);
+
+    console.log(`Successfully deleted ${carModel}.`);
+  } catch (error) {
+    console.error(error);
+  } finally {
+    await client.close();
+  }
+}
+
+export { getCompanies, getCars, getCarDetails, setCompanies, setCars, editCompanies, editCars, deleteCompany, deleteCarModel };

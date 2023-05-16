@@ -1,4 +1,4 @@
-import { getCompanies, getCars, getCarDetails, setCompanies, setCars, editCars, editCompanies } from "../services/db.js";
+import { getCompanies, getCars, getCarDetails, setCompanies, setCars, editCars, editCompanies, deleteCarModel, deleteCompany } from "../services/db.js";
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -105,6 +105,23 @@ const routes = (app) => {
       let updatedDetails = req.body;
 
       editCars(company, carModel, version, updatedDetails).then(() => {
+        res.sendStatus(200);
+      }, writeError(res));
+    });
+
+    // Delete a company from database
+    app.delete("/ElCars/:company", (req, res) => {
+      let company = req.params["company"];
+      deleteCompany(company).then(() => {
+        res.sendStatus(200);
+      }, writeError(res));
+    });
+
+    // Delete a car model from database
+    app.delete("/ElCars/:company/:car", (req, res) => {
+      let company = req.params["company"];
+      let carModel = req.params["car"];
+      deleteCarModel(company, carModel).then(() => {
         res.sendStatus(200);
       }, writeError(res));
     });
