@@ -6,7 +6,7 @@ const Admin = (props) => {
 
         return (
             <div>
-              <button type="button">Click Me</button>
+              <button type="button">Admin</button>
             </div>
           );
     
