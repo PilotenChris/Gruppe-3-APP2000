@@ -1,6 +1,8 @@
 import { getCompanies, getCars, getCarDetails, setCompanies, setCars, editCars, editCompanies, deleteCarModel, deleteCompany } from "../services/db.js";
 import dotenv from 'dotenv';
+import fetch from "node-fetch";
 dotenv.config();
+
 
 // Helper functions for delivering output
 function writeData(res) {
@@ -21,11 +23,66 @@ function writeError(res) {
   };
 }
 
+function parseJsonResponse(data) {
+  const newMarkers = [];
+  if (data && data.chargerstations && data.chargerstations.length >= 1) {
+    for (let i = 0; i < data.chargerstations.length; i++) {
+      const csmd = data.chargerstations[i].csmd;
+      if (!csmd.Position) {
+        console.error('Charger station position not available');
+        continue;
+      }
+      const arrpunkt = csmd.Position.split(',');
+      const editLat = 1.0 * arrpunkt[0].substr(1);
+      const editLng = 1.0 * arrpunkt[1].substr(0, arrpunkt[1].length - 1);
+      let found = false;
+
+      let adress = csmd.Street;
+      if (csmd.House_number) {
+        adress += ' ' + csmd.House_number;
+      }
+      let connector = null;
+      if (csmd.attr && csmd.attr.conn && csmd.attr.conn[1] && csmd.attr.conn[1][4]) {
+        connector = csmd.attr.conn[1][4].trans;
+      } else if (csmd.attr && csmd.attr.conn && csmd.attr.conn[4]) {
+        connector = csmd.attr.conn[4].trans;
+      }
+
+      newMarkers.push({
+        id: csmd.International_id,
+        geolocation: csmd.Position,
+        latlng: { lat: editLat, lng: editLng },
+        name: csmd.name,
+        connector: connector,
+        adress: adress,
+        description: csmd.Description_of_location,
+        alreadyadded: false
+      });
+    }
+  }
+  return newMarkers;
+}
+
 // Define the routes in the REST API.
 const routes = (app) => {
-  // Deliver the API key in JSON format
-  app.get("/api-key", (req, res) => {
-    res.send({ apiKey: process.env.REACT_APP_API_KEY });
+  const apiKey = process.env.REACT_APP_API_KEY;
+
+  app.post("/charger-stations", async (req, res) => {
+    let bounds = req.body.bounds;
+    let existingIds = req.body.existingIds;
+    let ne = bounds.ne;
+    let sw = bounds.sw;
+
+    const apiUrl = `https://nobil.no/api/server/search.php?apikey=${apiKey}&apiversion=3&action=search&type=rectangle&northeast=${ne}&southwest=${sw}&existingids=${existingIds}`;
+    
+    try {
+      const response = await fetch(apiUrl);
+      const data = await response.json();
+      const newMarkers = parseJsonResponse(data);
+      res.json(newMarkers);
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
   });
   
   // Deliver all companies in JSON format
