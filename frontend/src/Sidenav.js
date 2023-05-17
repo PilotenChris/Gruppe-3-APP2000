@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import {useNavigate } from 'react-router-dom'
 import "./Sidenav.css";
 
 const Sidenav = (props) => {
@@ -10,6 +11,7 @@ const Sidenav = (props) => {
   const [versions, setVersions] = useState([]);
   const [selectedCarVersion, setSelectedCarVersion] = useState("");
   const [selectedCarDetails, setSelectedCarDetails] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetch("http://localhost:3030/ElCars")
@@ -23,6 +25,10 @@ const Sidenav = (props) => {
 
   const closeSidenav = () => {
     setIsSidenavOpen(false);
+  };
+
+  const handleAdminClick = () => {
+    navigate('/login');
   };
 
   const handleCompanyChange = (event) => {
@@ -145,8 +151,12 @@ const Sidenav = (props) => {
       <div className="App" style={{ height: "100%", width: "100%" }}>
         {props.children}
       </div>
+
+      <button id="adminBtn" onClick={handleAdminClick}>
+      Admin
+    </button>
     </div>
-  </>
+  </> 
 );
 };
 

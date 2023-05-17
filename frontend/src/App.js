@@ -3,6 +3,8 @@ import {BrowserRouter, Routes, Route} from "react-router-dom";
 import Home from "./Home.js"
 import Unkownpage from "./Unkownpage.js"
 import './App.css';
+import AdminLogin from "./AdminLogin.js";
+import AdminPage from "./AdminPage.js"
 
 function App() {
   return (
@@ -10,6 +12,8 @@ function App() {
       <Routes>
         <Route path="/">
           <Route index element={<Home />} />
+          <Route path="/login" element={<AdminLogin />} />
+          <Route path="/admin-page" element={<AdminPage />} />
           <Route path="/*" element={<Unkownpage />} />
         </Route>
       </Routes>
