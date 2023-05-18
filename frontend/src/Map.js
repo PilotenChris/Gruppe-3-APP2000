@@ -1,6 +1,6 @@
 import './Map.css';
 import React, { useState, useEffect } from 'react';
-import { useLoadScript, GoogleMap, Marker, InfoWindow } from '@react-google-maps/api';
+import { useLoadScript, GoogleMap, Marker, InfoWindow, Circle } from '@react-google-maps/api';
 
 const center = { lat: 59.911491, lng: 10.757933 } //midlertidig koordinat
 
@@ -19,6 +19,13 @@ function Map() {
       map.addListener('idle', handleMapIdle);
     }
   }, [map]);
+
+  const [circlePos, setCirclePos] = useState(null);
+
+  const handleMapClick = (ev) => {
+    const {latLng} = ev;
+    setCirclePos(latLng.toJSON());
+  };
 
   const getChargerJson = (bounds) => {
     let idList = '';
@@ -98,7 +105,8 @@ function Map() {
             center={center}
             zoom={10}
             mapContainerStyle={{ width: '100%', height: '100%' }}
-            onLoad={(map) => setMap(map)}> 
+            onLoad={(map) => setMap(map)}
+            onClick={handleMapClick}>
             {markers.map((marker) => (
               <Marker
                 key={marker.id}
@@ -120,6 +128,19 @@ function Map() {
                   </div>
               </InfoWindow>
             ) : null}
+            {circlePos &&(
+                <Circle
+                    center={circlePos}
+                    radius={750} // midlertidig css
+                    options={{
+                      strokeColor: '#FF0000',
+                      strokeOpacity: 0.8,
+                      strokeWeight: 2,
+                      fillColor: '#FF0000',
+                      fillOpacity: 0.35,
+                    }}
+                />
+            )}
           </GoogleMap>
         </div>
        </div>
