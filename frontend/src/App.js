@@ -5,6 +5,7 @@ import Unkownpage from "./Unkownpage.js"
 import './App.css';
 import AdminLogin from "./AdminLogin.js";
 import AdminPage from "./AdminPage.js"
+import CreateAdmin from "./CreateAdmin.js"
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
           <Route index element={<Home />} />
           <Route path="/login" element={<AdminLogin />} />
           <Route path="/admin-page" element={<AdminPage />} />
+          <Route path="/admin-page/create-admin" element={<CreateAdmin/>}/>
           <Route path="/*" element={<Unkownpage />} />
         </Route>
       </Routes>
