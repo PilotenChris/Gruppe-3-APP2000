@@ -185,19 +185,19 @@ const routes = (app) => {
     });
 
     // Create new admin account
-    app.post("/admin/create-account", (req, res) => {
-      let email = req.body.email;
-      let password = req.body.password;
-      let isSuperAdmin = req.body.isSuperAdmin;
+  app.post("/Admin", (req, res) => {
+    let email = req.body.email;
+    let password = req.body.password;
+    let isSuperAdmin = req.body.isSuperAdmin;
 
-      createAdminAccount(email, password, isSuperAdmin)
-        .then(() => {
-          res.sendStatus(200);
-        })
-        .catch((error) => {
-          res.status(500).json({ message: error.message });
-        });
-    });
+    createAdminAccount(email, password, isSuperAdmin)
+      .then(() => {
+        res.sendStatus(200);
+      })
+      .catch((error) => {
+        res.status(500).json({ message: error.message });
+      });
+  });
 
   // Catch all other requests and deliver an error message.
   app.get("*", function (req, res) {

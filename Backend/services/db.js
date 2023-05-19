@@ -344,7 +344,7 @@ async function createAdminAccount(email, password, isSuperAdmin) {
 
     const existingAdmin = await coll.findOne({ email });
     if (existingAdmin) {
-      console.log("An admin account with this email already exists.");
+      console.log("Admin account with this email already exists.");
       return;
     }
 
