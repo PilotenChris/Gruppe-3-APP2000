@@ -1,5 +1,6 @@
 import { config } from "../config/config.js";
 import { MongoClient } from "mongodb";
+import bcrypt from 'bcrypt';
 
 // Functions to get data from the MongoDB-database
 
@@ -326,4 +327,43 @@ async function deleteCarModel(company, carModel) {
   }
 }
 
-export { getCompanies, getCars, getCarDetails, setCompanies, setCars, editCompanies, editCars, deleteCompany, deleteCarModel };
+// Encrypt/hash password
+async function hashPassword(password) {
+  const saltRounds = 10;
+  const hashedPassword = await bcrypt.hash(password, saltRounds);
+  return hashedPassword;
+}
+
+// Create a new admin account
+async function createAdminAccount(email, password, isSuperAdmin) {
+  try {
+    await client.connect();
+    const db = client.db(config.db.name);
+    const coll = db.collection("Admin");
+    const hashedPassword = await hashPassword(password);
+
+    const existingAdmin = await coll.findOne({ email });
+    if (existingAdmin) {
+      console.log("An admin account with this email already exists.");
+      return;
+    }
+
+    const admin = {
+      email,
+      password: hashedPassword,
+      isSuperAdmin: isSuperAdmin || false
+    };
+
+    await coll.insertOne(admin);
+
+    console.log("Admin account created.");
+  } catch (error) {
+    console.error(error);
+  } finally {
+    await client.close();
+  }
+}
+
+
+export { getCompanies, getCars, getCarDetails, setCompanies, setCars, editCompanies, editCars, 
+          deleteCompany, deleteCarModel, createAdminAccount };

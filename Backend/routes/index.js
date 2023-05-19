@@ -1,4 +1,5 @@
-import { getCompanies, getCars, getCarDetails, setCompanies, setCars, editCars, editCompanies, deleteCarModel, deleteCompany } from "../services/db.js";
+import { getCompanies, getCars, getCarDetails, setCompanies, setCars, editCars, editCompanies, 
+        deleteCarModel, deleteCompany, createAdminAccount } from "../services/db.js";
 import dotenv from 'dotenv';
 import fetch from "node-fetch";
 dotenv.config();
@@ -181,6 +182,21 @@ const routes = (app) => {
       deleteCarModel(company, carModel).then(() => {
         res.sendStatus(200);
       }, writeError(res));
+    });
+
+    // Create new admin account
+    app.post("/admin/create-account", (req, res) => {
+      let email = req.body.email;
+      let password = req.body.password;
+      let isSuperAdmin = req.body.isSuperAdmin;
+
+      createAdminAccount(email, password, isSuperAdmin)
+        .then(() => {
+          res.sendStatus(200);
+        })
+        .catch((error) => {
+          res.status(500).json({ message: error.message });
+        });
     });
 
   // Catch all other requests and deliver an error message.
