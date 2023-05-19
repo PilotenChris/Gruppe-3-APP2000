@@ -33,7 +33,11 @@ const userCarSlice = createSlice({
         updateExRange: (state, action) => {
             const { exRange } = action.payload;
             if (state.length > 0) {
-                state[0].exRange = exRange;
+                if (state[0].exRange > 0) {
+                    state[0].exRange += exRange;
+                } else {
+                    state[0].exRange = exRange;
+                }
             }
         },
     },
