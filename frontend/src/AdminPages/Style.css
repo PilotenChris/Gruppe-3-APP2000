@@ -1,0 +1,77 @@
+*,*::before,*::after{
+    margin: 0px 0px 0px 0px;
+    padding: 0px;
+    box-sizing: border-box;
+}
+html, body {
+    height: 100%;
+  }
+  
+  .body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
+.adminSider {
+    height: 97vh;
+    background-color: #7F7F7F;
+}
+
+.header {
+    height: 85vh;
+    background-color: #7F7F7F;
+    margin: 10px;
+    margin-bottom: 0px;
+    display: flex;
+
+}
+
+.selskap{
+    background-color: rgb(255, 255, 255);
+    flex: 0 0 49%;
+}
+
+.bil{
+    background-color: rgb(255, 255, 255);
+    flex: 0 0 49%;
+
+}
+.bil,.selskap{
+    margin-left: 8px;
+}
+
+.showData{
+    background-color: rgb(255, 255, 255);
+    flex: 50%;
+    margin-left: 7px;
+    margin-right: 7px;
+}
+
+.footer {
+    background-color: #7F7F7F;
+    padding: 10px;
+    text-align: center;
+    color: white;
+    margin-top: auto;
+    height: 10vh;
+  }
+
+  .headline{
+    text-align: center;
+  }
+
+  #KnpUpdate {
+    position: relative;
+    display: block;
+    margin-top: 5px;
+    text-align: center;
+  }
+  
+  #selskapForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+  }
+  
