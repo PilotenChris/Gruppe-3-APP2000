@@ -2,20 +2,46 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const userCarSlice = createSlice({
     name: 'userCar',
-    initialState: [],
+    initialState: [
+        { car: 'Tesla', type: 'Model 3', version: 'Long Range', maxRange: 570, range: 500, battCap: 75, charSpeed: 250, lat: '', lng: '', exRange: '', charMIN: 15 },
+    ],
     reducers: {
         addUserCar: (state, action) => {
             const newUserCar = {
                 car: action.payload.car,
-                type: action.payload.type,
-                version: action.payload.version,
+                type: '',
+                version: '',
+                maxRange: '',
                 range: '',
+                battCap: '',
+                charSpeed: '',
                 lat: '',
                 lng: '',
                 exRange: '',
+                charMIN: '',
             };
             state.splice(0, state.length);
             state.push(newUserCar);
+        },
+        updateType: (state, action) => {
+            const { type } = action.payload;
+            if (state.length > 0) {
+                state[0].type = type;
+            }
+        },
+        updateVersion: (state, action) => {
+            const { version } = action.payload;
+            if (state.length > 0) {
+                state[0].version = version;
+            }
+        },
+        updateInfo: (state, action) => {
+            const { maxRange, battCap, charSpeed } = action.payload;
+            if (state.length > 0) {
+                state[0].maxRange = maxRange;
+                state[0].battCap = battCap;
+                state[0].charSpeed = charSpeed;
+            }
         },
         updateRange: (state, action) => {
             const { range } = action.payload;
@@ -40,8 +66,14 @@ const userCarSlice = createSlice({
                 }
             }
         },
+        updateCharMIN: (state, action) => {
+            const { charMIN } = action.payload;
+            if (state.length > 0) {
+                state[0].charMIN = charMIN;
+            }
+        },
     },
 });
 
-export const { addUserCar, updateRange, updateLatLng, updateExRange } = userCarSlice.actions;
+export const { addUserCar, updateType, updateVersion, updateInfo, updateRange, updateLatLng, updateExRange, updateCharMIN } = userCarSlice.actions;
 export default userCarSlice.reducer;

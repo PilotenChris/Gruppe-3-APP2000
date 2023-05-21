@@ -1,16 +1,38 @@
 import {Link} from 'react-router-dom'
 import {useNavigate } from 'react-router-dom'
 import "./Style.css"
+import React, { useEffect, useState } from 'react';
 
 
 const Insert = () => {
 
     const navigate = useNavigate()
+    const [companyName, setCompanyName] = useState('');
+    const [responseMessage, setResponseMessage] = useState('');
 
     const createAdmin = () => {
 
         navigate('/admin-page/create-admin')
     }
+
+    const handleTextSubmit = (event) => {
+        event.preventDefault();
+        // Making the POST request to insert the company
+        fetch(`http://localhost:3030/ElCars/${companyName}`, {
+          method: 'POST',
+        })
+          .then((response) => {
+            if (response.ok) {
+              setResponseMessage('Company added to database.');
+            } else {
+                setResponseMessage('Failed to add company.'); 
+            }
+          })
+          .catch((error) => {
+            console.error('Error adding company:', error); 
+          });
+      };
+      
 
     return (
         <body className='adminSider'>
@@ -32,11 +54,12 @@ const Insert = () => {
         <header className='header'>
             <div className='selskap'>
                 <h2 className='headline'>Selskap</h2>
-                <form id='selskapForm'>
-                    <div className='form-row'>
+                <form id='selskapForm' onSubmit={handleTextSubmit}>
                 <label>Navn: </label>
-                <input type="text"/>
+                <input type="text" value={companyName} onChange={(e) => setCompanyName(e.target.value)} />
+
                 <button id='KnpUpdate'>Submit</button> </div>
+                <p>{responseMessage}</p>
                 </form>
             </div>
             <div className='bil'>
