@@ -14,7 +14,6 @@ html, body {
   }
 
 .adminSider {
-    height: 97vh;
     background-color: #7F7F7F;
 }
 
@@ -31,21 +30,57 @@ html, body {
     background-color: rgb(255, 255, 255);
     flex: 0 0 49%;
 }
+.selskap select, .bil select{
+
+    margin-left: 260px;
+    text-align: center;
+    padding: 0.5em 2em;
+    color: white;
+    background-color: #7F7F7F;
+    border-radius: 10px;
+}
+
+#deleteBtnSelskap{
+  display: block;
+  margin-top: 10px;
+  margin-left: 277px;
+  text-align: center;
+  padding: 0.5em 2em;
+  color: white;
+  background-color: black;
+  border-radius: 5px;
+}
+#deleteBtnBil{
+  display: block;
+  margin-top: 10px;
+  margin-left: 263px;
+  text-align: center;
+  padding: 0.5em 2em;
+  color: white;
+  background-color: black;
+  border-radius: 5px;
+}
+.selskap h2, .bil h2{
+  margin-top: 10px;
+}
 
 .bil{
     background-color: rgb(255, 255, 255);
     flex: 0 0 49%;
+}
 
-}
+
 .bil,.selskap{
-    margin-left: 8px;
+    margin-left: 5px;
 }
+
+/* showdatabase.js*/
 
 .showData{
     background-color: rgb(255, 255, 255);
     flex: 50%;
-    margin-left: 7px;
-    margin-right: 7px;
+    margin-left: 5px;
+    margin-right: 17px;
 }
 
 .footer {
@@ -54,7 +89,7 @@ html, body {
     text-align: center;
     color: white;
     margin-top: auto;
-    height: 10vh;
+    height: 8vh;
   }
 
   .headline{
@@ -62,16 +97,68 @@ html, body {
   }
 
   #KnpUpdate {
-    position: relative;
     display: block;
     margin-top: 5px;
     text-align: center;
+    padding: 0.5em 2em;
+    color: white;
+    background-color: black;
+    margin-left: 75px;
   }
   
   #selskapForm {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 20px;
+    margin-top: 200px;
   }
-  
+
+  .selectBil{
+    margin-top: 50px;
+    display: block;
+    margin-bottom: 10px;
+  }
+
+  .selectVersion{
+    margin-top: 15px;
+    display: block;
+  }
+
+  #Lbl {
+    margin-left: 185px;
+  }
+
+#knapp{
+  text-align: center;
+  padding: 0.5em 2em;
+  color: white;
+  background-color: black;
+  border-radius: 5px;
+  display: block;
+  margin-left: 50px;
+  margin-top: 5px;
+}
+
+.labels{
+  margin-top: 5px;
+  margin-left: 10px
+}
+/*
+.selskap select, .bil select{
+  margin-top: 150px;
+}*/
+
+#deleteSelskap, #deleteBil{
+  margin-top: 150px;
+}
+
+#updateKnapp{
+  text-align: center;
+  padding: 0.5em 2em;
+  color: white;
+  background-color: black;
+  display: block;
+  margin-top: 5px;
+  border-radius: 5px;
+
+}

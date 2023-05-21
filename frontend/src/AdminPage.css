@@ -47,6 +47,24 @@
   .back-to-home{
     font-size: 2rem;
   }
+  .adminSider {
+    background-color: #7F7F7F;
+}
+  .emptyPage{
+    background-color: rgb(255, 255, 255);
+    flex: 50%;
+    margin-left: 8px;
+    margin-right: 11px;
+}
+
+.footer {
+    background-color: #7F7F7F;
+    padding: 10px;
+    text-align: center;
+    color: white;
+    margin-top: auto;
+    height: 8vh;
+  }
 
 
 

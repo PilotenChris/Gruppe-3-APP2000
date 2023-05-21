@@ -33,18 +33,41 @@ const Insert = () => {
             <div className='selskap'>
                 <h2 className='headline'>Selskap</h2>
                 <form id='selskapForm'>
+                    <div className='form-row'>
                 <label>Navn: </label>
                 <input type="text"/>
-                <button id='KnpUpdate'>Update</button>
+                <button id='KnpUpdate'>Submit</button> </div>
                 </form>
             </div>
             <div className='bil'>
                 <h2 className='headline'>Bil</h2>
+                <form>
+                    <select className='selectBil'>
+                     <option>Bilnavn</option>
+                    </select>
+                      <label id='Lbl'>Navn: </label>
+                      <input type="text"/>
+                      <select className='selectVersion'>
+                        <option>Version1</option>
+                      </select> 
+                      <center>
+                      <h2 id='range'>Range:</h2>
+                      <label>Name of version: </label>
+                      <input type="text"/>
+                      <h2 id='capacity'>Battery Capacity:</h2>
+                      <label>Name of version: </label>
+                      <input type="text"/>
+                      <h2 id='speed'>Charging speed:</h2>
+                      <label>Name of version: </label>
+                      <input type="text"/>
+                      <button id='knapp'>Submit</button>
+                      </center>
+                </form>
             </div>
         </header>
         </div>
         <footer className='footer'> 
-            <p> &#169; Gruppe 1 USN 2023</p>
+          <p> Copyright &#169; 2023 Gruppe 1 USN</p>
         </footer>
         </body>
         

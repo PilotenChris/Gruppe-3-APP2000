@@ -11,6 +11,7 @@ const AdminPage = () => {
     }
 
     return (
+        <body className='adminSider'>
         <div>
          <nav className='nav'>
          <Link to="/" className="back-to-home">
@@ -26,7 +27,17 @@ const AdminPage = () => {
         <div className='adminPage'>
             <button id='adminKnp' onClick={createAdmin}>Create Admin</button>
         </div>
-        /</div>
+         <header className='header'>
+           <div className='emptyPage'>
+           </div>
+        </header>
+        <footer className='footer'> 
+            <p> Copyright &#169; 2023 Gruppe 1 USN</p>
+        </footer>
+        </div>
+        </body>
+        
+        
     )
 
 }

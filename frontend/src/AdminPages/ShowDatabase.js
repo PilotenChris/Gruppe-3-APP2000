@@ -35,7 +35,7 @@ const ShowDatabase = () => {
 
         </div>
         <footer className='footer'> 
-            <p> &#169; Gruppe 1 USN 2023</p>
+            <p> Copyright &#169; 2023 Gruppe 1 USN</p>
         </footer>
         </body>
     )

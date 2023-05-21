@@ -33,15 +33,25 @@ const Delete = () => {
         </div>
         <header className='header'>
         <div className='selskap'>
-                <h2 className='headline'>Selskap</h2>
+           <h2 className='headline'>Selskap</h2>
+            <select id='deleteSelskap'>
+                <option>selskap1</option>
+                <option>selskap2</option>
+            </select> 
+            <button id='deleteBtnSelskap'>Delete</button>  
             </div>
             <div className='bil'>
                 <h2 className='headline'>Bil</h2>
+                <select id='deleteBil'>
+                <option>bil1</option>
+                <option>bil2</option>
+            </select> 
+            <button id='deleteBtnBil'>Delete</button>  
             </div>
         </header>
         </div>
         <footer className='footer'> 
-            <p> &#169; Gruppe 1 USN 2023</p>
+          <p> Copyright &#169; 2023 Gruppe 1 USN</p>
         </footer>
         </body>
     )
