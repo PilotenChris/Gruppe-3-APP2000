@@ -5,6 +5,8 @@ const CreateAdmin = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [isSuperAdmin, setIsSuperAdmin] = useState(false);
+  const [responseMessage, setResponseMessage] = useState('');
+
 
   const handleSignin = () => {
     // Creating request body
@@ -25,8 +27,10 @@ const CreateAdmin = () => {
       .then(response => {
         if (response.ok) {
           console.log('Account created.');
+          setResponseMessage('Account created.');
         } else {
           console.error('Failed to create account.');
+          setResponseMessage('Failed to create account.');
         }
       })
       .catch(error => {
@@ -64,6 +68,7 @@ const CreateAdmin = () => {
       <button id='createAdminBtn' onClick={handleSignin}>
         Create
       </button>
+      <p>{responseMessage}</p>
     </div>
   );
 }
