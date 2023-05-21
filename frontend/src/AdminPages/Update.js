@@ -55,10 +55,12 @@ const Update = () => {
           <div className='selskap'>
             <h2 className='headline'>Selskap</h2>
             <form id='selskapForm' onSubmit={handleTextSubmit}>
-              <label>Insert old and new company names (separated by ";"): </label>
-              <input type="text" value={companyNames} onChange={(e) => setCompanyNames(e.target.value)} />
-              <button id='KnpUpdate'>Update</button>
-              <p>{responseMessage}</p>
+              <div className='form-row'>
+                <label>Insert old and new company names (separated by ";"): </label>
+                <input type="text" value={companyNames} onChange={(e) => setCompanyNames(e.target.value)} />
+                <button id='KnpUpdate'>Update</button>
+                <p>{responseMessage}</p>
+              </div>
             </form>
           </div>
           <div className='bil'>
@@ -116,4 +118,6 @@ const Update = () => {
               <p> Copyright &#169; 2023 Gruppe 1 USN</p>
         </footer>
         </body>
-    )
+    );
+  };
+    export default Update;

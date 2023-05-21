@@ -55,10 +55,11 @@ const Insert = () => {
             <div className='selskap'>
                 <h2 className='headline'>Selskap</h2>
                 <form id='selskapForm' onSubmit={handleTextSubmit}>
+
                 <label>Navn: </label>
                 <input type="text" value={companyName} onChange={(e) => setCompanyName(e.target.value)} />
 
-                <button id='KnpUpdate'>Submit</button> </div>
+                <button id='KnpUpdate'>Submit</button> 
                 <p>{responseMessage}</p>
                 </form>
             </div>
