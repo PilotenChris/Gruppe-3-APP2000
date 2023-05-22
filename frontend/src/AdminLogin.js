@@ -13,7 +13,9 @@ const AdminLogin = () => {
   }
 
   return(
+    <body>
     <div className='loginSide' >
+    <header>
     <h1>Innlogging</h1>
     <input
       type="text" placeholder='Epost'
@@ -28,9 +30,14 @@ const AdminLogin = () => {
       <button onClick={handleSignin}>
         Login
       </button>
-
+    </header>
     </div>
-
+    <footer className='footerLoginCreate'> 
+          <p> Copyright &#169; 2023 Gruppe 3 USN</p>
+        </footer>
+    
+    
+    </body>
 
 
   )

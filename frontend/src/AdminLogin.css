@@ -4,20 +4,38 @@
     align-items: center;
     justify-content: center;
     height: 90vh;
-    background-color: white;
+    background-color:  rgba(158, 158, 158, 0.623);;
 }
 
 .loginSide h1{
-    margin-top: 0;
+    margin-bottom: 5px;
+    margin-left: 18px;
 }
+
+
 
 .loginSide input{
+    display: block;
     margin-bottom: 5px;
-    
 }
-
 .loginSide button{
     padding: 0.5em 2em;
     color: white;
     background-color: black;
+    display: block;
+    margin-top: 5px;
+    margin-left: 45px;
 }
+
+.footer {
+    background-color: #7F7F7F;
+    padding: 10px;
+    text-align: center;
+    color: white;
+    margin-top: auto;
+    height: 8vh;
+  }
+
+  .createAdmin input {
+    margin-bottom: 2px;
+  }

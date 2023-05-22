@@ -51,7 +51,7 @@ const Delete = () => {
         </header>
         </div>
         <footer className='footer'> 
-          <p> Copyright &#169; 2023 Gruppe 1 USN</p>
+          <p> Copyright &#169; 2023 Gruppe 3 USN</p>
         </footer>
         </body>
     )

@@ -7,6 +7,11 @@
     background-color: #a9a9a9;
     border-color: #a9a9a9;
   }
+  .body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
 
   .nav {
     background-color: #333;
@@ -57,13 +62,16 @@
     margin-right: 11px;
 }
 
-.footer {
+
+
+.footerLoginCreate {
+    height: 4vh;
     background-color: #7F7F7F;
     padding: 10px;
     text-align: center;
     color: white;
     margin-top: auto;
-    height: 8vh;
+
   }
 
 
@@ -76,7 +84,7 @@
     align-items: center;
     justify-content: center;
     height: 90vh;
-    background-color: white;
+    background-color: rgba(158, 158, 158, 0.623);;
 }
 
 #createAdminBtn{

@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { Link } from 'react-router-dom';
 import './AdminPage.css'
 
 const CreateAdmin = () => {
@@ -43,6 +44,19 @@ const CreateAdmin = () => {
   };
 
   return (
+    <body>
+      <nav className='nav'>
+          <Link to="/" className="back-to-home">
+            Home
+          </Link>
+          <ul>
+            <li> <Link to="/admin-page/insert">Insert bil/selskap</Link> </li>
+            <li> <Link to="/admin-page/update">Update bil/selskap</Link></li>
+            <li> <Link to="/admin-page/delete">Delete bil/selskap</Link></li>
+            <li> <Link to="/admin-page/show-database">Show database</Link></li>
+          </ul>
+        </nav>
+      <header>
     <div className='createAdmin'>
       <h1>Create Admin</h1>
       <input
@@ -70,6 +84,11 @@ const CreateAdmin = () => {
       </button>
       <p>{responseMessage}</p>
     </div>
+    </header>
+    <footer className='footerLoginCreate'> 
+            <p> Copyright &#169; 2023 Gruppe 3 USN</p>
+        </footer>
+    </body>
   );
 }
 

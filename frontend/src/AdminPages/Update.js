@@ -52,27 +52,14 @@ const Update = () => {
           <button id='adminKnp' onClick={createAdmin}>Create Admin</button>
         </div>
         <header className='header'>
-          <div className='selskap'>
-            <h2 className='headline'>Selskap</h2>
-            <form id='selskapForm' onSubmit={handleTextSubmit}>
-              <div className='form-row'>
-                <label>Insert old and new company names (separated by ";"): </label>
-                <input type="text" value={companyNames} onChange={(e) => setCompanyNames(e.target.value)} />
-                <button id='KnpUpdate'>Update</button>
-                <p>{responseMessage}</p>
-              </div>
-            </form>
-          </div>
-          <div className='bil'>
-            <h2 className='headline'>Bil</h2>
-          </div>
         <div className='selskap'>
                 <h2 className='headline'>Selskap</h2>
                 <form id='selskapForm'>
                     <div className='form-row'>
-                <label>Navn: </label>
-                <input type="text"/>
+                <label>Insert old and new company names (separated by ";"): </label>
+                <input type="text" value={companyNames} onChange={(e) => setCompanyNames(e.target.value)} />
                 <button id='KnpUpdate'>Update</button> </div>
+                <p>{responseMessage}</p>
                 </form>
             </div>
             <div className='bil'>
@@ -115,7 +102,7 @@ const Update = () => {
         </header>
         </div>
         <footer className='footer'> 
-              <p> Copyright &#169; 2023 Gruppe 1 USN</p>
+              <p> Copyright &#169; 2023 Gruppe 3 USN</p>
         </footer>
         </body>
     );
