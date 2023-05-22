@@ -1,6 +1,9 @@
 import './Map.css';
 import React, { useState, useEffect } from 'react';
 import { useLoadScript, GoogleMap, Marker, InfoWindow, Circle } from '@react-google-maps/api';
+import { useDispatch, useSelector } from 'react-redux';
+import { addUserMarkSelect } from './redux/userMarkSelectSlice';
+import { updateLatLng } from './redux/userCarSlice';
 
 const center = { lat: 59.911491, lng: 10.757933 } //midlertidig koordinat
 
@@ -9,6 +12,9 @@ function Map() {
   const [markers, setMarkers] = useState([]);
   const [selectedMarker, setSelectedMarker] = useState(null);
   const [selectedStations, setSelectedStations] = useState([]);
+
+  const dispatch = useDispatch();
+  const carInfo = useSelector((state)=> state.userCar[0]);
 
   const handleMapIdle = () => {
     const bounds = map.getBounds();
@@ -22,10 +28,17 @@ function Map() {
   }, [map]);
 
   const [circlePos, setCirclePos] = useState(null);
+  const [circleRad, setCircleRad] = useState(null);
 
   const handleMapClick = (ev) => {
     const {latLng} = ev;
+    const { lat, lng } = latLng.toJSON();
+    dispatch(updateLatLng({
+      lat: lat,
+      lng: lng,
+    }));
     setCirclePos(latLng.toJSON());
+    //setCircleRad();
   };
 
   const getChargerJson = (bounds) => {
@@ -146,13 +159,6 @@ function Map() {
                   />
                 )}
               </React.Fragment>
-              /*<Marker
-                key={marker.id}
-                position={marker.latlng}
-                onClick={() => {
-                  setSelectedMarker(marker);
-                }}
-              />*/
             ))}
             {selectedMarker ? (
               <InfoWindow
@@ -170,7 +176,8 @@ function Map() {
             {circlePos &&(
                 <Circle
                     center={circlePos}
-                    radius={750} // midlertidig css
+                    // 0.75 is just to get closer to the right range
+                    radius={(((carInfo.range)*1000)*0.75)*1} // The number 1 is the procentage og battery
                     options={{
                       strokeColor: '#FF0000',
                       strokeOpacity: 0.8,
