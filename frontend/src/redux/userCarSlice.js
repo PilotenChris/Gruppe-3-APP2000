@@ -36,9 +36,8 @@ const userCarSlice = createSlice({
             }
         },
         updateInfo: (state, action) => {
-            const { maxRange, battCap, charSpeed } = action.payload;
+            const { battCap, charSpeed } = action.payload;
             if (state.length > 0) {
-                state[0].maxRange = maxRange;
                 state[0].battCap = battCap;
                 state[0].charSpeed = charSpeed;
             }
@@ -70,6 +69,12 @@ const userCarSlice = createSlice({
             const { charMIN } = action.payload;
             if (state.length > 0) {
                 state[0].charMIN = charMIN;
+            }
+        },
+        updateMaxRange: (state, action) => {
+            const { maxRange } = action.payload;
+            if (state.length > 0) {
+                state[0].maxRange = maxRange;
             }
         },
     },

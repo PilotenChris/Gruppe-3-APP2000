@@ -24,6 +24,7 @@ function writeError(res) {
   };
 }
 
+
 function parseJsonResponse(data) {
   const newMarkers = [];
   if (data && data.chargerstations && data.chargerstations.length >= 1) {
@@ -36,17 +37,20 @@ function parseJsonResponse(data) {
       const arrpunkt = csmd.Position.split(',');
       const editLat = 1.0 * arrpunkt[0].substr(1);
       const editLng = 1.0 * arrpunkt[1].substr(0, arrpunkt[1].length - 1);
-      let found = false;
+      
 
       let adress = csmd.Street;
       if (csmd.House_number) {
-        adress += ' ' + csmd.House_number;
+        adress += " " + csmd.House_number;
       }
       let connector = null;
-      if (csmd.attr && csmd.attr.conn && csmd.attr.conn[1] && csmd.attr.conn[1][4]) {
-        connector = csmd.attr.conn[1][4].trans;
-      } else if (csmd.attr && csmd.attr.conn && csmd.attr.conn[4]) {
-        connector = csmd.attr.conn[4].trans;
+      let maxChargingCapacity = null;
+
+      if (data.chargerstations[i].attr.conn[1][4]) {
+        connector = data.chargerstations[i].attr.conn[1][4].trans;
+      }
+      if (data.chargerstations[i].attr.conn[1][5]) {
+        maxChargingCapacity = data.chargerstations[i].attr.conn[1][5].trans;
       }
 
       newMarkers.push({
@@ -55,6 +59,7 @@ function parseJsonResponse(data) {
         latlng: { lat: editLat, lng: editLng },
         name: csmd.name,
         connector: connector,
+        maxChargingCapacity: maxChargingCapacity,
         adress: adress,
         description: csmd.Description_of_location,
         alreadyadded: false

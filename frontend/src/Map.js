@@ -8,6 +8,7 @@ function Map() {
   const [map, setMap] = useState(null);
   const [markers, setMarkers] = useState([]);
   const [selectedMarker, setSelectedMarker] = useState(null);
+  const [selectedStations, setSelectedStations] = useState([]);
 
   const handleMapIdle = () => {
     const bounds = map.getBounds();
@@ -72,8 +73,9 @@ function Map() {
           content: {
             name: markerData.name,
             connector: markerData.connector,
-            address: markerData.address,
+            adress: markerData.adress,
             description: markerData.description,
+            maxChargingCapacity: markerData.maxChargingCapacity,
             alreadyadded: markerData.alreadyadded
           },
         });
@@ -81,6 +83,23 @@ function Map() {
     }
     setMarkers([...markers, ...newMarkers]);
   }
+
+  const handleStationClick = (marker) => {
+    const isSelected = selectedStations.some((station) => station.id === marker.id);
+
+    if (isSelected) {
+      const updatedStations = selectedStations.filter((station) => station.id !== marker.id);
+      setSelectedStations(updatedStations);
+    } else {
+      const newStation = {
+        id: marker.id,
+        lat: marker.latlng.lat,
+        lng: marker.latlng.lng,
+        maxChargingCapacity: marker.content.maxChargingCapacity,
+      };
+      setSelectedStations([...selectedStations, newStation]);
+    }
+  };
   
   
 
@@ -108,13 +127,32 @@ function Map() {
             onLoad={(map) => setMap(map)}
             onClick={handleMapClick}>
             {markers.map((marker) => (
-              <Marker
+              <React.Fragment key={marker.id}>
+                <Marker
+                  position={marker.latlng}
+                  onClick={() => handleStationClick(marker)}
+                />
+                {selectedStations.some((station) => station.id === marker.id) && (
+                  <Circle
+                    center={marker.latlng}
+                    radius={1000}
+                    options={{
+                      strokeColor: '#FF0000',
+                      strokeOpacity: 0.8,
+                      strokeWeight: 2,
+                      fillColor: '#FF0000',
+                      fillOpacity: 0.35,
+                    }}
+                  />
+                )}
+              </React.Fragment>
+              /*<Marker
                 key={marker.id}
                 position={marker.latlng}
                 onClick={() => {
                   setSelectedMarker(marker);
                 }}
-              />
+              />*/
             ))}
             {selectedMarker ? (
               <InfoWindow
@@ -123,8 +161,9 @@ function Map() {
                   <div>
                     <h2>{selectedMarker.content.name}</h2>
                     <p>{selectedMarker.content.description}</p>
-                    <p>{selectedMarker.content.address}</p>
+                    <p>{selectedMarker.content.adress}</p>
                     <p>Connector: {selectedMarker.content.connector}</p>
+                    <p>Charging Capacity: {selectedMarker.content.maxChargingCapacity}</p>
                   </div>
               </InfoWindow>
             ) : null}
