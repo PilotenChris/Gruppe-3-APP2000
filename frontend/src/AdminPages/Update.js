@@ -94,7 +94,7 @@ const Update = () => {
                       <h2>Charging speed:</h2>
                       <label>Name of version: </label>
                       <input type="text"/>
-                      <button id='updateKnapp'>Submit</button>
+                      <button id='updateKnapp'>Update</button>
                       </center>
 
                 </form>

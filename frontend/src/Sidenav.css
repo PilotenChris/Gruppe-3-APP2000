@@ -11,6 +11,22 @@
     padding-top: 60px;
     border-radius: 15px;
   }
+  .hamburger-meny::after{
+    content: "☰";
+    width: 50px;
+    height: 50px;
+    display: block;
+    background-color: white;
+    border-radius: 100px;
+    position: relative;
+    top: 550px;
+    z-index: 1;
+    text-align: center;
+    transform: translateY(0%);
+
+    
+  }
+
   
   .sidenav a {
     padding: 8px 8px 8px 32px;
@@ -25,14 +41,7 @@
     color: #f1f1f1;
   }
   
-  .sidenav .closebtn {
-    position: absolute;
-    top: 0;
-    right: 25px;
-    font-size: 36px;
-    margin-left: 50px;
-  }
-  
+ 
   @media screen and (max-height: 450px) {
     .sidenav {
       padding-top: 15px;
@@ -40,11 +49,15 @@
     .sidenav a {
       font-size: 18px;
     }
+    .hamburger-meny::after {
+      transform: translateY(1500%);
+    }   
   }
+  
   .sidenav .closebtn {
     position: absolute;
     top: 0;
-    right: 25px;
+    right: 5px;
     font-size: 36px;
     margin-left: 50px;
     border-color: rgba(158, 158, 158, 0);
@@ -68,6 +81,7 @@
     border-radius: 10px;
     margin-left: 10px;
     margin-right: 10px;
+    margin-bottom: 10px;
   }
 
   #adminBtn {
@@ -80,3 +94,83 @@
     background-color:black;
   }
   
+  .car-details{
+    display: none;
+    opacity: 0;
+    visibility: hidden;
+  }
+
+ #range_label{
+  margin-left: 17px;
+ }
+ #rangeLabel{
+  margin-left: 15px;
+ }
+
+ #form{
+  width: 200px;
+ }
+
+ #kontaktType{
+  margin-left: 15px;
+
+ }
+
+ .kontakt_type{
+    padding: 10px;
+    font-size: 16px;
+    border: none;
+    background-color: #ffffff;
+    color: #111;
+    margin-left: 2px;
+    margin-right: 2px;
+    margin-bottom: 2px;
+    border-radius: 10px;
+ /*   margin-bottom: 10px;*/
+ }
+ .grid_container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: auto;
+  gap: 10px;
+}
+
+.type-en {
+  grid-column: span 1;
+}
+
+.type-to {
+  grid-column: span 1;
+}
+
+.type-tre {
+  grid-column: span 1;
+}
+
+.type-fire {
+  grid-column: 1 / span 1;
+}
+
+#rangeBatteri{
+  display: block;
+  margin-left: 40px;
+}
+#range_batteri{
+  margin-left: 5px;
+}
+#maxLevel{
+  margin-left: 130px;
+}
+
+#ladetid{
+ display: block;
+  
+}
+
+#maxMin{
+  margin-left: 100px;
+}
+
+ 
+ 
+

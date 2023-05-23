@@ -56,8 +56,9 @@ const CreateAdmin = () => {
             <li> <Link to="/admin-page/show-database">Show database</Link></li>
           </ul>
         </nav>
+
       <header>
-    <div className='createAdmin'>
+     <div className='createAdmin'>
       <h1>Create Admin</h1>
       <input
         type="text"

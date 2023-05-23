@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import {useNavigate } from 'react-router-dom'
+import {useNavigate } from 'react-router-dom';
+import Form from 'react-bootstrap/Form';
 import "./Sidenav.css";
 
 const Sidenav = (props) => {
@@ -71,6 +72,7 @@ const Sidenav = (props) => {
       });
   };
 
+
   return (
     <>
       <div
@@ -140,14 +142,64 @@ const Sidenav = (props) => {
       </div>
     )}
 
+   <div className="batteriMeny">
+     <div className="menu-dropdown">
+      <h1>Batteri</h1>
+     </div>
+     <div className="menu-dropdown">
+      <label id="rangeBatteri">Batteristrøm xx%</label>
+      <label>20%</label>
+      <label id="maxLevel">100%</label>
+         <>
+             <Form.Range id="form" />
+         </>
+     </div>
+     <div className="menu-dropdown">
+     <label id="ladetid">Ladetid på ladestasjon</label>
+      <label>0 min</label>
+      <label id="maxMin">120 min</label>
+         <>
+             <Form.Range id="form" />
+         </>
+     </div>
+     <div className="menu-dropdown">
+         <label id="kontaktType">Ladestasjon kontakt type:</label>
+     </div>
+     <div className="grid_container">
+         <div className="kontakt_type type-en">
+         </div>
+         <div className="kontakt_type type-to">
+         </div>
+         <div className="kontakt_type type-tre">
+         </div>
+         <div className="kontakt_type type-fire">
+         </div>
+     </div>
+     <div className="menu-dropdown">
+         <label className="switch">
+             <input type="checkBox"></input>
+             <span className="slider"></span>
+         </label>
+     </div>
+     <div className="menu-dropdown">
+         <label>80%</label>
+         <label id="rangeLabel">Batterikapasitet</label>
+         <label id="range_label">100%</label>
+         <>
+             <Form.Range id="form" />
+         </>
+     </div>
+    </div>
     </div>
     <div style={{ position: "relative", height: "100%", width: "100%" }}>
-      <span
-        style={{ fontSize: "30px", cursor: "pointer" }}
-        onClick={openSidenav}
+      
+        <span className="hamburger-meny"
+           style={{ fontSize: "30px", cursor: "pointer" }}
+           onClick={openSidenav}
       >
-        &#9776;
+      
       </span>
+    
       <div className="App" style={{ height: "100%", width: "100%" }}>
         {props.children}
       </div>
