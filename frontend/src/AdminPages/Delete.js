@@ -1,6 +1,7 @@
 import {Link} from 'react-router-dom'
 import {useNavigate } from 'react-router-dom'
 import "./Style.css"
+import React, { useState, useEffect } from 'react';
 
 
 
@@ -8,11 +9,89 @@ import "./Style.css"
 const Delete = () => {
 
     const navigate = useNavigate()
+    const [companies, setCompanies] = useState([]);
+    const [carModels, setCarModels] = useState([]);
+    const [responseMessage1, setResponseMessage1] = useState('');
+    const [responseMessage2, setResponseMessage2] = useState('');
 
     const createAdmin = () => {
 
         navigate('/admin-page/create-admin')
     }
+
+    useEffect(() => {
+        fetchCompanies();
+        fetchCarModels();
+      }, []);
+
+      const fetchCompanies = () => {
+        fetch('http://localhost:3030/ElCars')
+          .then((response) => response.json())
+          .then((data) => {
+            setCompanies(data);
+          })
+          .catch((error) => {
+            console.error('Error fetching companies:', error);
+          });
+      };
+
+      const fetchCarModels = (selectedCompany) => {
+        fetch(`http://localhost:3030/ElCars/${selectedCompany}`)
+          .then((response) => response.json())
+          .then((data) => {
+            if (Array.isArray(data)) {
+              setCarModels(data);
+            } else {
+              setCarModels([]);
+            }
+          })
+          .catch((error) => {
+            console.error('Error fetching car models:', error);
+          });
+      };
+      
+    
+
+    const handleDeleteCompany = (event) => {
+        event.preventDefault();
+        const selectedCompany = document.getElementById('deleteSelskap').value;
+        // Make DELETE request to delete a company
+        fetch(`http://localhost:3030/ElCars/${selectedCompany}`, {
+          method: 'DELETE',
+        })
+          .then((response) => {
+            if (response.ok) {
+                setResponseMessage1('Company deleted.');
+            } else {
+                setResponseMessage1('Failed to delete company.');
+            }
+          })
+          .catch((error) => {
+            console.error('Error deleting company:', error);
+          });
+      };
+
+      const handleDeleteCar = (event) => {
+        event.preventDefault();
+        const selectedCompany = document.getElementById('deleteSelskap').value;
+        const selectedCar = document.getElementById('deleteBil').value;
+    
+        // Make DELETE request to delete a car model
+        fetch(`http://localhost:3030/ElCars/${selectedCompany}/${selectedCar}`, {
+          method: 'DELETE',
+        })
+          .then((response) => {
+            if (response.ok) {
+              setResponseMessage2('Car deleted.');
+              fetchCarModels(selectedCompany);
+            } else {
+              setResponseMessage2('Failed to delete car.');
+            }
+          })
+          .catch((error) => {
+            console.error('Error deleting car model:', error);
+          });
+      };
 
     return (
         <body className='adminSider'>
@@ -34,19 +113,24 @@ const Delete = () => {
         <header className='header'>
         <div className='selskap'>
            <h2 className='headline'>Selskap</h2>
-            <select id='deleteSelskap'>
-                <option>selskap1</option>
-                <option>selskap2</option>
+           <select id='deleteSelskap' onChange={(e) => fetchCarModels(e.target.value)}>
+              {companies.map((company) => (
+                <option key={company} value={company}>{company}</option>
+              ))}
             </select> 
-            <button id='deleteBtnSelskap'>Delete</button>  
+            <button id='deleteBtnSelskap' onClick={handleDeleteCompany}>Delete</button>  
+                <p>{responseMessage1}</p>
             </div>
             <div className='bil'>
                 <h2 className='headline'>Bil</h2>
                 <select id='deleteBil'>
-                <option>bil1</option>
-                <option>bil2</option>
+                  {carModels.map((carModel) => (
+                  <option key={carModel} value={carModel}>{carModel}</option>
+                ))}
+
             </select> 
-            <button id='deleteBtnBil'>Delete</button>  
+            <button id='deleteBtnBil' onClick={handleDeleteCar}>Delete</button>  
+            <p>{responseMessage2}</p>
             </div>
         </header>
         </div>
