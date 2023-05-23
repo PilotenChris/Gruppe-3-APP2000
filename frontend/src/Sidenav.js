@@ -5,6 +5,7 @@ import "./Sidenav.css";
 
 const Sidenav = (props) => {
   const [isSidenavOpen, setIsSidenavOpen] = useState(false);
+  const [isHamburgerMenuVisible, setIsHamburgerMenuVisible] = useState(true);
   const [companies, setCompanies] = useState([]);
   const [selectedCompany, setSelectedCompany] = useState("");
   const [carModels, setCarModels] = useState([]);
@@ -22,10 +23,12 @@ const Sidenav = (props) => {
 
   const openSidenav = () => {
     setIsSidenavOpen(true);
+    setIsHamburgerMenuVisible(false);
   };
 
   const closeSidenav = () => {
     setIsSidenavOpen(false);
+    setIsHamburgerMenuVisible(true);
   };
 
   const handleAdminClick = () => {
@@ -144,9 +147,6 @@ const Sidenav = (props) => {
 
    <div className="batteriMeny">
      <div className="menu-dropdown">
-      <h1>Batteri</h1>
-     </div>
-     <div className="menu-dropdown">
       <label id="rangeBatteri">Batteristrøm xx%</label>
       <label>20%</label>
       <label id="maxLevel">100%</label>
@@ -165,16 +165,7 @@ const Sidenav = (props) => {
      <div className="menu-dropdown">
          <label id="kontaktType">Ladestasjon kontakt type:</label>
      </div>
-     <div className="grid_container">
-         <div className="kontakt_type type-en">
-         </div>
-         <div className="kontakt_type type-to">
-         </div>
-         <div className="kontakt_type type-tre">
-         </div>
-         <div className="kontakt_type type-fire">
-         </div>
-     </div>
+     
      <div className="menu-dropdown">
          <label className="switch">
              <input type="checkBox"></input>
@@ -189,21 +180,23 @@ const Sidenav = (props) => {
              <Form.Range id="form" />
          </>
      </div>
+     <div className="informasjon">
+        <span class="infotext">test text</span>
+     </div>
     </div>
     </div>
     <div style={{ position: "relative", height: "100%", width: "100%" }}>
-      
-        <span className="hamburger-meny"
-           style={{ fontSize: "30px", cursor: "pointer" }}
-           onClick={openSidenav}
-      >
-      
-      </span>
-    
+        {isHamburgerMenuVisible && (
+          <span
+            className="hamburger-meny"
+            style={{ fontSize: "30px", cursor: "pointer" }}
+            onClick={openSidenav}
+          >
+          </span>
+        )}
       <div className="App" style={{ height: "100%", width: "100%" }}>
         {props.children}
       </div>
-
       <button id="adminBtn" onClick={handleAdminClick}>
       Admin
     </button>
