@@ -26,6 +26,27 @@ const Sidenav = (props) => {
     setIsHamburgerMenuVisible(false);
   };
 
+  const doBold = () => {
+    var checkBox = document.getElementById("sjekkInn");
+    if(checkBox.checked === true) {
+      var vinter = document.getElementById("vinter");
+      vinter.classList.add("årstid");
+
+      var sommer = document.getElementById("sommer");
+      sommer.classList.remove("årstid");
+    } 
+    else{
+      var sommer = document.getElementById("sommer");
+      sommer.classList.add("årstid");
+ 
+
+      var vinter = document.getElementById("vinter");
+      vinter.classList.remove("årstid");
+    
+      
+    }
+  };
+
   const closeSidenav = () => {
     setIsSidenavOpen(false);
     setIsHamburgerMenuVisible(true);
@@ -163,14 +184,15 @@ const Sidenav = (props) => {
          </>
      </div>
      <div className="menu-dropdown">
-         <label id="kontaktType">Ladestasjon kontakt type:</label>
-     </div>
-     
-     <div className="menu-dropdown">
-         <label className="switch">
-             <input type="checkBox"></input>
-             <span className="slider"></span>
-         </label>
+      <label id="årstall">Årstall</label>
+      <div>
+        <label id="sommer" className="årstid">Sommer</label>
+     <label class="switch">
+     <input type="checkbox" id="sjekkInn" onChange={doBold} />
+     <span class="slider round"></span>
+    </label>
+    <label id="vinter">Vinter</label>
+    </div>
      </div>
      <div className="menu-dropdown">
          <label>80%</label>
