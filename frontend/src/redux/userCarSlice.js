@@ -65,6 +65,14 @@ const userCarSlice = createSlice({
                 }
             }
         },
+        removeExRange: (state, action) => {
+            const { exRange } = action.payload;
+            if (state.length > 0) {
+                if (state[0].exRange > 0) {
+                    state[0].exRange -= exRange;
+                }
+            }
+        },
         updateCharMIN: (state, action) => {
             const { charMIN } = action.payload;
             if (state.length > 0) {
@@ -80,5 +88,5 @@ const userCarSlice = createSlice({
     },
 });
 
-export const { addUserCar, updateType, updateVersion, updateInfo, updateRange, updateLatLng, updateExRange, updateCharMIN } = userCarSlice.actions;
+export const { addUserCar, updateType, updateVersion, updateInfo, updateRange, updateLatLng, removeExRange, updateExRange, updateCharMIN } = userCarSlice.actions;
 export default userCarSlice.reducer;

@@ -12,7 +12,7 @@ const userMarkSelectSlice = createSlice({
                 distance: action.payload.distance,
                 range: action.payload.range,
                 maxCharge: action.payload.maxCharge,
-                addedRange: '',
+                addedRange: action.payload.addedRange,
             };
             state.push(newUserMarkSelect);
         },
@@ -25,8 +25,11 @@ const userMarkSelectSlice = createSlice({
         deleteUserMarkSelect: (state, action) => {
             return state.filter((marker)=> marker.id !== action.payload.id);
         },
+        resetUserMark: (state) => {
+            state.splice(0, state.length);
+        },
     },
 });
 
-export const { addUserMarkSelect, updateRange, deleteUserMarkSelect } = userMarkSelectSlice.actions;
+export const { addUserMarkSelect, updateRange, deleteUserMarkSelect, resetUserMark } = userMarkSelectSlice.actions;
 export default userMarkSelectSlice.reducer;

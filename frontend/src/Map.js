@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useLoadScript, GoogleMap, Marker, InfoWindow, Circle } from '@react-google-maps/api';
 import { useDispatch, useSelector } from 'react-redux';
 import { addUserMarkSelect, deleteUserMarkSelect } from './redux/userMarkSelectSlice';
-import { updateLatLng } from './redux/userCarSlice';
+import { updateLatLng, updateExRange, removeExRange } from './redux/userCarSlice';
 
 const center = { lat: 59.911491, lng: 10.757933 } //midlertidig koordinat
 
@@ -13,6 +13,10 @@ function Map() {
 	const [selectedMarker, setSelectedMarker] = useState(null);
 	const [selectedStations, setSelectedStations] = useState([]);
 
+	// Deviation for range on map to get closer to real life range,
+	// based on observations on other websites
+	const rangeDeviation = 0.75;
+
 	const dispatch = useDispatch();
 	const carInfo = useSelector((state)=> state.userCar[0]);
 	const userMarkInfo = useSelector((state) => state.userMarkSelect);
@@ -20,6 +24,10 @@ function Map() {
 	const getRangeById = (id) => {
 		const object = userMarkInfo.find((marker) => marker.id === id);
 		return object ? object.range : null;
+	};
+	const getAddedRangeById = (id) => {
+		const object = userMarkInfo.find((marker) => marker.id === id);
+		return object ? object.addedRange : null;
 	};
 
 
@@ -112,24 +120,72 @@ function Map() {
 		const updatedStations = selectedStations.filter((station) => station.id !== marker.id);
 		setSelectedStations(updatedStations);
 		dispatch(deleteUserMarkSelect({ id: marker.id}));
+		const removeAddedRange = getAddedRangeById(marker.id);
+		dispatch(removeExRange({ exRange: removeAddedRange}));
 		} else {
-		const newStation = {
-			id: marker.id,
-			lat: marker.latlng.lat,
-			lng: marker.latlng.lng,
-		};
+		if (carInfo.type && carInfo.version && carInfo.maxRange && carInfo.range && 
+			carInfo.battCap && carInfo.charSpeed && carInfo.lat && carInfo.lng &&
+			carInfo.charMIN) {
+
+			const maxChargeM = getCharCap(marker.content.maxChargingCapacity);
+			const distanceM = mapPointDistanceCalculator(carInfo.lat, carInfo.lng, marker.latlng.lat, marker.latlng.lng);
+			const addRangeM = getAddRange(carInfo.charMIN, maxChargeM, carInfo.charSpeed, carInfo.battCap, carInfo.maxRange, distanceM, carInfo.range, carInfo.exRange);
+			const rangeM = addRangeM + getRangeMarker(carInfo.range, distanceM, carInfo.exRange);
+			
+			const newStation = {
+				id: marker.id,
+				lat: marker.latlng.lat,
+				lng: marker.latlng.lng,
+			};
+			dispatch(addUserMarkSelect({
+				id: marker.id,
+				lat: marker.latlng.lat,
+				lng: marker.latlng.lng,
+				distance: distanceM,
+				range: rangeM,
+				maxCharge: maxChargeM,
+				addedRange: addRangeM,
+			}));
+			dispatch(updateExRange({
+				exRange: addRangeM,
+			}));
+			setSelectedStations([...selectedStations, newStation]);
+		}
 		setSelectedMarker(marker);
-		const distanceM = mapPointDistanceCalculator(carInfo.lat, carInfo.lng, marker.latlng.lat, marker.latlng.lng);
-		dispatch(addUserMarkSelect({
-			id: marker.id,
-			lat: marker.latlng.lat,
-			lng: marker.latlng.lng,
-			distance: distanceM,
-			range: 5000,
-			maxCharge: getCharCap(marker.content.maxChargingCapacity),
-			addedRange: '',
-		}));
-		setSelectedStations([...selectedStations, newStation]);
+		}
+	};
+
+	// Get the range left after getting to the station
+	const getRangeMarker = (rangeC, distanceMC, exRangeC) => {
+		let rangeM = null;
+		if (exRangeC === '' || exRangeC === null) {
+			rangeM = rangeC - distanceMC;
+		} else {
+			rangeM = (rangeC + exRangeC) - distanceMC;
+		}
+		return rangeM;
+	};
+
+	// Calculate the charged range
+	const getAddRange = (charMinC, maxChargeM, charSpeedC, battCapC, maxRangeC, distanceMC, rangeC, exRangeC) => {
+		let rangeLeft = null;
+		if (exRangeC === '' || exRangeC === null) {
+			rangeLeft = rangeC - distanceMC;
+		} else {
+			rangeLeft = (rangeC + exRangeC) - distanceMC;
+		}
+		let newRange = null;
+		const rangeKmPerKwh = maxRangeC/battCapC;
+		if (maxChargeM > charSpeedC) {
+			newRange = (charSpeedC*(charMinC/60))*rangeKmPerKwh;
+		} else {
+			newRange = (maxChargeM*(charMinC/60))*rangeKmPerKwh;
+		}
+		const maxAllowedCharged = maxRangeC - rangeLeft;
+		if (maxAllowedCharged > newRange) {
+			return newRange;
+		} else {
+			return (newRange - maxAllowedCharged);
 		}
 	};
 
@@ -138,7 +194,8 @@ function Map() {
 		const regex = /([\d,.]+)\s*kW/;
 		const capacityMatch = charCapString.match(regex);
 		if (capacityMatch && capacityMatch.length > 1) {
-			return capacityMatch[1];
+			const capacityValue = capacityMatch[1].replace(',','.');
+			return parseFloat(capacityValue);
 		}
 		return null;
 	};
@@ -193,7 +250,7 @@ function Map() {
 					{selectedStations.some((station) => station.id === marker.id) && (
 					<Circle
 						center={marker.latlng}
-						radius={getRangeById(marker.id)}
+						radius={(getRangeById(marker.id)*1000)*rangeDeviation}
 						options={{
 						strokeColor: '#FF0000',
 						strokeOpacity: 0.8,
@@ -222,7 +279,7 @@ function Map() {
 					<Circle
 						center={circlePos}
 						// 0.75 is just to get closer to the right range
-						radius={(((carInfo.range)*1000)*0.75)*1} // The number 1 is the procentage og battery
+						radius={(((carInfo.range)*1000)*rangeDeviation)*1} // The number 1 is the procentage og battery
 						options={{
 						strokeColor: '#FF0000',
 						strokeOpacity: 0.8,
@@ -236,6 +293,6 @@ function Map() {
 			</div>
 		</div>
 	);
-}
+};
 
 export default Map;
