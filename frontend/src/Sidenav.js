@@ -184,7 +184,7 @@ const Sidenav = (props) => {
          </>
      </div>
      <div className="menu-dropdown">
-      <label id="årstall">Årstall</label>
+      <label id="årstall">Årstid</label>
       <div>
         <label id="sommer" className="årstid">Sommer</label>
      <label class="switch">
