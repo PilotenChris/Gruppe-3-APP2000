@@ -258,7 +258,16 @@ const Sidenav = (props) => {
     </div>
      </div>
        <div className={isActive ? 'informasjon active' : 'informasjon'} onClick={handleInfoClick}>
-        <span class="infotext">test text</span>
+        <span class="infotext">
+          <p><h3>Info</h3></p>
+          <br/>
+          <p>Etter valgt bil/modell/versjon så må du velge Batteristrøm 
+          og Ladetid før du velger å ladestasjoner.</p>
+          <br/>
+          <p>Velg ladestasjoner i rekkefølge (fra nærmest bilen til lengst unna), 
+          ellers vil rekkevide bli kalkulert feil</p>
+          
+        </span>
      </div>
     </div>
     </div>
