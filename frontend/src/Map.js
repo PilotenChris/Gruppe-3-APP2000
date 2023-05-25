@@ -289,8 +289,8 @@ function Map() {
 						<h2>{selectedMarker.content.name}</h2>
 						<p>{selectedMarker.content.description}</p>
 						<p>{selectedMarker.content.adress}</p>
-						<p>Connector: {selectedMarker.content.connector}</p>
-						<p>Charging Capacity: {selectedMarker.content.maxChargingCapacity}</p>
+						<p>Kontakttype: {selectedMarker.content.connector}</p>
+						<p>Ladekapasitet: {selectedMarker.content.maxChargingCapacity}</p>
 					</div>
 				</InfoWindow>
 				) : null}
