@@ -19,6 +19,8 @@ const Sidenav = (props) => {
   const [batteripro, setBatteripro] = useState(0.8);
   const [ladetid, setLadetid] = useState(30);
   const navigate = useNavigate();
+  const [isActive, setIsActive] = useState(false);
+  const handleInfoClick = () => {setIsActive(!isActive);}
 
   const dispatch = useDispatch();
 
@@ -73,8 +75,8 @@ const Sidenav = (props) => {
 
       var vinter = document.getElementById("vinter");
       vinter.classList.remove("årstid");
-    
-      
+
+
     }
   };
 
@@ -255,7 +257,7 @@ const Sidenav = (props) => {
     <label id="vinter">Vinter</label>
     </div>
      </div>
-     <div className="informasjon">
+       <div className={isActive ? 'informasjon active' : 'informasjon'} onClick={handleInfoClick}>
         <span class="infotext">test text</span>
      </div>
     </div>

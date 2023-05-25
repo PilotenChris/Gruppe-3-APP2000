@@ -43,7 +43,8 @@
   }
   .infotext{
     visibility: hidden;
-    width: 120px;
+    width: 240px;
+    height: 240px;
     background-color: white;
     color: black;
     text-align: center;
@@ -52,7 +53,7 @@
     position: absolute;
     z-index: 1;
   }
-  .informasjon::after:hover .infotext{
+  .informasjon.active .infotext{
     visibility: visible;
   }
   .sidenav a {
