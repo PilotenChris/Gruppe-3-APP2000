@@ -2,7 +2,7 @@ import './Map.css';
 import React, { useState, useEffect } from 'react';
 import { useLoadScript, GoogleMap, Marker, InfoWindow, Circle } from '@react-google-maps/api';
 import { useDispatch, useSelector } from 'react-redux';
-import { addUserMarkSelect, deleteUserMarkSelect } from './redux/userMarkSelectSlice';
+import { addUserMarkSelect, deleteUserMarkSelect, resetUserMark } from './redux/userMarkSelectSlice';
 import { updateLatLng, updateExRange, removeExRange } from './redux/userCarSlice';
 
 const center = { lat: 59.911491, lng: 10.757933 } //midlertidig koordinat
@@ -21,6 +21,7 @@ function Map() {
 	const dispatch = useDispatch();
 	const carInfo = useSelector((state)=> state.userCar[0]);
 	const userMarkInfo = useSelector((state) => state.userMarkSelect);
+	const userSetting = useSelector((state) => state.userSetting);
 
 	const getRangeById = (id) => {
 		const object = userMarkInfo.find((marker) => marker.id === id);
@@ -53,6 +54,8 @@ function Map() {
 		lat: lat,
 		lng: lng,
 		}));
+		dispatch(resetUserMark());
+		setSelectedStations([]);
 		setCirclePos(latLng.toJSON());
 		setCarMarker({ lat, lng });
 	};
@@ -61,30 +64,30 @@ function Map() {
 	const getChargerJson = (bounds) => {
 		let idList = '';
 		if (markers.length > 0) {
-		for (let i = 0; i < markers.length; i++) {
-			if (i > 0 && markers[i].id !== '') {
-			idList += ',';
+			for (let i = 0; i < markers.length; i++) {
+				if (i > 0 && markers[i].id !== '') {
+				idList += ',';
+				}
+				if (markers[i].id) {
+				idList += markers[i].id;
+				}
 			}
-			if (markers[i].id) {
-			idList += markers[i].id;
-			}
-		}
 		}
 
 		const ne = bounds.getNorthEast().toString();
 		const sw = bounds.getSouthWest().toString();
 
 		const body = {
-		bounds: { ne, sw },
-		existingIds: idList
+			bounds: { ne, sw },
+			existingIds: idList
 		};
 
 		fetch("http://localhost:3030/charger-stations", {
-		method: "POST",
-		headers: {
-			'Content-Type': 'application/json'
-		},
-		body: JSON.stringify(body)
+			method: "POST",
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(body)
 		})
 		.then((response) => response.json())
 		.then((data) => parseJsonResponse(data))
@@ -98,16 +101,16 @@ function Map() {
 		for (let i = 0; i < data.length; i++) {
 			const markerData = data[i];
 			newMarkers.push({
-			id: markerData.id,
-			latlng: markerData.latlng,
-			content: {
-				name: markerData.name,
-				connector: markerData.connector,
-				adress: markerData.adress,
-				description: markerData.description,
-				maxChargingCapacity: markerData.maxChargingCapacity,
-				alreadyadded: markerData.alreadyadded
-			},
+				id: markerData.id,
+				latlng: markerData.latlng,
+				content: {
+					name: markerData.name,
+					connector: markerData.connector,
+					adress: markerData.adress,
+					description: markerData.description,
+					maxChargingCapacity: markerData.maxChargingCapacity,
+					alreadyadded: markerData.alreadyadded
+				},
 			});
 		}
 		}
@@ -264,7 +267,7 @@ function Map() {
 					{selectedStations.some((station) => station.id === marker.id) && (
 					<Circle
 						center={marker.latlng}
-						radius={(getRangeById(marker.id)*1000)*rangeDeviation}
+						radius={((getRangeById(marker.id)*1000)*rangeDeviation)*userSetting.season}
 						options={{
 							strokeColor: '#FF0000',
 							strokeOpacity: 0.8,
@@ -292,8 +295,7 @@ function Map() {
 				{circlePos &&(
 					<Circle
 						center={circlePos}
-						// 0.75 is just to get closer to the right range
-						radius={(((carInfo.range)*1000)*rangeDeviation)*1} // The number 1 is the procentage og battery
+						radius={(((carInfo.range)*1000)*rangeDeviation)*userSetting.season}
 						options={{
 							strokeColor: '#FF0000',
 							strokeOpacity: 0.8,
