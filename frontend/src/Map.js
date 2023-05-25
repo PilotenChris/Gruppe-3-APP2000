@@ -21,7 +21,8 @@ function Map() {
 	const dispatch = useDispatch();
 	const carInfo = useSelector((state)=> state.userCar[0]);
 	const userMarkInfo = useSelector((state) => state.userMarkSelect);
-	const userSetting = useSelector((state) => state.userSetting);
+	const userSettingInfo = useSelector((state) => state.userSetting);
+	
 
 	const getRangeById = (id) => {
 		const object = userMarkInfo.find((marker) => marker.id === id);
@@ -232,7 +233,6 @@ function Map() {
 		disableDefaultUI: true,
 		zoom: false,
 	}
-
 	if (!isLoaded) {
 		return <div>...Loading...</div>;
 	}
@@ -267,7 +267,7 @@ function Map() {
 					{selectedStations.some((station) => station.id === marker.id) && (
 					<Circle
 						center={marker.latlng}
-						radius={((getRangeById(marker.id)*1000)*rangeDeviation)*userSetting.season}
+						radius={((getRangeById(marker.id)*1000)*rangeDeviation)*userSettingInfo.season}
 						options={{
 							strokeColor: '#FF0000',
 							strokeOpacity: 0.8,
@@ -295,7 +295,7 @@ function Map() {
 				{circlePos &&(
 					<Circle
 						center={circlePos}
-						radius={(((carInfo.range)*1000)*rangeDeviation)*userSetting.season}
+						radius={(((carInfo.range)*1000)*rangeDeviation)*userSettingInfo.season}
 						options={{
 							strokeColor: '#FF0000',
 							strokeOpacity: 0.8,

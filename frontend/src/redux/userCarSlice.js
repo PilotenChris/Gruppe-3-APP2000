@@ -2,9 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const userCarSlice = createSlice({
     name: 'userCar',
-    initialState: [
-        { car: 'Tesla', type: 'Model 3', version: 'Long Range', maxRange: 570, range: 500, battCap: 75, charSpeed: 250, lat: '', lng: '', exRange: '', charMIN: 15 },
-    ],
+    initialState: [],
     reducers: {
         addUserCar: (state, action) => {
             const newUserCar = {
@@ -85,8 +83,20 @@ const userCarSlice = createSlice({
                 state[0].maxRange = maxRange;
             }
         },
+        resetUserCar: (state) => {
+            state.splice(0, state.length);
+        },
+        resetUserCarType: (state) => {
+            state[0].type = '';
+        },
+        resetUserCarVersion: (state) => {
+            state[0].version = '';
+        },
+        resetUserCarMaxRange: (state) => {
+            state[0].maxRange = '';
+        },
     },
 });
 
-export const { addUserCar, updateType, updateVersion, updateInfo, updateRange, updateLatLng, removeExRange, updateExRange, updateCharMIN } = userCarSlice.actions;
+export const { addUserCar, updateType, updateVersion, updateInfo, updateRange, updateLatLng, removeExRange, updateExRange, updateCharMIN, updateMaxRange, resetUserCar, resetUserCarType, resetUserCarVersion, resetUserCarMaxRange } = userCarSlice.actions;
 export default userCarSlice.reducer;

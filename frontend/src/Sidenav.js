@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import {useNavigate } from 'react-router-dom';
 import Form from 'react-bootstrap/Form';
 import "./Sidenav.css";
+import { useDispatch } from 'react-redux';
+import { setUserSetting, updateSeason } from './redux/userSettingSlice';
+import { addUserCar, updateType, updateVersion, updateRange, updateInfo, updateCharMIN, updateMaxRange, resetUserCar, resetUserCarType, resetUserCarVersion, resetUserCarMaxRange } from './redux/userCarSlice';
 
 const Sidenav = (props) => {
   const [isSidenavOpen, setIsSidenavOpen] = useState(false);
@@ -13,7 +16,35 @@ const Sidenav = (props) => {
   const [versions, setVersions] = useState([]);
   const [selectedCarVersion, setSelectedCarVersion] = useState("");
   const [selectedCarDetails, setSelectedCarDetails] = useState(null);
+  const [batteripro, setBatteripro] = useState(0.8);
+  const [ladetid, setLadetid] = useState(30);
   const navigate = useNavigate();
+
+  const dispatch = useDispatch();
+
+  dispatch(setUserSetting(1.0));
+
+  const changeBatteristrom = (batterystromPro) => {
+    if (selectedCarVersion.length > 0) {
+      const newRange = (selectedCarDetails.Details["Range (km)"]*batterystromPro);
+      const maxRange = selectedCarDetails.Details["Range (km)"];
+      dispatch(updateInfo({
+        battCap: selectedCarDetails.Details["Battery Capacity (kWh)"],
+        charSpeed: selectedCarDetails.Details["Charging Speed (kW)"]
+      }));
+      dispatch(updateMaxRange({ maxRange: maxRange}));
+      setBatteripro(batterystromPro);
+      dispatch(updateRange({ range: newRange}));
+    }
+  };
+  
+  const changeLadetid = (chargingtime) => {
+    if (selectedCarVersion.length > 0) {
+      dispatch(updateCharMIN({ charMIN: chargingtime}));
+      setLadetid(chargingtime);
+    }
+  };
+
 
   useEffect(() => {
     fetch("http://localhost:3030/ElCars")
@@ -31,14 +62,14 @@ const Sidenav = (props) => {
     if(checkBox.checked === true) {
       var vinter = document.getElementById("vinter");
       vinter.classList.add("årstid");
-
+      dispatch(updateSeason(0.8));
       var sommer = document.getElementById("sommer");
       sommer.classList.remove("årstid");
     } 
     else{
       var sommer = document.getElementById("sommer");
       sommer.classList.add("årstid");
- 
+      dispatch(updateSeason(1.0));
 
       var vinter = document.getElementById("vinter");
       vinter.classList.remove("årstid");
@@ -59,6 +90,11 @@ const Sidenav = (props) => {
   const handleCompanyChange = (event) => {
     const company = event.target.value;
     setSelectedCompany(company);
+    if (company.length > 0) {
+      dispatch(addUserCar({ car: company}));
+    } else {
+      dispatch(resetUserCar());
+    }
     setSelectedCarModel("");
     setVersions([]);
     setSelectedCarDetails(null);
@@ -70,6 +106,11 @@ const Sidenav = (props) => {
   const handleCarModelChange = (event) => {
     const carModel = event.target.value;
     setSelectedCarModel(carModel);
+    if (carModel.length > 0) {
+      dispatch(updateType({ type: carModel}));
+    } else {
+      dispatch(resetUserCarType());
+    }
     setVersions([]);
     setSelectedCarDetails(null);
     fetch(`http://localhost:3030/ElCars/${selectedCompany}/${carModel}`)
@@ -80,7 +121,13 @@ const Sidenav = (props) => {
   const handleCarVersionChange = (event) => {
     const carVersion = event.target.value;
     setSelectedCarVersion(carVersion);
-  
+    if (carVersion.length > 0) {
+      dispatch(updateVersion({ version: carVersion}));
+    } else {
+      dispatch(resetUserCarVersion());
+      dispatch(resetUserCarMaxRange());
+    }
+
     fetch(`http://localhost:3030/ElCars/${selectedCompany}/${selectedCarModel}/${carVersion}`)
       .then((response) => response.json())
       .then((data) => {
@@ -158,13 +205,13 @@ const Sidenav = (props) => {
 
         </div>
       )}
-      {selectedCarDetails && (
+      {/*selectedCarDetails && (
       <div className="car-details">
         <p>Range (km): {selectedCarDetails.Details["Range (km)"]}</p>
         <p>Battery Capacity (kWh): {selectedCarDetails.Details["Battery Capacity (kWh)"]}</p>
         <p>Charging Speed (kW): {selectedCarDetails.Details["Charging Speed (kW)"]}</p>
       </div>
-    )}
+      )*/}
 
    <div className="batteriMeny">
      <div className="menu-dropdown">
@@ -172,15 +219,29 @@ const Sidenav = (props) => {
       <label>20%</label>
       <label id="maxLevel">100%</label>
          <>
-             <Form.Range id="form" />
+            <Form.Range className="form"
+              id="batteristrom-slider"
+              min={0.2}
+              max={1}
+              step={0.01}
+              value={batteripro}
+              onChange={(e) => changeBatteristrom(parseFloat(e.target.value))}
+            />
          </>
      </div>
      <div className="menu-dropdown">
      <label id="ladetid">Ladetid på ladestasjon</label>
-      <label>0 min</label>
+      <label>5 min</label>
       <label id="maxMin">120 min</label>
          <>
-             <Form.Range id="form" />
+            <Form.Range className="form" 
+              id="ladetid-slider"
+              min={5}
+              max={120}
+              step={1}
+              value={ladetid}
+              onChange={(e) => changeLadetid(parseInt(e.target.value))}
+            />
          </>
      </div>
      <div className="menu-dropdown">
@@ -193,14 +254,6 @@ const Sidenav = (props) => {
     </label>
     <label id="vinter">Vinter</label>
     </div>
-     </div>
-     <div className="menu-dropdown">
-         <label>80%</label>
-         <label id="rangeLabel">Batterikapasitet</label>
-         <label id="range_label">100%</label>
-         <>
-             <Form.Range id="form" />
-         </>
      </div>
      <div className="informasjon">
         <span class="infotext">test text</span>

@@ -2,22 +2,18 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const userSettingSlice = createSlice({
     name: 'userSetting',
-    initialState: [],
+    initialState: {
+        season: '',
+    },
     reducers: {
-        addUserSetting: (state) => {
-            const newUserSetting = {
-                season: 1.0,
-            };
-            state.push(newUserSetting);
+        setUserSetting: (state, action) => {
+            state.season = action.payload;
         },
         updateSeason: (state, action) => {
-            const { season } = action.payload;
-            if (state.length > 0) {
-                state[0].season = season;
-            }
+            state.season = action.payload;
         }
     },
 });
 
-export const { addUserSetting, updateSeason } = userSettingSlice.actions;
+export const { setUserSetting, updateSeason } = userSettingSlice.actions;
 export default userSettingSlice.reducer;
