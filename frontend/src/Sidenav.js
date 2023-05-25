@@ -69,11 +69,11 @@ const Sidenav = (props) => {
       sommer.classList.remove("årstid");
     } 
     else{
-      var sommer = document.getElementById("sommer");
+      sommer = document.getElementById("sommer");
       sommer.classList.add("årstid");
       dispatch(updateSeason(1.0));
 
-      var vinter = document.getElementById("vinter");
+      vinter = document.getElementById("vinter");
       vinter.classList.remove("årstid");
 
 
@@ -229,6 +229,7 @@ const Sidenav = (props) => {
               value={batteripro}
               onChange={(e) => changeBatteristrom(parseFloat(e.target.value))}
             />
+           <label id="currentValue">{Math.round(batteripro*100)}%</label>
          </>
      </div>
      <div className="menu-dropdown">
@@ -244,21 +245,22 @@ const Sidenav = (props) => {
               value={ladetid}
               onChange={(e) => changeLadetid(parseInt(e.target.value))}
             />
+            <label id="currentValue">{ladetid} min</label>
          </>
      </div>
      <div className="menu-dropdown">
       <label id="årstall">Årstid</label>
       <div>
         <label id="sommer" className="årstid">Sommer</label>
-     <label class="switch">
+     <label className="switch">
      <input type="checkbox" id="sjekkInn" onChange={doBold} />
-     <span class="slider round"></span>
+     <span className="slider round"></span>
     </label>
     <label id="vinter">Vinter</label>
     </div>
      </div>
        <div className={isActive ? 'informasjon active' : 'informasjon'} onClick={handleInfoClick}>
-        <span class="infotext">
+        <span className="infotext">
           <p><h3>Info</h3></p>
           <br/>
           <p>Etter valgt bil/modell/versjon så må du velge Batteristrøm 

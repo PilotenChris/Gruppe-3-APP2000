@@ -259,3 +259,9 @@ input:checked + .slider:before {
   font-weight: bold;
   color: #2196F3;
 }
+
+#currentValue{
+  color: #2196F3;
+  margin-left: 80px;
+  font-weight: bold;
+}
