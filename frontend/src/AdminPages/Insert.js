@@ -1,23 +1,38 @@
 import {Link} from 'react-router-dom'
 import {useNavigate } from 'react-router-dom'
 import "./Style.css"
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 
 const Insert = () => {
 
-    const navigate = useNavigate()
+    const navigate = useNavigate();
+    const [companies, setCompanies] = useState([]);
     const [companyName, setCompanyName] = useState('');
+    const [carName, setCarName] = useState('');
+    const [versionName, setVersionName] = useState('');
+    const [range, setRange] = useState('');
+    const [batteryCapacity, setBatteryCapacity] = useState('');
+    const [chargingSpeed, setChargingSpeed] = useState('');
     const [responseMessage, setResponseMessage] = useState('');
+    const [responseMessage2, setResponseMessage2] = useState('');
+
+    // Fetching the list of companies from the database
+    useEffect(() => {
+      fetch("http://localhost:3030/ElCars")
+        .then((response) => response.json())
+        .then((data) => setCompanies(data))
+        .catch((error) => console.error('Error fetching companies:', error));
+    }, []);
+  
 
     const createAdmin = () => {
-
         navigate('/admin-page/create-admin')
     }
 
     const handleTextSubmit = (event) => {
         event.preventDefault();
-        // Making the POST request to insert the company
+        // Making the POST request to insert a company
         fetch(`http://localhost:3030/ElCars/${companyName}`, {
           method: 'POST',
         })
@@ -30,6 +45,33 @@ const Insert = () => {
           })
           .catch((error) => {
             console.error('Error adding company:', error); 
+          });
+      };
+
+      const handleCarSubmit = (event) => {
+        event.preventDefault();
+    
+        // Making the POST request to insert all car details
+        fetch(`http://localhost:3030/ElCars/${companyName}/${carName}/${versionName}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            range: range,
+            batteryCapacity: batteryCapacity,
+            chargingSpeed: chargingSpeed,
+          }),
+        })
+          .then((response) => {
+            if (response.ok) {
+              setResponseMessage2('Car details added to database.');
+            } else {
+              setResponseMessage2('Failed to add car details.');
+            }
+          })
+          .catch((error) => {
+            console.error('Error adding car details:', error);
           });
       };
       
@@ -63,29 +105,32 @@ const Insert = () => {
                 <p>{responseMessage}</p>
                 </form>
             </div>
-            <div className='bil'>
-                <h2 className='headline'>Bil</h2>
-                <form>
-                    <select className='selectBil'>
-                     <option>Bilnavn</option>
-                    </select>
-                      <label id='Lbl'>Navn: </label>
-                      <input type="text"/>
-                      <select className='selectVersion'>
-                        <option>Version1</option>
-                      </select> 
-                      <center>
-                      <h2 id='range'>Range:</h2>
-                      <label>Name of version: </label>
-                      <input type="text"/>
-                      <h2 id='capacity'>Battery Capacity:</h2>
-                      <label>Name of version: </label>
-                      <input type="text"/>
-                      <h2 id='speed'>Charging speed:</h2>
-                      <label>Name of version: </label>
-                      <input type="text"/>
-                      <button id='knapp'>Submit</button>
-                      </center>
+              <div className="bil">
+              <h2 className="headline">Bil</h2>
+              <form id='bilForm' onSubmit={handleCarSubmit}>
+                <select id='bilDropdown' value={companyName} onChange={(e) => setCompanyName(e.target.value)}>
+                  <option value=''>Velg selskap</option>
+                  {companies.map((company) => (
+                  <option key={company} value={company}>
+                    {company}
+                  </option>
+                ))}
+                </select>
+                <label id="Lbl">Bilmodell: </label>
+                <input type="text" onChange={(e) => setCarName(e.target.value)}/>
+                <label id="Lbl">Versjon: </label>
+                <input type="text" onChange={(e) => setVersionName(e.target.value)} />
+                
+                <center>
+                  <label>Rekkevidde: </label>
+                  <input type="text" onChange={(e) => setRange(e.target.value)} />
+                  <label>Batterikapasitet: </label>
+                  <input type="text" onChange={(e) => setBatteryCapacity(e.target.value)}/>
+                  <label>Ladefart: </label>
+                  <input type="text" onChange={(e) => setChargingSpeed(e.target.value)} />
+                  <button id="knapp">Submit</button>
+                  <p>{responseMessage2}</p>
+                </center>
                 </form>
             </div>
         </header>

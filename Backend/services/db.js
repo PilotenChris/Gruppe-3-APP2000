@@ -45,8 +45,6 @@ async function getCars(company) {
   return result;
 }
 
-
-
 // Get all details of a chosen car model and version
 async function getCarDetails(company, carModel, version) {
   let result = [];
@@ -250,25 +248,26 @@ async function editCars(company, oldCarModel, newCarModel, oldVersion, newVersio
       }
     }
     if (updatedDetails.range_km) {
-      carDetails.range_km[newVersion] = updatedDetails.range_km;
+      carDetails.range_km[newVersion] = parseInt(updatedDetails.range_km);
     }
     if (updatedDetails.battery_capacity_kWh) {
-      carDetails.battery_capacity_kWh[newVersion] = updatedDetails.battery_capacity_kWh;
+      carDetails.battery_capacity_kWh[newVersion] = parseInt(updatedDetails.battery_capacity_kWh);
     }
     if (updatedDetails.charging_speed_kW) {
-      carDetails.charging_speed_kW[newVersion] = updatedDetails.charging_speed_kW;
+      carDetails.charging_speed_kW[newVersion] = parseInt(updatedDetails.charging_speed_kW);
     }
 
     await coll.replaceOne({ _id: existingCompany._id }, existingCompany);
 
     console.log(`Successfully updated car details for ${company} ${oldCarModel} ${oldVersion} in the database.`);
-
-    } catch (error) {
-      console.error(error);
-    } finally {
-      await client.close();
-    }
+  } catch (error) {
+    console.error(error);
+    throw error;
+  } finally {
+    await client.close();
   }
+}
+
 
   // Delete a company from the database
 async function deleteCompany(company) {
