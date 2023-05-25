@@ -1,5 +1,5 @@
 import { getCompanies, getCars, getCarDetails, setCompanies, setCars, editCars, editCompanies, 
-  deleteCarModel, deleteCompany, createAdminAccount } from "../services/db.js";
+  deleteCarModel, deleteCompany, createAdminAccount, adminLogin } from "../services/db.js";
 import dotenv from 'dotenv';
 import fetch from "node-fetch";
 dotenv.config();
@@ -196,7 +196,7 @@ deleteCarModel(company, carModel).then(() => {
 }, writeError(res));
 });
 
-    // Create new admin account
+  // Create new admin account
   app.post("/Admin", (req, res) => {
     let email = req.body.email;
     let password = req.body.password;
@@ -211,13 +211,35 @@ deleteCarModel(company, carModel).then(() => {
       });
   });
 
-  // Catch all other requests and deliver an error message.
-  app.get("*", function (req, res) {
-    res.status(404);
-    res.set("Content-Type", "text/plain");
-    res.send("Unknown URL");
-    res.end();
+
+  // Authenticate admin login
+  app.post("/Admin/login", (req, res) => {
+    let username = req.body.username;
+    let password = req.body.password;
+    try {
+      adminLogin(username, password)
+        .then((isAuthenticated) => {
+          if (isAuthenticated) {
+            res.sendStatus(200);
+          } else {
+            res.status(401).json({ message: "Invalid credentials" });
+          }
+        })
+        .catch((error) => {
+          res.status(500).json({ message: error.message });
+        });
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
   });
+
+// Catch all other requests and deliver an error message.
+app.get("*", function (req, res) {
+  res.status(404);
+  res.set("Content-Type", "text/plain");
+  res.send("Unknown URL");
+  res.end();
+});
 };
 
 export { routes };
