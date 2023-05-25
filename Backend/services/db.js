@@ -352,9 +352,7 @@ async function createAdminAccount(email, password, isSuperAdmin) {
       password: hashedPassword,
       isSuperAdmin: isSuperAdmin || false
     };
-
     await coll.insertOne(admin);
-
     console.log("Admin account created.");
   } catch (error) {
     console.error(error);
@@ -363,6 +361,26 @@ async function createAdminAccount(email, password, isSuperAdmin) {
   }
 }
 
+// Verifying user account for login
+async function adminLogin(username, password) {
+  try {
+    await client.connect();
+    const db = client.db(config.db.name);
+    const coll = db.collection('Admin');
+    const admin = await coll.findOne({ email: username });
+    if (!admin) {
+      return false;
+    }
+    const isPasswordValid = await bcrypt.compare(password, admin.password);
+    return isPasswordValid;
+  } catch (error) {
+    console.error('Error authenticating:', error);
+    throw error;
+  } finally {
+    await client.close();
+  }
+}
+
 
 export { getCompanies, getCars, getCarDetails, setCompanies, setCars, editCompanies, editCars, 
-          deleteCompany, deleteCarModel, createAdminAccount };
+          deleteCompany, deleteCarModel, createAdminAccount, adminLogin };
