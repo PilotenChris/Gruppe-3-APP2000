@@ -177,7 +177,7 @@ const Update = () => {
                     <label>Ladefart: </label>
                    <input type="text" value={updatedDetails.charging_speed_kW || ''} onChange={(e) => setUpdatedDetails({ ...updatedDetails, charging_speed_kW: e.target.value })} />
                   </div>
-                  <button id="knapp">Submit</button>
+                  <button id="knapp">Update</button>
                   <p>{responseMessage2}</p>
                 </center>
               </form>
