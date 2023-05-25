@@ -22,7 +22,7 @@ function Map() {
 	const carInfo = useSelector((state)=> state.userCar[0]);
 	const userMarkInfo = useSelector((state) => state.userMarkSelect);
 	const userSettingInfo = useSelector((state) => state.userSetting);
-	
+
 
 	const getRangeById = (id) => {
 		const object = userMarkInfo.find((marker) => marker.id === id);
@@ -49,16 +49,18 @@ function Map() {
 
 	// Set the car starting point on the map and in the Redux store
 	const handleMapClick = (ev) => {
-		const {latLng} = ev;
-		const { lat, lng } = latLng.toJSON();
-		dispatch(updateLatLng({
-		lat: lat,
-		lng: lng,
-		}));
-		dispatch(resetUserMark());
-		setSelectedStations([]);
-		setCirclePos(latLng.toJSON());
-		setCarMarker({ lat, lng });
+		if (carInfo.type && carInfo.version && carInfo.maxRange && carInfo.range) {
+			const {latLng} = ev;
+			const { lat, lng } = latLng.toJSON();
+			dispatch(updateLatLng({
+			lat: lat,
+			lng: lng,
+			}));
+			dispatch(resetUserMark());
+			setSelectedStations([]);
+			setCirclePos(latLng.toJSON());
+			setCarMarker({ lat, lng });
+		}
 	};
 
 	// Get all charging stations and details, from our REST API
