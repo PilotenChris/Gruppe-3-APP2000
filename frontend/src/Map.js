@@ -12,6 +12,7 @@ function Map() {
 	const [markers, setMarkers] = useState([]);
 	const [selectedMarker, setSelectedMarker] = useState(null);
 	const [selectedStations, setSelectedStations] = useState([]);
+	const [carMarker, setCarMarker] = useState(null);
 
 	// Deviation for range on map to get closer to real life range,
 	// based on observations on other websites
@@ -53,6 +54,7 @@ function Map() {
 		lng: lng,
 		}));
 		setCirclePos(latLng.toJSON());
+		setCarMarker({ lat, lng });
 	};
 
 	// Get all charging stations and details, from our REST API
@@ -216,7 +218,7 @@ function Map() {
 		return distance;
 	};
 
-
+	const blueMarkerIcon = 'https://maps.google.com/mapfiles/ms/icons/blue-dot.png';
 
 	const {isLoaded} = useLoadScript({
 		googleMapsApiKey: "AIzaSyACqMueWvLFhHETTGHO27NgnjTCBstiZWo",
@@ -241,22 +243,34 @@ function Map() {
 				mapContainerStyle={{ width: '100%', height: '100%' }}
 				onLoad={(map) => setMap(map)}
 				onClick={handleMapClick}>
+				{carMarker && (
+					<Marker
+						position={carMarker}
+						icon={{
+							url: 'http://maps.google.com/mapfiles/kml/pal2/icon47.png',
+						}}
+					/>
+				)}
 				{markers.map((marker) => (
 				<React.Fragment key={marker.id}>
 					<Marker
 					position={marker.latlng}
 					onClick={() => handleStationClick(marker)}
+					icon={{
+						url: selectedStations.some((station) => station.id === marker.id)
+							? blueMarkerIcon : 'https://maps.google.com/mapfiles/ms/icons/red-dot.png',
+					}}
 					/>
 					{selectedStations.some((station) => station.id === marker.id) && (
 					<Circle
 						center={marker.latlng}
 						radius={(getRangeById(marker.id)*1000)*rangeDeviation}
 						options={{
-						strokeColor: '#FF0000',
-						strokeOpacity: 0.8,
-						strokeWeight: 2,
-						fillColor: '#FF0000',
-						fillOpacity: 0.35,
+							strokeColor: '#FF0000',
+							strokeOpacity: 0.8,
+							strokeWeight: 2,
+							fillColor: '#FF0000',
+							fillOpacity: 0.35,
 						}}
 					/>
 					)}
@@ -281,11 +295,11 @@ function Map() {
 						// 0.75 is just to get closer to the right range
 						radius={(((carInfo.range)*1000)*rangeDeviation)*1} // The number 1 is the procentage og battery
 						options={{
-						strokeColor: '#FF0000',
-						strokeOpacity: 0.8,
-						strokeWeight: 2,
-						fillColor: '#FF0000',
-						fillOpacity: 0.35,
+							strokeColor: '#FF0000',
+							strokeOpacity: 0.8,
+							strokeWeight: 2,
+							fillColor: '#FF0000',
+							fillOpacity: 0.35,
 						}}
 					/>
 				)}
