@@ -116,18 +116,27 @@ const Insert = () => {
                   </option>
                 ))}
                 </select>
-                <label id="Lbl">Bilmodell: </label>
-                <input type="text" onChange={(e) => setCarName(e.target.value)}/>
-                <label id="Lbl">Versjon: </label>
-                <input type="text" onChange={(e) => setVersionName(e.target.value)} />
-                
                 <center>
-                  <label>Rekkevidde: </label>
-                  <input type="text" onChange={(e) => setRange(e.target.value)} />
-                  <label>Batterikapasitet: </label>
-                  <input type="text" onChange={(e) => setBatteryCapacity(e.target.value)}/>
-                  <label>Ladefart: </label>
-                  <input type="text" onChange={(e) => setChargingSpeed(e.target.value)} />
+                  <div className='modell'>
+                     <label id="Lbl">Bilmodell: </label>
+                     <input type="text" onChange={(e) => setCarName(e.target.value)}/>
+                  </div>
+                  <div className='version'>
+                     <label id="Lbl">Versjon: </label>
+                     <input type="text" onChange={(e) => setVersionName(e.target.value)} />
+                 </div>
+                  <div className='rekkevidde'>
+                     <label>Rekkevidde: </label>
+                     <input type="text" onChange={(e) => setRange(e.target.value)} />
+                  </div>
+                  <div className='kapasitet'>
+                     <label>Batterikapasitet: </label>
+                     <input type="text" onChange={(e) => setBatteryCapacity(e.target.value)}/>
+                  </div>
+                  <div className='ladefart'>
+                     <label>Ladefart: </label>
+                     <input type="text" onChange={(e) => setChargingSpeed(e.target.value)} />
+                  </div>
                   <button id="knapp">Submit</button>
                   <p>{responseMessage2}</p>
                 </center>

@@ -114,6 +114,7 @@ const Delete = () => {
         <div className='selskap'>
            <h2 className='headline'>Selskap</h2>
            <select id='deleteSelskap' onChange={(e) => fetchCarModels(e.target.value)}>
+           <option value=''>Velg selskap</option>
               {companies.map((company) => (
                 <option key={company} value={company}>{company}</option>
               ))}
@@ -124,6 +125,7 @@ const Delete = () => {
             <div className='bil'>
                 <h2 className='headline'>Bil</h2>
                 <select id='deleteBil'>
+                <option value=''>Velg bil</option>
                   {carModels.map((carModel) => (
                   <option key={carModel} value={carModel}>{carModel}</option>
                 ))}

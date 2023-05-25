@@ -160,16 +160,24 @@ const Update = () => {
                     </option>
                   ))}
                 </select>
+                <center className='center'>
+                  <div className='version'>
                 <label id="Lbl">Versjon: </label>
                 <input type="text" value={selectedNewVersion} onChange={(e) => setSelectedNewVersion(e.target.value)} />
-                <center>
-                  <label>Rekkevidde: </label>
-                  <input type="text" value={updatedDetails.range_km || ''} onChange={(e) => setUpdatedDetails({ ...updatedDetails, range_km: e.target.value })} />
-                  <label>Batterikapasitet: </label>
-                  <input type="text" value={updatedDetails.battery_capacity_kWh || ''} onChange={(e) => setUpdatedDetails({ ...updatedDetails, battery_capacity_kWh: e.target.value })} />
-                  <label>Ladefart: </label>
-                  <input type="text" value={updatedDetails.charging_speed_kW || ''} onChange={(e) => setUpdatedDetails({ ...updatedDetails, charging_speed_kW: e.target.value })} />
-                  <button id="knapp">Submit</button>
+                </div>
+                  <div className='rekkevidde'>
+                    <label>Rekkevidde: </label>
+                   <input type="text" value={updatedDetails.range_km || ''} onChange={(e) => setUpdatedDetails({ ...updatedDetails, range_km: e.target.value })} />
+                  </div>
+                  <div className='kapasitet'>
+                    <label >Batterikapasitet: </label>
+                    <input type="text" id='kapasitetInput' value={updatedDetails.battery_capacity_kWh || ''} onChange={(e) => setUpdatedDetails({ ...updatedDetails, battery_capacity_kWh: e.target.value })} />
+                  </div>
+                  <div className='ladefart'>
+                    <label>Ladefart: </label>
+                   <input type="text" value={updatedDetails.charging_speed_kW || ''} onChange={(e) => setUpdatedDetails({ ...updatedDetails, charging_speed_kW: e.target.value })} />
+                  </div>
+                  <button id="knapp">Update</button>
                   <p>{responseMessage2}</p>
                 </center>
               </form>
