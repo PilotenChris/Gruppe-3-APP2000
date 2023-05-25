@@ -125,6 +125,7 @@ html, body {
   }
 
   #Lbl {
+    padding: 10px;
     margin-left: 185px;
   }
 
@@ -165,4 +166,34 @@ html, body {
 .form-row input{
   display: block;
   margin-left: 90px;
+}
+.version{
+  margin-top: 5px;
+  margin-left: -155px;
+}
+
+.kapasitet{
+  margin-top: 5px;
+  margin-left: -16px;
+}
+
+.ladefart{
+  margin-top: 5px;
+  margin-left: 35px;
+}
+
+.rekkevidde{
+  margin-top: 5px;
+}
+#versionDropdown{
+  margin-top: 5px;
+}
+#carDropdown{
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.modell{
+  margin-top: 5px;
+  margin-left: -155px;
 }
