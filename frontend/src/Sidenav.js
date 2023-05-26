@@ -47,6 +47,18 @@ const Sidenav = (props) => {
     }
   };
 
+  const updateCarDetails = (carDetails) => {
+    const newRange = (carDetails.Details["Range (km)"]*batteripro);
+      const maxRange = carDetails.Details["Range (km)"];
+      dispatch(updateInfo({
+        battCap: carDetails.Details["Battery Capacity (kWh)"],
+        charSpeed: carDetails.Details["Charging Speed (kW)"]
+      }));
+      dispatch(updateMaxRange({ maxRange: maxRange}));
+      dispatch(updateRange({ range: newRange}));
+      dispatch(updateCharMIN({ charMIN: ladetid}));
+  }
+
 
   useEffect(() => {
     fetch("http://localhost:3030/ElCars")
@@ -135,6 +147,7 @@ const Sidenav = (props) => {
       .then((data) => {
         if (Array.isArray(data) && data.length > 0) {
           setSelectedCarDetails(data[0]);
+          updateCarDetails(data[0]);
         } else {
           setSelectedCarDetails(null);
         }
@@ -255,12 +268,8 @@ const Sidenav = (props) => {
         <span className="infotext">
           <p><h3>Info</h3></p>
           <br/>
-          <p>Etter valgt bil/modell/versjon så må du velge Batteristrøm 
-          og Ladetid før du velger å ladestasjoner.</p>
-          <br/>
-          <p>Velg ladestasjoner i rekkefølge (fra nærmest bilen til lengst unna), 
-          ellers vil rekkevide bli kalkulert feil</p>
-          
+          <p>Etter valgt bil/modell/versjon så kan du endre på Batteristrøm 
+          og Ladetid. Helst før du velger ladestasjoner.</p>
         </span>
      </div>
     </div>
