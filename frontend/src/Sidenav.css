@@ -39,7 +39,7 @@
     font-size: 3em;
     border-radius: 100px;
     position: relative;
-    left: 80px;
+    left: 90px;
   }
   .infotext{
     visibility: hidden;
@@ -52,6 +52,7 @@
     padding: 5px 10px;
     position: absolute;
     z-index: 1;
+    border-radius: 30px;
   }
   .informasjon.active .infotext{
     visibility: visible;
