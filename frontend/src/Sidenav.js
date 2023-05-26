@@ -207,14 +207,6 @@ const Sidenav = (props) => {
 
         </div>
       )}
-      {/*selectedCarDetails && (
-      <div className="car-details">
-        <p>Range (km): {selectedCarDetails.Details["Range (km)"]}</p>
-        <p>Battery Capacity (kWh): {selectedCarDetails.Details["Battery Capacity (kWh)"]}</p>
-        <p>Charging Speed (kW): {selectedCarDetails.Details["Charging Speed (kW)"]}</p>
-      </div>
-      )*/}
-
    <div className="batteriMeny">
      <div className="menu-dropdown">
       <label id="rangeBatteri">Batteristrøm xx%</label>
