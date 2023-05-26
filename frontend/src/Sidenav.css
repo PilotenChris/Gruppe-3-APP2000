@@ -53,6 +53,7 @@
     position: absolute;
     z-index: 1;
     border-radius: 30px;
+    margin-left: 5px;
   }
   .informasjon.active .infotext{
     visibility: visible;
