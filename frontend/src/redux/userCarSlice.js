@@ -15,7 +15,6 @@ const userCarSlice = createSlice({
                 charSpeed: '',
                 lat: '',
                 lng: '',
-                exRange: '',
                 charMIN: '',
             };
             state.splice(0, state.length);
@@ -53,24 +52,6 @@ const userCarSlice = createSlice({
                 state[0].lng = lng;
             }
         },
-        updateExRange: (state, action) => {
-            const { exRange } = action.payload;
-            if (state.length > 0) {
-                if (state[0].exRange > 0) {
-                    state[0].exRange += exRange;
-                } else {
-                    state[0].exRange = exRange;
-                }
-            }
-        },
-        removeExRange: (state, action) => {
-            const { exRange } = action.payload;
-            if (state.length > 0) {
-                if (state[0].exRange > 0) {
-                    state[0].exRange -= exRange;
-                }
-            }
-        },
         updateCharMIN: (state, action) => {
             const { charMIN } = action.payload;
             if (state.length > 0) {
@@ -98,5 +79,5 @@ const userCarSlice = createSlice({
     },
 });
 
-export const { addUserCar, updateType, updateVersion, updateInfo, updateRange, updateLatLng, removeExRange, updateExRange, updateCharMIN, updateMaxRange, resetUserCar, resetUserCarType, resetUserCarVersion, resetUserCarMaxRange } = userCarSlice.actions;
+export const { addUserCar, updateType, updateVersion, updateInfo, updateRange, updateLatLng, updateCharMIN, updateMaxRange, resetUserCar, resetUserCarType, resetUserCarVersion, resetUserCarMaxRange } = userCarSlice.actions;
 export default userCarSlice.reducer;

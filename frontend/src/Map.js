@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useLoadScript, GoogleMap, Marker, InfoWindow, Circle } from '@react-google-maps/api';
 import { useDispatch, useSelector } from 'react-redux';
 import { addUserMarkSelect, deleteUserMarkSelect, resetUserMark } from './redux/userMarkSelectSlice';
-import { updateLatLng, updateExRange, removeExRange } from './redux/userCarSlice';
+import { updateLatLng } from './redux/userCarSlice';
 
 const center = { lat: 59.911491, lng: 10.757933 } //midlertidig koordinat
 
@@ -128,62 +128,66 @@ function Map() {
 		const updatedStations = selectedStations.filter((station) => station.id !== marker.id);
 		setSelectedStations(updatedStations);
 		dispatch(deleteUserMarkSelect({ id: marker.id}));
-		const removeAddedRange = getAddedRangeById(marker.id);
-		dispatch(removeExRange({ exRange: removeAddedRange}));
 		} else {
 		if (carInfo.type && carInfo.version && carInfo.maxRange && carInfo.range && 
 			carInfo.battCap && carInfo.charSpeed && carInfo.lat && carInfo.lng &&
 			carInfo.charMIN) {
-
-			const maxChargeM = getCharCap(marker.content.maxChargingCapacity);
-			const distanceM = mapPointDistanceCalculator(carInfo.lat, carInfo.lng, marker.latlng.lat, marker.latlng.lng);
-			const addRangeM = getAddRange(carInfo.charMIN, maxChargeM, carInfo.charSpeed, carInfo.battCap, carInfo.maxRange, distanceM, carInfo.range, carInfo.exRange);
-			const rangeM = addRangeM + getRangeMarker(carInfo.range, distanceM, carInfo.exRange);
 			
-			const newStation = {
-				id: marker.id,
-				lat: marker.latlng.lat,
-				lng: marker.latlng.lng,
-			};
-			dispatch(addUserMarkSelect({
-				id: marker.id,
-				lat: marker.latlng.lat,
-				lng: marker.latlng.lng,
-				distance: distanceM,
-				range: rangeM,
-				maxCharge: maxChargeM,
-				addedRange: addRangeM,
-			}));
-			dispatch(updateExRange({
-				exRange: addRangeM,
-			}));
-			setSelectedStations([...selectedStations, newStation]);
+			let distanceM = 0;
+			let addRangeM = 0;
+			let rangeM = 0;
+			let checkRange = 0;
+			const maxChargeM = getCharCap(marker.content.maxChargingCapacity);
+			if (selectedStations.length === 0) {
+				distanceM = mapPointDistanceCalculator(carInfo.lat, carInfo.lng, marker.latlng.lat, marker.latlng.lng);
+				addRangeM = getAddRange(carInfo.charMIN, maxChargeM, carInfo.charSpeed, carInfo.battCap, carInfo.maxRange, distanceM, carInfo.range);
+				rangeM = addRangeM + getRangeMarker(carInfo.range, distanceM);
+				checkRange = carInfo.range;
+			} else {
+				const lastStation = selectedStations[selectedStations.length - 1];
+				distanceM = mapPointDistanceCalculator(lastStation.lat, lastStation.lng, marker.latlng.lat, marker.latlng.lng);
+				addRangeM = getAddRange(carInfo.charMIN, maxChargeM, carInfo.charSpeed, carInfo.battCap, carInfo.maxRange, distanceM, getRangeById(lastStation.id));
+				rangeM = addRangeM + getRangeMarker(getRangeById(lastStation.id), distanceM);
+				checkRange = getRangeById(lastStation.id);
+				console.log(distanceM);
+				console.log(checkRange);
+			}
+
+			if (distanceM <= (checkRange*rangeDeviation)) {
+				const newStation = {
+					id: marker.id,
+					lat: marker.latlng.lat,
+					lng: marker.latlng.lng,
+				};
+				dispatch(addUserMarkSelect({
+					id: marker.id,
+					lat: marker.latlng.lat,
+					lng: marker.latlng.lng,
+					distance: distanceM,
+					range: rangeM,
+					maxCharge: maxChargeM,
+					addedRange: addRangeM,
+				}));
+				setSelectedStations([...selectedStations, newStation]);
+			}
 		}
 		setSelectedMarker(marker);
 		}
 	};
 
 	// Get the range left after getting to the station
-	const getRangeMarker = (rangeC, distanceMC, exRangeC) => {
+	const getRangeMarker = (rangeMC, distanceMC) => {
 		let rangeM = null;
-		if (exRangeC === '' || exRangeC === null) {
-			rangeM = rangeC - distanceMC;
-		} else {
-			rangeM = (rangeC + exRangeC) - distanceMC;
-		}
+		rangeM = rangeMC - distanceMC;
 		return rangeM;
 	};
 
 	// Calculate the charged range
-	const getAddRange = (charMinC, maxChargeM, charSpeedC, battCapC, maxRangeC, distanceMC, rangeC, exRangeC) => {
-		let rangeLeft = null;
-		if (exRangeC === '' || exRangeC === null) {
-			rangeLeft = rangeC - distanceMC;
-		} else {
-			rangeLeft = (rangeC + exRangeC) - distanceMC;
-		}
+	const getAddRange = (charMinC, maxChargeM, charSpeedC, battCapC, maxRangeC, distanceMC, rangeMC) => {
+		let rangeLeft = rangeMC - distanceMC;
 		let newRange = null;
 		const rangeKmPerKwh = maxRangeC/battCapC;
+
 		if (maxChargeM > charSpeedC) {
 			newRange = (charSpeedC*(charMinC/60))*rangeKmPerKwh;
 		} else {
