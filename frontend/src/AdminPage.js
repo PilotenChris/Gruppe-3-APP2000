@@ -1,5 +1,6 @@
 import {Link} from 'react-router-dom'
 import {useNavigate } from 'react-router-dom'
+import React, { useEffect } from 'react';
 import './AdminPage.css'
  
 const AdminPage = () => { 
@@ -9,6 +10,34 @@ const AdminPage = () => {
 
         navigate('/admin-page/create-admin')
     }
+
+    useEffect(() => {
+      const authenticationCheck = async () => {
+        try {
+          const accessToken = localStorage.getItem('accessToken');
+          if (!accessToken) {
+            navigate('/login');
+            return;
+          }
+          
+          const response = await fetch('/Admin/login', {
+            method: 'GET',
+            headers: {
+              'Authorization': 'Bearer ' + accessToken
+            }
+          });
+    
+          if (!response.ok) {
+            navigate('/login');
+          }
+        } catch (error) {
+          console.error('Error checking admin authentication:', error);
+          navigate('/login', { replace: true });
+        }
+      };
+    
+      authenticationCheck();
+    }, [navigate]);
 
     return (
         <body className='adminSider'>

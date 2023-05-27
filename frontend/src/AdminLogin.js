@@ -19,8 +19,12 @@ const AdminLogin = () => {
           password: password,
         }),
       });
-
+  
       if (response.status === 200) {
+        navigate('/admin-page');
+        const data = await response.json();
+        const token = data.token;
+        localStorage.setItem('accessToken', token);
         navigate('/admin-page');
       } else if (response.status === 401) {
         alert('Feil brukernavn eller passord');

@@ -2,6 +2,7 @@ import { getCompanies, getCars, getCarDetails, setCompanies, setCars, editCars, 
   deleteCarModel, deleteCompany, createAdminAccount, adminLogin } from "../services/db.js";
 import dotenv from 'dotenv';
 import fetch from "node-fetch";
+import jwt from 'jsonwebtoken';
 dotenv.config();
 
 
@@ -211,35 +212,34 @@ const routes = (app) => {
 		});
 	});
 
+  // Authenticating login and generateing access token
+  app.post('/Admin/login', async (req, res) => {
+    let username = req.body.username;
+    let password = req.body.password;
 
-	// Authenticate admin login
-	app.post("/Admin/login", (req, res) => {
-		let username = req.body.username;
-		let password = req.body.password;
-		try {
-			adminLogin(username, password)
-			.then((isAuthenticated) => {
-				if (isAuthenticated) {
-					res.sendStatus(200);
-				} else {
-					res.status(401).json({ message: "Invalid credentials" });
-				}
-			})
-			.catch((error) => {
-				res.status(500).json({ message: error.message });
-			});
-		} catch (error) {
-			res.status(500).json({ message: error.message });
-		}
-	});
+    try {
+      const isAuthenticated = await adminLogin(username, password);
 
-	// Catch all other requests and deliver an error message.
-	app.get("*", function (req, res) {
-		res.status(404);
-		res.set("Content-Type", "text/plain");
-		res.send("Unknown URL");
-		res.end();
-	});
+      if (isAuthenticated) {
+        // Generating token for admin
+        const token = jwt.sign({ isAdmin: true }, process.env.JWT_SECRET, { expiresIn: '1m' });
+        res.json({ token });
+      } else {
+        res.status(401).json({ message: 'Invalid credentials' });
+      }
+    } catch (error) {
+      console.error('Error authenticating:', error);
+      res.status(500).json({ message: 'Failed to authenticate' });
+    }
+  });
+
+  // Catch all other requests and deliver an error message.
+  app.get("*", function (req, res) {
+    res.status(404);
+    res.set("Content-Type", "text/plain");
+    res.send("Unknown URL");
+    res.end();
+  });
 };
 
 export { routes };

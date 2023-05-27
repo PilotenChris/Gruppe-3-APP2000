@@ -12,6 +12,7 @@
     "dotenv": "^16.0.3",
     "fetch-jsonp": "^1.2.3",
     "jsonp": "^0.2.1",
+    "jsonwebtoken": "^9.0.0",
     "react": "^18.2.0",
     "react-bootstrap": "^2.7.4",
     "react-dom": "^18.2.0",

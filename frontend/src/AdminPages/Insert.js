@@ -17,6 +17,34 @@ const Insert = () => {
     const [responseMessage, setResponseMessage] = useState('');
     const [responseMessage2, setResponseMessage2] = useState('');
 
+    useEffect(() => {
+      const authenticationCheck = async () => {
+        try {
+          const accessToken = localStorage.getItem('accessToken');
+          if (!accessToken) {
+            navigate('/login');
+            return;
+          }
+          
+          const response = await fetch('/Admin/login', {
+            method: 'GET',
+            headers: {
+              'Authorization': 'Bearer ' + accessToken
+            }
+          });
+    
+          if (!response.ok) {
+            navigate('/login');
+          }
+        } catch (error) {
+          console.error('Error checking admin authentication:', error);
+          navigate('/login', { replace: true });
+        }
+      };
+    
+      authenticationCheck();
+    }, [navigate]);
+
     // Fetching the list of companies from the database
     useEffect(() => {
       fetch("http://localhost:3030/ElCars")
