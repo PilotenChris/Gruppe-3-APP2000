@@ -14,7 +14,7 @@ const ShowDatabase = () => {
     useEffect(() => {
       const authenticationCheck = async () => {
         try {
-          const accessToken = localStorage.getItem('accessToken');
+          const accessToken = sessionStorage.getItem('accessToken');
           if (!accessToken) {
             navigate('/login');
             return;

@@ -24,7 +24,7 @@ const AdminLogin = () => {
         navigate('/admin-page');
         const data = await response.json();
         const token = data.token;
-        localStorage.setItem('accessToken', token);
+        sessionStorage.setItem('accessToken', token);
         navigate('/admin-page');
       } else if (response.status === 401) {
         alert('Feil brukernavn eller passord');
