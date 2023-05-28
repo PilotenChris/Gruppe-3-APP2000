@@ -18,8 +18,10 @@
     display: block;
     background-color: white;
     border-radius: 100px;
+    border-style: dotted;
+    border-color: #000000;
     position: relative;
-    top: 550px;
+    top: 1rem;
     z-index: 1;
     text-align: center;
     transform: translateY(0%);

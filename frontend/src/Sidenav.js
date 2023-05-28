@@ -7,8 +7,8 @@ import { setUserSetting, updateSeason } from './redux/userSettingSlice';
 import { addUserCar, updateType, updateVersion, updateRange, updateInfo, updateCharMIN, updateMaxRange, resetUserCar, resetUserCarType, resetUserCarVersion, resetUserCarMaxRange } from './redux/userCarSlice';
 
 const Sidenav = (props) => {
-  const [isSidenavOpen, setIsSidenavOpen] = useState(false);
-  const [isHamburgerMenuVisible, setIsHamburgerMenuVisible] = useState(true);
+  const [isSidenavOpen, setIsSidenavOpen] = useState(true);
+  const [isHamburgerMenuVisible, setIsHamburgerMenuVisible] = useState(false);
   const [companies, setCompanies] = useState([]);
   const [selectedCompany, setSelectedCompany] = useState("");
   const [carModels, setCarModels] = useState([]);
