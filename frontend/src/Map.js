@@ -28,10 +28,6 @@ function Map() {
 		const object = userMarkInfo.find((marker) => marker.id === id);
 		return object ? object.range : null;
 	};
-	const getAddedRangeById = (id) => {
-		const object = userMarkInfo.find((marker) => marker.id === id);
-		return object ? object.addedRange : null;
-	};
 
 
 	const handleMapIdle = () => {
@@ -41,7 +37,7 @@ function Map() {
 
 	useEffect(() => {
 		if (map) {
-		map.addListener('idle', handleMapIdle);
+			map.addListener('idle', handleMapIdle);
 		}
 	}, [map]);
 
@@ -69,10 +65,10 @@ function Map() {
 		if (markers.length > 0) {
 			for (let i = 0; i < markers.length; i++) {
 				if (i > 0 && markers[i].id !== '') {
-				idList += ',';
+					idList += ',';
 				}
 				if (markers[i].id) {
-				idList += markers[i].id;
+					idList += markers[i].id;
 				}
 			}
 		}
@@ -101,77 +97,77 @@ function Map() {
 	const parseJsonResponse = (data) => {
 		const newMarkers = [];
 		if (data && data.length >= 1) {
-		for (let i = 0; i < data.length; i++) {
-			const markerData = data[i];
-			newMarkers.push({
-				id: markerData.id,
-				latlng: markerData.latlng,
-				content: {
-					name: markerData.name,
-					connector: markerData.connector,
-					adress: markerData.adress,
-					description: markerData.description,
-					maxChargingCapacity: markerData.maxChargingCapacity,
-					alreadyadded: markerData.alreadyadded
-				},
-			});
-		}
+			for (let i = 0; i < data.length; i++) {
+				const markerData = data[i];
+				newMarkers.push({
+					id: markerData.id,
+					latlng: markerData.latlng,
+					content: {
+						name: markerData.name,
+						connector: markerData.connector,
+						adress: markerData.adress,
+						description: markerData.description,
+						maxChargingCapacity: markerData.maxChargingCapacity,
+						alreadyadded: markerData.alreadyadded
+					},
+				});
+			}
 		}
 		setMarkers([...markers, ...newMarkers]);
-	}
+	};
 
 	// Adds/removes the selected stations from the map and the Redux store
 	const handleStationClick = (marker) => {
 		const isSelected = selectedStations.some((station) => station.id === marker.id);
 
 		if (isSelected) {
-		const updatedStations = selectedStations.filter((station) => station.id !== marker.id);
-		setSelectedStations(updatedStations);
-		dispatch(deleteUserMarkSelect({ id: marker.id}));
+			const updatedStations = selectedStations.filter((station) => station.id !== marker.id);
+			setSelectedStations(updatedStations);
+			dispatch(deleteUserMarkSelect({ id: marker.id}));
 		} else {
-		if (carInfo.type && carInfo.version && carInfo.maxRange && carInfo.range && 
-			carInfo.battCap && carInfo.charSpeed && carInfo.lat && carInfo.lng &&
-			carInfo.charMIN) {
-			
-			let distanceM = 0;
-			let addRangeM = 0;
-			let rangeM = 0;
-			let checkRange = 0;
-			const maxChargeM = getCharCap(marker.content.maxChargingCapacity);
-			if (selectedStations.length === 0) {
-				distanceM = mapPointDistanceCalculator(carInfo.lat, carInfo.lng, marker.latlng.lat, marker.latlng.lng);
-				addRangeM = getAddRange(carInfo.charMIN, maxChargeM, carInfo.charSpeed, carInfo.battCap, carInfo.maxRange, distanceM, carInfo.range);
-				rangeM = addRangeM + getRangeMarker(carInfo.range, distanceM);
-				checkRange = carInfo.range;
-			} else {
-				const lastStation = selectedStations[selectedStations.length - 1];
-				distanceM = mapPointDistanceCalculator(lastStation.lat, lastStation.lng, marker.latlng.lat, marker.latlng.lng);
-				addRangeM = getAddRange(carInfo.charMIN, maxChargeM, carInfo.charSpeed, carInfo.battCap, carInfo.maxRange, distanceM, getRangeById(lastStation.id));
-				rangeM = addRangeM + getRangeMarker(getRangeById(lastStation.id), distanceM);
-				checkRange = getRangeById(lastStation.id);
-				console.log(distanceM);
-				console.log(checkRange);
-			}
+			if (carInfo.type && carInfo.version && carInfo.maxRange && carInfo.range && 
+				carInfo.battCap && carInfo.charSpeed && carInfo.lat && carInfo.lng &&
+				carInfo.charMIN) {
+				
+				let distanceM = 0;
+				let addRangeM = 0;
+				let rangeM = 0;
+				let checkRange = 0;
+				const maxChargeM = getCharCap(marker.content.maxChargingCapacity);
+				if (selectedStations.length === 0) {
+					distanceM = mapPointDistanceCalculator(carInfo.lat, carInfo.lng, marker.latlng.lat, marker.latlng.lng);
+					addRangeM = getAddRange(carInfo.charMIN, maxChargeM, carInfo.charSpeed, carInfo.battCap, carInfo.maxRange, distanceM, carInfo.range);
+					rangeM = addRangeM + getRangeMarker(carInfo.range, distanceM);
+					checkRange = carInfo.range;
+				} else {
+					const lastStation = selectedStations[selectedStations.length - 1];
+					distanceM = mapPointDistanceCalculator(lastStation.lat, lastStation.lng, marker.latlng.lat, marker.latlng.lng);
+					addRangeM = getAddRange(carInfo.charMIN, maxChargeM, carInfo.charSpeed, carInfo.battCap, carInfo.maxRange, distanceM, getRangeById(lastStation.id));
+					rangeM = addRangeM + getRangeMarker(getRangeById(lastStation.id), distanceM);
+					checkRange = getRangeById(lastStation.id);
+					console.log(distanceM);
+					console.log(checkRange);
+				}
 
-			if (distanceM <= (checkRange*rangeDeviation)) {
-				const newStation = {
-					id: marker.id,
-					lat: marker.latlng.lat,
-					lng: marker.latlng.lng,
-				};
-				dispatch(addUserMarkSelect({
-					id: marker.id,
-					lat: marker.latlng.lat,
-					lng: marker.latlng.lng,
-					distance: distanceM,
-					range: rangeM,
-					maxCharge: maxChargeM,
-					addedRange: addRangeM,
-				}));
-				setSelectedStations([...selectedStations, newStation]);
+				if (distanceM <= (checkRange*rangeDeviation)) {
+					const newStation = {
+						id: marker.id,
+						lat: marker.latlng.lat,
+						lng: marker.latlng.lng,
+					};
+					dispatch(addUserMarkSelect({
+						id: marker.id,
+						lat: marker.latlng.lat,
+						lng: marker.latlng.lng,
+						distance: distanceM,
+						range: rangeM,
+						maxCharge: maxChargeM,
+						addedRange: addRangeM,
+					}));
+					setSelectedStations([...selectedStations, newStation]);
+				}
 			}
-		}
-		setSelectedMarker(marker);
+			setSelectedMarker(marker);
 		}
 	};
 
