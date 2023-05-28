@@ -266,7 +266,7 @@ const Sidenav = (props) => {
           </div>
             <div className={isActive ? 'informasjon active' : 'informasjon'} onClick={handleInfoClick}>
               <span className="infotext">
-                <p><h3>Info</h3></p>
+			  	<h3><p>Info</p></h3>
                 <br/>
                 <p>Etter valgt bil/modell/versjon så kan du endre på Batteristrøm 
                 og Ladetid. Helst før du velger ladestasjoner.</p>
