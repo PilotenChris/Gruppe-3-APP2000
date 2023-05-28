@@ -206,75 +206,75 @@ const Sidenav = (props) => {
         {selectedCarModel && (
           <div className="menu-container">
             <select
-  className="menu-dropdown"
-  value={selectedCarVersion}
-  onChange={handleCarVersionChange}
->
-  <option value="">Versjon</option>
-  {versions.map((version) => (
-    <option key={version} value={version}>
-      {version}
-    </option>
-  ))}
-</select>
+              className="menu-dropdown"
+              value={selectedCarVersion}
+              onChange={handleCarVersionChange}
+            >
+              <option value="">Versjon</option>
+              {versions.map((version) => (
+                <option key={version} value={version}>
+                  {version}
+                </option>
+              ))}
+            </select>
 
+          </div>
+        )}
+        <div className="batteriMeny">
+          <div className="menu-dropdown">
+            <label id="rangeBatteri">Batteristrøm xx%</label>
+            <label>20%</label>
+            <label id="maxLevel">100%</label>
+              <>
+                <Form.Range className="form"
+                  id="batteristrom-slider"
+                  min={0.2}
+                  max={1}
+                  step={0.01}
+                  value={batteripro}
+                  onChange={(e) => changeBatteristrom(parseFloat(e.target.value))}
+                />
+                <label id="currentValue">{Math.round(batteripro*100)}%</label>
+              </>
+          </div>
+          <div className="menu-dropdown">
+            <label id="ladetid">Ladetid på ladestasjon</label>
+            <label>5 min</label>
+            <label id="maxMin">120 min</label>
+              <>
+                <Form.Range className="form" 
+                  id="ladetid-slider"
+                  min={5}
+                  max={120}
+                  step={1}
+                  value={ladetid}
+                  onChange={(e) => changeLadetid(parseInt(e.target.value))}
+                />
+                <label id="currentValue">{ladetid} min</label>
+              </>
+          </div>
+          <div className="menu-dropdown">
+            <label id="årstall">Årstid</label>
+            <div>
+              <label id="sommer" className="årstid">Sommer</label>
+              <label className="switch">
+                <input type="checkbox" id="sjekkInn" onChange={doBold} />
+                <span className="slider round"></span>
+              </label>
+              <label id="vinter">Vinter</label>
+            </div>
+          </div>
+            <div className={isActive ? 'informasjon active' : 'informasjon'} onClick={handleInfoClick}>
+              <span className="infotext">
+                <p><h3>Info</h3></p>
+                <br/>
+                <p>Etter valgt bil/modell/versjon så kan du endre på Batteristrøm 
+                og Ladetid. Helst før du velger ladestasjoner.</p>
+              </span>
+          </div>
         </div>
-      )}
-   <div className="batteriMeny">
-     <div className="menu-dropdown">
-      <label id="rangeBatteri">Batteristrøm xx%</label>
-      <label>20%</label>
-      <label id="maxLevel">100%</label>
-         <>
-            <Form.Range className="form"
-              id="batteristrom-slider"
-              min={0.2}
-              max={1}
-              step={0.01}
-              value={batteripro}
-              onChange={(e) => changeBatteristrom(parseFloat(e.target.value))}
-            />
-           <label id="currentValue">{Math.round(batteripro*100)}%</label>
-         </>
-     </div>
-     <div className="menu-dropdown">
-     <label id="ladetid">Ladetid på ladestasjon</label>
-      <label>5 min</label>
-      <label id="maxMin">120 min</label>
-         <>
-            <Form.Range className="form" 
-              id="ladetid-slider"
-              min={5}
-              max={120}
-              step={1}
-              value={ladetid}
-              onChange={(e) => changeLadetid(parseInt(e.target.value))}
-            />
-            <label id="currentValue">{ladetid} min</label>
-         </>
-     </div>
-     <div className="menu-dropdown">
-      <label id="årstall">Årstid</label>
-      <div>
-        <label id="sommer" className="årstid">Sommer</label>
-     <label className="switch">
-     <input type="checkbox" id="sjekkInn" onChange={doBold} />
-     <span className="slider round"></span>
-    </label>
-    <label id="vinter">Vinter</label>
-    </div>
-     </div>
-       <div className={isActive ? 'informasjon active' : 'informasjon'} onClick={handleInfoClick}>
-        <span className="infotext">
-          <p><h3>Info</h3></p>
-          <br/>
-          <p>Etter valgt bil/modell/versjon så kan du endre på Batteristrøm 
-          og Ladetid. Helst før du velger ladestasjoner.</p>
-        </span>
-     </div>
-    </div>
-    </div>
-    <div style={{ position: "relative", height: "100%", width: "100%" }}>
+      </div>
+      <div style={{ position: "relative", height: "100%", width: "100%" }}>
         {isHamburgerMenuVisible && (
           <span
             className="hamburger-meny"
@@ -283,15 +283,15 @@ const Sidenav = (props) => {
           >
           </span>
         )}
-      <div className="App" style={{ height: "100%", width: "100%" }}>
-        {props.children}
+        <div className="App" style={{ height: "100%", width: "100%" }}>
+          {props.children}
+        </div>
+        <button id="adminBtn" onClick={handleAdminClick}>
+          Admin
+        </button>
       </div>
-      <button id="adminBtn" onClick={handleAdminClick}>
-      Admin
-    </button>
-    </div>
-  </> 
-);
+    </> 
+  );
 };
 
 export default Sidenav;
