@@ -1,5 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+// Chris
+// Redux slice for car
 const userSettingSlice = createSlice({
     name: 'userSetting',
     initialState: {

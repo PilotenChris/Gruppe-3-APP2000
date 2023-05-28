@@ -1,5 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+// Chris
+// Redux slice for markers
 const userMarkSelectSlice = createSlice({
     name: 'userMarkSelect',
     initialState: [],

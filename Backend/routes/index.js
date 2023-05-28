@@ -26,6 +26,7 @@ function writeError(res) {
 }
 
 // Parse the respons and send the desired data to the frontend
+// Chris
 function parseJsonResponse(data) {
 	const newMarkers = [];
 	if (data && data.chargerstations && data.chargerstations.length >= 1) {
@@ -76,6 +77,7 @@ const routes = (app) => {
 
 	// Gets data from the frontend and get the station requested
 	// from the NOBIL API, and send to the parseJsonResponse()
+	// Chris
 	app.post("/charger-stations", async (req, res) => {
 		let bounds = req.body.bounds;
 		let existingIds = req.body.existingIds;
@@ -95,17 +97,20 @@ const routes = (app) => {
 	});
 
 	// Deliver all companies in JSON format
+	// Helge
 	app.get("/ElCars", (req, res) => {
 		getCompanies().then(writeData(res), writeError(res));
 	});
 
 	// Deliver a specific car in JSON format
+	// Helge
 	app.get("/ElCars/:company/", (req, res) => {
 		let company = req.params["company"];
 		getCars(company).then(writeData(res), writeError(res));
 	});
 
 	// Deliver a specific car and version in JSON format
+	// Helge
 	app.get("/ElCars/:company/:car/", (req, res) => {
 		let company = req.params["company"];
 		let car = req.params["car"];
@@ -125,6 +130,7 @@ const routes = (app) => {
 	});
 
 	// Deliver range, battery and charging information in JSON format
+	// Helge
 	app.get("/ElCars/:company/:car/:version", (req, res) => {
 		let company = req.params["company"];
 		let car = req.params["car"];
@@ -133,6 +139,7 @@ const routes = (app) => {
 	});
 
 	// Insert a company into the database
+	// Helge
 	app.post("/ElCars/:company", (req, res) => {
 		let company = req.params["company"];
 		setCompanies(company).then(() => {
@@ -141,6 +148,7 @@ const routes = (app) => {
 	});
 
 	// Insert car details from a webpage into the database
+	// Helge
 	app.post("/ElCars/:company/:car/:version", (req, res) => {
 		let company = req.params["company"];
 		let carModel = req.params["car"];
@@ -155,6 +163,7 @@ const routes = (app) => {
 	});
 
 	// Edit a company in the database
+	// Helge
 	app.put("/ElCars/:oldCompany/:newCompany", (req, res) => {
 		let oldCompany = req.params["oldCompany"];
 		let newCompany = req.params["newCompany"];
@@ -164,6 +173,7 @@ const routes = (app) => {
 	});
 
 	// Edit car details in the database
+	// Helge
 	app.put("/ElCars/:company/:oldCarModel/:newCarModel/:oldVersion/:newVersion", (req, res) => {
 		let company = req.params["company"];
 		let oldCarModel = req.params["oldCarModel"];
@@ -183,6 +193,7 @@ const routes = (app) => {
 	});
 
 	// Delete a company from database
+	// Helge
 	app.delete("/ElCars/:company", (req, res) => {
 		let company = req.params["company"];
 		deleteCompany(company).then(() => {
@@ -191,6 +202,7 @@ const routes = (app) => {
 	});
 
 	// Delete a car model from database
+	// Helge
 	app.delete("/ElCars/:company/:car", (req, res) => {
 		let company = req.params["company"];
 		let carModel = req.params["car"];
@@ -200,6 +212,7 @@ const routes = (app) => {
 	});
 
 	// Create new admin account
+	// Helge
 	app.post("/Admin", (req, res) => {
 		let email = req.body.email;
 		let password = req.body.password;
@@ -215,6 +228,7 @@ const routes = (app) => {
 	});
 
   // Authenticating login and generateing access token
+  // Helge
   app.post('/Admin/login', async (req, res) => {
     let username = req.body.username;
     let password = req.body.password;

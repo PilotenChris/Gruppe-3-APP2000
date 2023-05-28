@@ -27,6 +27,7 @@ const Sidenav = (props) => {
   dispatch(setUserSetting(1.0));
 
   // Update the the starting range of the Car in the Redux store
+  // Chris
   const changeBatteristrom = (batterystromPro) => {
     if (selectedCarVersion.length > 0) {
       const newRange = (selectedCarDetails.Details["Range (km)"]*batterystromPro);
@@ -42,6 +43,7 @@ const Sidenav = (props) => {
   };
   
   // Update the charging time for the Car in the Redux store
+  // Chris
   const changeLadetid = (chargingtime) => {
     if (selectedCarVersion.length > 0) {
       dispatch(updateCharMIN({ charMIN: chargingtime}));
@@ -50,6 +52,7 @@ const Sidenav = (props) => {
   };
 
   // Update the details of the car in the Redux store
+  // Chris
   const updateCarDetails = (carDetails) => {
     const newRange = (carDetails.Details["Range (km)"]*batteripro);
 	const maxRange = carDetails.Details["Range (km)"];
@@ -104,6 +107,7 @@ const Sidenav = (props) => {
     navigate('/login');
   };
 
+  // Helge, (Chris added dispatch)
   const handleCompanyChange = (event) => {
     const company = event.target.value;
     setSelectedCompany(company);
@@ -120,6 +124,7 @@ const Sidenav = (props) => {
       .then((data) => setCarModels(data));
   };
 
+  // Helge, (Chris added dispatch)
   const handleCarModelChange = (event) => {
     const carModel = event.target.value;
     setSelectedCarModel(carModel);
@@ -135,6 +140,7 @@ const Sidenav = (props) => {
       .then((data) => setVersions(data[0].Versions));
   };
 
+  // Helge, (Chris added dispatch and updateCarDetails)
   const handleCarVersionChange = (event) => {
     const carVersion = event.target.value;
     setSelectedCarVersion(carVersion);

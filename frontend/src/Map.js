@@ -24,6 +24,7 @@ function Map() {
 	const userSettingInfo = useSelector((state) => state.userSetting);
 
 	// Gets the calculated range of the selected marker by id
+	// Chris
 	const getRangeById = (id) => {
 		const object = userMarkInfo.find((marker) => marker.id === id);
 		return object ? object.range : null;
@@ -44,6 +45,7 @@ function Map() {
 	const [circlePos, setCirclePos] = useState(null);
 
 	// Set the car starting point on the map and in the Redux store
+	// Chris & Kevin
 	const handleMapClick = (ev) => {
 		if (carInfo.type && carInfo.version && carInfo.maxRange && carInfo.range) {
 			const {latLng} = ev;
@@ -60,6 +62,7 @@ function Map() {
 	};
 
 	// Get all charging stations and details, from our REST API
+	// Chris
 	const getChargerJson = (bounds) => {
 		let idList = '';
 		if (markers.length > 0) {
@@ -94,6 +97,7 @@ function Map() {
 	};
 
 	// Parse the Json sent from our REST API to show stations detail
+	// Chris
 	const parseJsonResponse = (data) => {
 		const newMarkers = [];
 		if (data && data.length >= 1) {
@@ -117,6 +121,7 @@ function Map() {
 	};
 
 	// Adds/removes the selected stations from the map and the Redux store
+	// Chris
 	const handleStationClick = (marker) => {
 		const isSelected = selectedStations.some((station) => station.id === marker.id);
 
@@ -175,6 +180,7 @@ function Map() {
 	};
 
 	// Get the range left after getting to the station
+	// Chris
 	const getRangeMarker = (rangeMC, distanceMC) => {
 		let rangeM = null;
 		rangeM = rangeMC - distanceMC;
@@ -182,6 +188,7 @@ function Map() {
 	};
 
 	// Calculate the charged range
+	// Chris
 	const getAddRange = (charMinC, maxChargeM, charSpeedC, battCapC, maxRangeC, distanceMC, rangeMC) => {
 		let rangeLeft = rangeMC - distanceMC;
 		let newRange = null;
@@ -201,6 +208,7 @@ function Map() {
 	};
 
 	// Extract the charging capasity from the string given from the NOBIL API
+	// Chris
 	const getCharCap = (charCapString) => {
 		const regex = /([\d,.]+)\s*kW/;
 		const capacityMatch = charCapString.match(regex);
@@ -213,6 +221,7 @@ function Map() {
 
 	// Calculate distanse between the starting point and the selected station on the map
 	// by using the Haversine formula
+	// Chris
 	const mapPointDistanceCalculator = (lat1, lng1, lat2, lng2) => {
 		const toRad = (value) => (value * Math.PI) / 180;
 		const earthRadius = 6371; // Earth radius in kilometers
@@ -238,6 +247,7 @@ function Map() {
 		disableDefaultUI: true,
 		zoom: false,
 	}
+	// Kevin mostly google API & Chris mostly integrating NOBIL stations to the map
 	if (!isLoaded) {
 		return <div>...Loading...</div>;
 	}
