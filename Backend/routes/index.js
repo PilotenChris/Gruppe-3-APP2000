@@ -25,7 +25,7 @@ function writeError(res) {
 	};
 }
 
-
+// Parse the respons and send the desired data to the frontend
 function parseJsonResponse(data) {
 	const newMarkers = [];
 	if (data && data.chargerstations && data.chargerstations.length >= 1) {
@@ -74,6 +74,8 @@ function parseJsonResponse(data) {
 const routes = (app) => {
 	const apiKey = process.env.REACT_APP_API_KEY;
 
+	// Gets data from the frontend and get the station requested
+	// from the NOBIL API, and send to the parseJsonResponse()
 	app.post("/charger-stations", async (req, res) => {
 		let bounds = req.body.bounds;
 		let existingIds = req.body.existingIds;

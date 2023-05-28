@@ -26,6 +26,7 @@ const Sidenav = (props) => {
 
   dispatch(setUserSetting(1.0));
 
+  // Update the the starting range of the Car in the Redux store
   const changeBatteristrom = (batterystromPro) => {
     if (selectedCarVersion.length > 0) {
       const newRange = (selectedCarDetails.Details["Range (km)"]*batterystromPro);
@@ -40,6 +41,7 @@ const Sidenav = (props) => {
     }
   };
   
+  // Update the charging time for the Car in the Redux store
   const changeLadetid = (chargingtime) => {
     if (selectedCarVersion.length > 0) {
       dispatch(updateCharMIN({ charMIN: chargingtime}));
@@ -47,16 +49,17 @@ const Sidenav = (props) => {
     }
   };
 
+  // Update the details of the car in the Redux store
   const updateCarDetails = (carDetails) => {
     const newRange = (carDetails.Details["Range (km)"]*batteripro);
-      const maxRange = carDetails.Details["Range (km)"];
-      dispatch(updateInfo({
-        battCap: carDetails.Details["Battery Capacity (kWh)"],
-        charSpeed: carDetails.Details["Charging Speed (kW)"]
-      }));
-      dispatch(updateMaxRange({ maxRange: maxRange}));
-      dispatch(updateRange({ range: newRange}));
-      dispatch(updateCharMIN({ charMIN: ladetid}));
+	const maxRange = carDetails.Details["Range (km)"];
+	dispatch(updateInfo({
+		battCap: carDetails.Details["Battery Capacity (kWh)"],
+		charSpeed: carDetails.Details["Charging Speed (kW)"]
+	}));
+	dispatch(updateMaxRange({ maxRange: maxRange}));
+	dispatch(updateRange({ range: newRange}));
+	dispatch(updateCharMIN({ charMIN: ladetid}));
   }
 
 

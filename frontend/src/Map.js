@@ -23,7 +23,7 @@ function Map() {
 	const userMarkInfo = useSelector((state) => state.userMarkSelect);
 	const userSettingInfo = useSelector((state) => state.userSetting);
 
-
+	// Gets the calculated range of the selected marker by id
 	const getRangeById = (id) => {
 		const object = userMarkInfo.find((marker) => marker.id === id);
 		return object ? object.range : null;
@@ -125,6 +125,7 @@ function Map() {
 			setSelectedStations(updatedStations);
 			dispatch(deleteUserMarkSelect({ id: marker.id}));
 		} else {
+			// Checks if the Redux store has enough data needed before adding stations
 			if (carInfo.type && carInfo.version && carInfo.maxRange && carInfo.range && 
 				carInfo.battCap && carInfo.charSpeed && carInfo.lat && carInfo.lng &&
 				carInfo.charMIN) {
@@ -134,6 +135,8 @@ function Map() {
 				let rangeM = 0;
 				let checkRange = 0;
 				const maxChargeM = getCharCap(marker.content.maxChargingCapacity);
+				// Checks if there are any stations inside the Redux store 
+				// before calculating range from the car/station for the next station
 				if (selectedStations.length === 0) {
 					distanceM = mapPointDistanceCalculator(carInfo.lat, carInfo.lng, marker.latlng.lat, marker.latlng.lng);
 					addRangeM = getAddRange(carInfo.charMIN, maxChargeM, carInfo.charSpeed, carInfo.battCap, carInfo.maxRange, distanceM, carInfo.range);
@@ -148,7 +151,7 @@ function Map() {
 					console.log(distanceM);
 					console.log(checkRange);
 				}
-
+				// Checks if the station is out of range or not
 				if (distanceM <= (checkRange*rangeDeviation)) {
 					const newStation = {
 						id: marker.id,
