@@ -11,6 +11,8 @@ const AdminPage = () => {
         navigate('/admin-page/create-admin')
     }
 
+    // Checking if user is logged in before accessing the page
+    // Helge
     useEffect(() => {
       const authenticationCheck = async () => {
         try {

@@ -18,6 +18,8 @@ const Update = () => {
   const [responseMessage, setResponseMessage] = useState('');
   const [responseMessage2, setResponseMessage2] = useState('');
 
+  // Checking if user is logged in before accessing the page
+  // Helge
   useEffect(() => {
     const authenticationCheck = async () => {
       try {
@@ -46,14 +48,18 @@ const Update = () => {
     authenticationCheck();
   }, [navigate]);
 
+
+  // Fetching list of companies from the database
+  // Helge
   useEffect(() => {
-    // Fetching list of companies from the database
     fetch("http://localhost:3030/ElCars")
       .then((response) => response.json())
       .then((data) => setCompanies(data))
       .catch((error) => console.error('Error fetching companies:', error));
   }, []);
 
+  // Fetching all cars of a company
+  // Helge
   useEffect(() => {
     if (selectedCompany) {
       fetch(`http://localhost:3030/ElCars/${selectedCompany}`)
@@ -63,6 +69,8 @@ const Update = () => {
     }
   }, [selectedCompany]);
 
+  // Fetching all versions of a selected car model
+  // Helge
   useEffect(() => {
     setVersionName([]);
     if (selectedCompany && selectedCar) {
@@ -78,9 +86,10 @@ const Update = () => {
     navigate('/admin-page/create-admin');
   };
 
+  // Extracting old and new company names from textbox
+  // Helge
   const handleSubmitComp = (event) => {
     event.preventDefault();
-    // Extracting old and new company names from textbox
     const [oldCompany, newCompany] = companyNames.split(';');
 
     // Making the PUT request to edit the company name
@@ -99,6 +108,7 @@ const Update = () => {
       });
   };
 
+  // Helge
   const handleSubmitCar = (event) => {
     event.preventDefault();
   

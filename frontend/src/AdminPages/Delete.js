@@ -14,6 +14,8 @@ const Delete = () => {
     const [responseMessage1, setResponseMessage1] = useState('');
     const [responseMessage2, setResponseMessage2] = useState('');
 
+  // Checking if user is logged in before accessing the page
+  // Helge
    useEffect(() => {
     const authenticationCheck = async () => {
       try {
@@ -52,6 +54,8 @@ const Delete = () => {
         fetchCarModels();
       }, []);
 
+      // Fetching all companies from the database
+      // Helge
       const fetchCompanies = () => {
         fetch('http://localhost:3030/ElCars')
           .then((response) => response.json())
@@ -63,6 +67,8 @@ const Delete = () => {
           });
       };
 
+      // Fetching all car models of a company from the database
+      // Helge
       const fetchCarModels = (selectedCompany) => {
         fetch(`http://localhost:3030/ElCars/${selectedCompany}`)
           .then((response) => response.json())
@@ -79,7 +85,8 @@ const Delete = () => {
       };
       
     
-
+    // Deleting a company from database
+    // Helge
     const handleDeleteCompany = (event) => {
         event.preventDefault();
         const selectedCompany = document.getElementById('deleteSelskap').value;
@@ -99,6 +106,8 @@ const Delete = () => {
           });
       };
 
+      // Deleting a car model from the database
+      // Helge
       const handleDeleteCar = (event) => {
         event.preventDefault();
         const selectedCompany = document.getElementById('deleteSelskap').value;
@@ -138,6 +147,7 @@ const Delete = () => {
         <div className='adminPage'>
             <button id='adminKnp' onClick={createAdmin}>Create Admin</button>
         </div>
+
         <header className='header'>
         <div className='selskap'>
            <h2 className='headline'>Selskap</h2>
@@ -150,6 +160,7 @@ const Delete = () => {
             <button id='deleteBtnSelskap' onClick={handleDeleteCompany}>Delete</button>  
                 <p>{responseMessage1}</p>
             </div>
+
             <div className='bil'>
                 <h2 className='headline'>Bil</h2>
                 <select id='deleteBil'>
@@ -157,7 +168,6 @@ const Delete = () => {
                   {carModels.map((carModel) => (
                   <option key={carModel} value={carModel}>{carModel}</option>
                 ))}
-
             </select> 
             <button id='deleteBtnBil' onClick={handleDeleteCar}>Delete</button>  
             <p>{responseMessage2}</p>

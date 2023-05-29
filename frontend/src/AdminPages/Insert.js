@@ -17,6 +17,8 @@ const Insert = () => {
     const [responseMessage, setResponseMessage] = useState('');
     const [responseMessage2, setResponseMessage2] = useState('');
 
+    // Checking if user is logged in before accessing the page
+    // Helge
     useEffect(() => {
       const authenticationCheck = async () => {
         try {
@@ -45,7 +47,8 @@ const Insert = () => {
       authenticationCheck();
     }, [navigate]);
 
-    // Fetching the list of companies from the database
+    // Fetching all companies from the database
+    // Helge
     useEffect(() => {
       fetch("http://localhost:3030/ElCars")
         .then((response) => response.json())
@@ -58,6 +61,8 @@ const Insert = () => {
         navigate('/admin-page/create-admin')
     }
 
+    // Handle for inserting a company name into the database
+    // Helge
     const handleTextSubmit = (event) => {
         event.preventDefault();
         // Making the POST request to insert a company
@@ -76,6 +81,8 @@ const Insert = () => {
           });
       };
 
+      // Handle submitting a car model, version and details into database
+      // Helge
       const handleCarSubmit = (event) => {
         event.preventDefault();
     

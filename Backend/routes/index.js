@@ -102,14 +102,14 @@ const routes = (app) => {
 		getCompanies().then(writeData(res), writeError(res));
 	});
 
-	// Deliver a specific car in JSON format
+	// Deliver a specific car model in JSON format
 	// Helge
 	app.get("/ElCars/:company/", (req, res) => {
 		let company = req.params["company"];
 		getCars(company).then(writeData(res), writeError(res));
 	});
 
-	// Deliver a specific car and version in JSON format
+	// Deliver a specific car model and version in JSON format
 	// Helge
 	app.get("/ElCars/:company/:car/", (req, res) => {
 		let company = req.params["company"];
@@ -147,7 +147,7 @@ const routes = (app) => {
 		}, writeError(res));
 	});
 
-	// Insert car details from a webpage into the database
+	// Insert car details into the database
 	// Helge
 	app.post("/ElCars/:company/:car/:version", (req, res) => {
 		let company = req.params["company"];
@@ -162,7 +162,7 @@ const routes = (app) => {
 		}, writeError(res));
 	});
 
-	// Edit a company in the database
+	// Edit a existing company in the database
 	// Helge
 	app.put("/ElCars/:oldCompany/:newCompany", (req, res) => {
 		let oldCompany = req.params["oldCompany"];
@@ -172,7 +172,7 @@ const routes = (app) => {
 		}, writeError(res));
 	});
 
-	// Edit car details in the database
+	// Edit existing car details in the database
 	// Helge
 	app.put("/ElCars/:company/:oldCarModel/:newCarModel/:oldVersion/:newVersion", (req, res) => {
 		let company = req.params["company"];

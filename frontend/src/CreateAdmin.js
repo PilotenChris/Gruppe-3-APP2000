@@ -9,6 +9,8 @@ const CreateAdmin = () => {
   const [responseMessage, setResponseMessage] = useState('');
   const navigate = useNavigate();
 
+  // Checking if user is logged in before accessing the page
+  // Helge
   useEffect(() => {
     const authenticationCheck = async () => {
       try {
@@ -37,7 +39,8 @@ const CreateAdmin = () => {
     authenticationCheck();
   }, [navigate]);
   
-
+  // Handling creating admin account
+  // Helge
   const handleSignin = () => {
     // Creating request body
     const requestBody = {

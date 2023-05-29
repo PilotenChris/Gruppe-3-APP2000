@@ -7,6 +7,8 @@ const AdminLogin = () => {
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
+  // Handling login attempt from user
+  // Helge
   const handleLogin = async () => {
     try {
       const response = await fetch('http://localhost:3030/Admin/login', {
@@ -20,6 +22,7 @@ const AdminLogin = () => {
         }),
       });
   
+      // Navigates user to admin-page if login is succesfull
       if (response.status === 200) {
         navigate('/admin-page');
         const data = await response.json();

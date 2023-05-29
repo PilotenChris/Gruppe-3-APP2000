@@ -9,6 +9,7 @@ const client = new MongoClient(config.db.url);
 // Functions:
 
 // Get all companies from the database
+// Helge
 async function getCompanies() {
   let result = [];
   try {
@@ -25,7 +26,8 @@ async function getCompanies() {
   return result;
 }
 
-// Get all cars from a selected company
+// Get all car models from a selected company
+// Helge
 async function getCars(company) {
   let result = [];
   try {
@@ -46,6 +48,7 @@ async function getCars(company) {
 }
 
 // Get all details of a chosen car model and version
+// Helge
 async function getCarDetails(company, carModel, version) {
   let result = [];
   try {
@@ -92,6 +95,7 @@ async function getCarDetails(company, carModel, version) {
 }
 
 // Inser a new company into database
+// Helge
 async function setCompanies(company) {
   try {
     await client.connect();
@@ -114,6 +118,7 @@ async function setCompanies(company) {
 }
 
 // Insert a new car into the database
+// Helge
 async function setCars(company, carModel, version, range, batteryCapacity, chargingSpeed) {
   try {
     await client.connect();
@@ -162,6 +167,7 @@ async function setCars(company, carModel, version, range, batteryCapacity, charg
 }
 
 // Edit a company name in the database
+// Helge
 async function editCompanies(oldCompany, newCompany) {
   try {
     await client.connect();
@@ -196,6 +202,7 @@ async function editCompanies(oldCompany, newCompany) {
 }
 
 // Edit a car model, version and details
+// Helge
 async function editCars(company, oldCarModel, newCarModel, oldVersion, newVersion, updatedDetails) {
   try {
     await client.connect();
@@ -232,6 +239,7 @@ async function editCars(company, oldCarModel, newCarModel, oldVersion, newVersio
         carDetails.charging_speed_kW[version] = carDetails.charging_speed_kW[version] || carDetails.charging_speed_kW[oldVersion];
       });
     }
+    // Update details of a car version
     if (newVersion) {
       const versionIndex = carDetails.versions.indexOf(oldVersion);
       if (versionIndex > -1) {
@@ -269,7 +277,8 @@ async function editCars(company, oldCarModel, newCarModel, oldVersion, newVersio
 }
 
 
-  // Delete a company from the database
+// Delete a company from the database
+// Helge
 async function deleteCompany(company) {
   try {
     await client.connect();
@@ -294,6 +303,7 @@ async function deleteCompany(company) {
   }
 }
 // Delete a car model from the database
+// Helge
 async function deleteCarModel(company, carModel) {
   try {
     await client.connect();
@@ -327,6 +337,7 @@ async function deleteCarModel(company, carModel) {
 }
 
 // Encrypt/hash password
+// Helge
 async function hashPassword(password) {
   const saltRounds = 10;
   const hashedPassword = await bcrypt.hash(password, saltRounds);
@@ -334,6 +345,7 @@ async function hashPassword(password) {
 }
 
 // Create a new admin account
+// Helge
 async function createAdminAccount(email, password, isSuperAdmin) {
   try {
     await client.connect();
@@ -362,6 +374,7 @@ async function createAdminAccount(email, password, isSuperAdmin) {
 }
 
 // Verifying user account for login
+// Helge
 async function adminLogin(username, password) {
   try {
     await client.connect();
