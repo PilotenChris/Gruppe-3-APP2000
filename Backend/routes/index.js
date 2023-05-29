@@ -237,7 +237,6 @@ const routes = (app) => {
 
       if (isAuthenticated) {
         // Generating token for admin
-		console.log(process.env.JWT_SECRET);
         const token = jwt.sign({ isAdmin: true }, process.env.JWT_SECRET, { expiresIn: '1m' });
         res.json({ token });
       } else {
