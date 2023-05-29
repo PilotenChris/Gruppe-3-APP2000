@@ -45,8 +45,8 @@
   }
   .infotext{
     visibility: hidden;
-    width: 240px;
-    height: 240px;
+    width: 230px;
+    height: 145px;
     background-color: white;
     color: black;
     text-align: center;
@@ -55,7 +55,7 @@
     position: absolute;
     z-index: 1;
     border-radius: 30px;
-    margin-left: 5px;
+    margin-left: 10px;
   }
   .informasjon.active .infotext{
     visibility: visible;
