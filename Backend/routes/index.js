@@ -80,11 +80,10 @@ const routes = (app) => {
 	// Chris
 	app.post("/charger-stations", async (req, res) => {
 		let bounds = req.body.bounds;
-		let existingIds = req.body.existingIds;
 		let ne = bounds.ne;
 		let sw = bounds.sw;
 
-		const apiUrl = `https://nobil.no/api/server/search.php?apikey=${apiKey}&apiversion=3&action=search&type=rectangle&northeast=${ne}&southwest=${sw}&existingids=${existingIds}`;
+		const apiUrl = `https://nobil.no/api/server/search.php?apikey=${apiKey}&apiversion=3&action=search&type=rectangle&northeast=${ne}&southwest=${sw}`;
 
 		try {
 			const response = await fetch(apiUrl);
