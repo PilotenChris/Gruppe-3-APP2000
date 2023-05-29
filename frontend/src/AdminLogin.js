@@ -44,6 +44,7 @@ const AdminLogin = () => {
     <body>
       <div className='loginSide'>
         <header>
+          {/* Omar & Truls added header and log in form for administrator */}
           <h1>Innlogging</h1>
           <input
             type="text"
@@ -60,6 +61,7 @@ const AdminLogin = () => {
           </button>
         </header>
       </div>
+      {/* Omar & Truls added footer */}
       <footer className='footerLoginCreate'>
         <p>&#169; 2023 Gruppe 3 USN</p>
       </footer>

@@ -170,6 +170,7 @@ const Sidenav = (props) => {
 
   return (
     <>
+    {/* Omar added sidevan component */}
       <div
         id="mySidenav"
         className="sidenav"
@@ -179,9 +180,11 @@ const Sidenav = (props) => {
           zIndex: "1"
         }}
       >
+        {/* Omar added close button*/}
         <button className="closebtn" onClick={closeSidenav}>
           &times;
         </button>
+        {/* Omar added Company dropdown*/}
         <div className="menu-container">
           <select
             className="menu-dropdown"
@@ -196,6 +199,7 @@ const Sidenav = (props) => {
             ))}
           </select>
         </div>
+         {/* Omar added Car model dropdown*/}
         {selectedCompany && (
           <div className="menu-container">
             <select
@@ -212,6 +216,7 @@ const Sidenav = (props) => {
             </select>
           </div>
         )}
+         {/* Omar added Car version dropdown*/}
         {selectedCarModel && (
           <div className="menu-container">
             <select
@@ -229,12 +234,14 @@ const Sidenav = (props) => {
 
           </div>
         )}
+         {/* Omar added: Battery menu*/}
         <div className="batteriMeny">
           <div className="menu-dropdown">
             <label id="rangeBatteri">Batteristrøm xx%</label>
             <label>20%</label>
             <label id="maxLevel">100%</label>
               <>
+               {/*Omar added: Battery power range slider*/}
                 <Form.Range className="form"
                   id="batteristrom-slider"
                   min={0.2}
@@ -246,11 +253,13 @@ const Sidenav = (props) => {
                 <label id="currentValue">{Math.round(batteripro*100)}%</label>
               </>
           </div>
+           {/*Omar added Charging time menu*/}
           <div className="menu-dropdown">
             <label id="ladetid">Ladetid på ladestasjon</label>
             <label>5 min</label>
             <label id="maxMin">120 min</label>
               <>
+               {/*Omar added Charging time slider*/}
                 <Form.Range className="form" 
                   id="ladetid-slider"
                   min={5}
@@ -262,6 +271,7 @@ const Sidenav = (props) => {
                 <label id="currentValue">{ladetid} min</label>
               </>
           </div>
+           {/*Omar added Season toggleswitch button*/}
           <div className="menu-dropdown">
             <label id="årstall">Årstid</label>
             <div>
@@ -273,6 +283,7 @@ const Sidenav = (props) => {
               <label id="vinter">Vinter</label>
             </div>
           </div>
+           {/*Kevin & Truls added Information */}
             <div className={isActive ? 'informasjon active' : 'informasjon'} onClick={handleInfoClick}>
               <span className="infotext">
 			  	<h3><p>Info</p></h3>
@@ -283,6 +294,7 @@ const Sidenav = (props) => {
           </div>
         </div>
       </div>
+       {/*Omar added Main content*/}
       <div style={{ position: "relative", height: "100%", width: "100%" }}>
         {isHamburgerMenuVisible && (
           <span

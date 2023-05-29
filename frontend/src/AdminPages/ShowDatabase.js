@@ -44,6 +44,7 @@ const ShowDatabase = () => {
     return (
         <body className='adminSider'>
         <div>
+           {/* Omar & Truls added navigation */}
          <nav className='nav'>
          <Link to="/" className="back-to-home">
           Home
@@ -55,6 +56,7 @@ const ShowDatabase = () => {
                 <li> <Link to="/admin-page/show-database">Show database</Link></li>
             </ul>
          </nav>
+          {/* Omar & Truls added create admin button */}
         <div className='adminPage'>
             <button id='adminKnp' onClick={createAdmin}>Create Admin</button>
         </div>
@@ -65,6 +67,7 @@ const ShowDatabase = () => {
         </header>
 
         </div>
+         {/* Omar & Truls added footer */}
         <footer className='footer'> 
             <p> Copyright &#169; 2023 Gruppe 3 USN</p>
         </footer>

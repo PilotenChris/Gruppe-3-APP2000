@@ -141,6 +141,7 @@ const Update = () => {
   return (
     <body className='adminSider'>
       <div>
+        {/* Omar & Truls added navigation */}
         <nav className='nav'>
           <Link to="/" className="back-to-home">
             Home
@@ -152,11 +153,13 @@ const Update = () => {
             <li> <Link to="/admin-page/show-database">Show database</Link></li>
           </ul>
         </nav>
+        {/* Omar & Truls added create admin button */}
         <div className='adminPage'>
           <button id='adminKnp' onClick={createAdmin}>Create Admin</button>
         </div>
-
+         {/* Omar & Truls added header */}
         <header className='header'>
+          {/* Omar & Truls added form to type inn old and new car names(;) and update button*/}
           <div className='selskap'>
             <h2 className='headline'>Selskap</h2>
             <form id='selskapForm' onSubmit={handleSubmitComp}>
@@ -168,7 +171,7 @@ const Update = () => {
               <p>{responseMessage}</p>
             </form>
           </div>
-
+          {/* Omar & Truls added form for user to choose, input and button to update  */}
           <div className="bil">
               <h2 className="headline">Bil</h2>
               <form id='bilForm' onSubmit={handleSubmitCar}>

@@ -114,6 +114,7 @@ const Insert = () => {
     return (
         <body className='adminSider'>
         <div>
+          {/* Omar & Truls added navigation */}
          <nav className='nav'>
          <Link to="/" className="back-to-home">
           Home
@@ -126,9 +127,12 @@ const Insert = () => {
             </ul>
          </nav>
         <div className='adminPage'>
+           {/* Omar & Truls added create admin button */}
             <button id='adminKnp' onClick={createAdmin}>Create Admin</button>
         </div>
+         {/* Omar & Truls added header */}
         <header className='header'>
+          {/* Omar & Truls added form to type inn car name and submit button*/}
             <div className='selskap'>
                 <h2 className='headline'>Selskap</h2>
                 <form id='selskapForm' onSubmit={handleTextSubmit}>
@@ -140,6 +144,7 @@ const Insert = () => {
                 <p>{responseMessage}</p>
                 </form>
             </div>
+            {/* Omar & Truls added form for user to choose, input and button to submit  */}
               <div className="bil">
               <h2 className="headline">Bil</h2>
               <form id='bilForm' onSubmit={handleCarSubmit}>
@@ -179,6 +184,7 @@ const Insert = () => {
             </div>
         </header>
         </div>
+        {/* Omar & Truls added footer */}
         <footer className='footer'> 
           <p> Copyright &#169; 2023 Gruppe 3 USN</p>
         </footer>

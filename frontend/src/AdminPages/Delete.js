@@ -133,6 +133,7 @@ const Delete = () => {
     return (
         <body className='adminSider'>
         <div>
+            {/* Omar & Truls added navigation */}
          <nav className='nav'>
          <Link to="/" className="back-to-home">
           Home
@@ -144,12 +145,15 @@ const Delete = () => {
                 <li> <Link to="/admin-page/show-database">Show database</Link></li>
             </ul>
          </nav>
+         {/* Omar & Truls added create admin button */}
         <div className='adminPage'>
             <button id='adminKnp' onClick={createAdmin}>Create Admin</button>
         </div>
-
+         {/* Omar & Truls added header */}
         <header className='header'>
+
         <div className='selskap'>
+          {/* Omar & Truls added dropdown options for company and deletee button*/}
            <h2 className='headline'>Selskap</h2>
            <select id='deleteSelskap' onChange={(e) => fetchCarModels(e.target.value)}>
            <option value=''>Velg selskap</option>
@@ -162,6 +166,7 @@ const Delete = () => {
             </div>
 
             <div className='bil'>
+               {/* Omar & Truls added dropdown options for cars and deletee button*/}
                 <h2 className='headline'>Bil</h2>
                 <select id='deleteBil'>
                 <option value=''>Velg bil</option>
@@ -174,6 +179,7 @@ const Delete = () => {
             </div>
         </header>
         </div>
+         {/* Omar & Truls added footer*/}
         <footer className='footer'> 
           <p> Copyright &#169; 2023 Gruppe 3 USN</p>
         </footer>
