@@ -14,7 +14,7 @@ const app = express();
 
 // Configure the app and routes
 
-app.use(cors({ origin: `http://localhost:3000` }));
+app.use(cors({ origin: `https://testgruppe3usnexpress.onrender.com` }));
 app.use(urlencoded({ extended: true }));
 app.use(json());
 
