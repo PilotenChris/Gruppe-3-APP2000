@@ -248,26 +248,6 @@ const routes = (app) => {
     }
   });
 
-  app.get('/Admin/login2', async (req, res) => {
-    let username = req.body.username;
-    let password = req.body.password;
-
-    try {
-      const isAuthenticated = await adminLogin(username, password);
-
-      if (isAuthenticated) {
-        // Generating token for admin
-        const token = jwt.sign({ isAdmin: true }, process.env.JWT_SECRET, { expiresIn: '1m' });
-        res.json({ token });
-      } else {
-        res.status(401).json({ message: 'Invalid credentials' });
-      }
-    } catch (error) {
-      console.error('Error authenticating:', error);
-      res.status(500).json({ message: 'Failed to authenticate' });
-    }
-  });
-
   // Catch all other requests and deliver an error message.
   app.get("*", function (req, res) {
     res.status(404);

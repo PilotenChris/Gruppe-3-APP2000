@@ -22,7 +22,7 @@ const AdminPage = () => {
             return;
           }
           
-          const response = await fetch("https://testgruppe3usnexpress.onrender.com/Admin/login2", {
+          const response = await fetch("/Admin/login", {
             method: 'GET',
             headers: {
               'Authorization': 'Bearer ' + accessToken
