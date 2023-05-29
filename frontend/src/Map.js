@@ -40,7 +40,7 @@ function Map() {
 		if (map) {
 			map.addListener('idle', handleMapIdle);
 		}
-	}, [map]);
+	}, [map, markers]);
 
 	const [circlePos, setCirclePos] = useState(null);
 
