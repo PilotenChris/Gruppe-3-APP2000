@@ -17,13 +17,12 @@ const AdminPage = () => {
       const authenticationCheck = async () => {
         try {
           const accessToken = sessionStorage.getItem('accessToken');
-          console.log(accessToken);
           if (!accessToken) {
             navigate('/login');
             return;
           }
           
-          const response = await fetch('https://testgruppe3usnexpress.onrender.com/Admin/login', {
+          const response = await fetch('/Admin/login', {
             method: 'GET',
             headers: {
               'Authorization': 'Bearer ' + accessToken
