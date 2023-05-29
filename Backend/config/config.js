@@ -1,9 +1,10 @@
-const env = process.env;
+import dotenv from 'dotenv';
+dotenv.config();
 
 export const config = {
     db : {
-        url: "mongodb://localhost:27017",
+        url: process.env.DATABASE_URI,
         name: "App2000"
     },
-    port: env.PORT || 3030
+    port: 3500
 }

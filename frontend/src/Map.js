@@ -84,7 +84,7 @@ function Map() {
 			existingIds: idList
 		};
 
-		fetch("http://localhost:3030/charger-stations", {
+		fetch("https://testgruppe3usnexpress.onrender.com/charger-stations", {
 			method: "POST",
 			headers: {
 				'Content-Type': 'application/json'
@@ -247,7 +247,7 @@ function Map() {
 		disableDefaultUI: true,
 		zoom: false,
 	}
-	// Kevin mostly google API & Chris mostly integrating NOBIL stations to the map
+	// Kevin mostly google maps API & Chris mostly integrating NOBIL stations to the map
 	if (!isLoaded) {
 		return <div>...Loading...</div>;
 	}

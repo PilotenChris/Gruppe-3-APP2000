@@ -50,7 +50,7 @@ const CreateAdmin = () => {
     };
 
     // POST requests to create the account
-    fetch("http://localhost:3030/Admin", {
+    fetch("https://testgruppe3usnexpress.onrender.com/Admin", {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

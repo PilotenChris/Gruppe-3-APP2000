@@ -50,7 +50,7 @@ const Insert = () => {
     // Fetching all companies from the database
     // Helge
     useEffect(() => {
-      fetch("http://localhost:3030/ElCars")
+      fetch("https://testgruppe3usnexpress.onrender.com/ElCars")
         .then((response) => response.json())
         .then((data) => setCompanies(data))
         .catch((error) => console.error('Error fetching companies:', error));
@@ -66,7 +66,7 @@ const Insert = () => {
     const handleTextSubmit = (event) => {
         event.preventDefault();
         // Making the POST request to insert a company
-        fetch(`http://localhost:3030/ElCars/${companyName}`, {
+        fetch(`https://testgruppe3usnexpress.onrender.com/ElCars/${companyName}`, {
           method: 'POST',
         })
           .then((response) => {
@@ -87,7 +87,7 @@ const Insert = () => {
         event.preventDefault();
     
         // Making the POST request to insert all car details
-        fetch(`http://localhost:3030/ElCars/${companyName}/${carName}/${versionName}`, {
+        fetch(`https://testgruppe3usnexpress.onrender.com/ElCars/${companyName}/${carName}/${versionName}`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

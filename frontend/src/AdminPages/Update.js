@@ -52,7 +52,7 @@ const Update = () => {
   // Fetching list of companies from the database
   // Helge
   useEffect(() => {
-    fetch("http://localhost:3030/ElCars")
+    fetch("https://testgruppe3usnexpress.onrender.com/ElCars")
       .then((response) => response.json())
       .then((data) => setCompanies(data))
       .catch((error) => console.error('Error fetching companies:', error));
@@ -62,7 +62,7 @@ const Update = () => {
   // Helge
   useEffect(() => {
     if (selectedCompany) {
-      fetch(`http://localhost:3030/ElCars/${selectedCompany}`)
+      fetch(`https://testgruppe3usnexpress.onrender.com/ElCars/${selectedCompany}`)
         .then((response) => response.json())
         .then((data) => setCarName(data))
         .catch((error) => console.error('Error fetching cars:', error));
@@ -74,7 +74,7 @@ const Update = () => {
   useEffect(() => {
     setVersionName([]);
     if (selectedCompany && selectedCar) {
-      fetch(`http://localhost:3030/ElCars/${selectedCompany}/${selectedCar}`)
+      fetch(`https://testgruppe3usnexpress.onrender.com/ElCars/${selectedCompany}/${selectedCar}`)
         .then((response) =>  response.json())
         .then((data) => setVersionName(data[0].Versions))
         .catch((error) => console.error('Error fetching versions:', error));
@@ -93,7 +93,7 @@ const Update = () => {
     const [oldCompany, newCompany] = companyNames.split(';');
 
     // Making the PUT request to edit the company name
-    fetch(`http://localhost:3030/ElCars/${oldCompany}/${newCompany}`, {
+    fetch(`https://testgruppe3usnexpress.onrender.com/ElCars/${oldCompany}/${newCompany}`, {
       method: 'PUT',
     })
       .then((response) => {
@@ -119,7 +119,7 @@ const Update = () => {
     };
     // Extracting company, car and version names from dropdown. New names and details from textboxes
     // Making PUT request to edit names and details of a car
-    fetch(`http://localhost:3030/ElCars/${selectedCompany}/${selectedCar}/${selectedNewCar}/${selectedVersion}/${selectedNewVersion}`, {
+    fetch(`https://testgruppe3usnexpress.onrender.com/ElCars/${selectedCompany}/${selectedCar}/${selectedNewCar}/${selectedVersion}/${selectedNewVersion}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',

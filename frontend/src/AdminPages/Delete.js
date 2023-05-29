@@ -57,7 +57,7 @@ const Delete = () => {
       // Fetching all companies from the database
       // Helge
       const fetchCompanies = () => {
-        fetch('http://localhost:3030/ElCars')
+        fetch('https://testgruppe3usnexpress.onrender.com/ElCars')
           .then((response) => response.json())
           .then((data) => {
             setCompanies(data);
@@ -70,7 +70,7 @@ const Delete = () => {
       // Fetching all car models of a company from the database
       // Helge
       const fetchCarModels = (selectedCompany) => {
-        fetch(`http://localhost:3030/ElCars/${selectedCompany}`)
+        fetch(`https://testgruppe3usnexpress.onrender.com/ElCars/${selectedCompany}`)
           .then((response) => response.json())
           .then((data) => {
             if (Array.isArray(data)) {
@@ -91,7 +91,7 @@ const Delete = () => {
         event.preventDefault();
         const selectedCompany = document.getElementById('deleteSelskap').value;
         // Make DELETE request to delete a company
-        fetch(`http://localhost:3030/ElCars/${selectedCompany}`, {
+        fetch(`https://testgruppe3usnexpress.onrender.com/ElCars/${selectedCompany}`, {
           method: 'DELETE',
         })
           .then((response) => {
@@ -114,7 +114,7 @@ const Delete = () => {
         const selectedCar = document.getElementById('deleteBil').value;
     
         // Make DELETE request to delete a car model
-        fetch(`http://localhost:3030/ElCars/${selectedCompany}/${selectedCar}`, {
+        fetch(`https://testgruppe3usnexpress.onrender.com/ElCars/${selectedCompany}/${selectedCar}`, {
           method: 'DELETE',
         })
           .then((response) => {

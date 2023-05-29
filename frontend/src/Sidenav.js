@@ -67,7 +67,7 @@ const Sidenav = (props) => {
 
 
   useEffect(() => {
-    fetch("http://localhost:3030/ElCars")
+    fetch("https://testgruppe3usnexpress.onrender.com/ElCars")
       .then((response) => response.json())
       .then((data) => setCompanies(data));
   }, []);
@@ -119,7 +119,7 @@ const Sidenav = (props) => {
     setSelectedCarModel("");
     setVersions([]);
     setSelectedCarDetails(null);
-    fetch(`http://localhost:3030/ElCars/${company}`)
+    fetch(`https://testgruppe3usnexpress.onrender.com/ElCars/${company}`)
       .then((response) => response.json())
       .then((data) => setCarModels(data));
   };
@@ -135,7 +135,7 @@ const Sidenav = (props) => {
     }
     setVersions([]);
     setSelectedCarDetails(null);
-    fetch(`http://localhost:3030/ElCars/${selectedCompany}/${carModel}`)
+    fetch(`https://testgruppe3usnexpress.onrender.com/ElCars/${selectedCompany}/${carModel}`)
       .then((response) => response.json())
       .then((data) => setVersions(data[0].Versions));
   };
@@ -151,7 +151,7 @@ const Sidenav = (props) => {
       dispatch(resetUserCarMaxRange());
     }
 
-    fetch(`http://localhost:3030/ElCars/${selectedCompany}/${selectedCarModel}/${carVersion}`)
+    fetch(`https://testgruppe3usnexpress.onrender.com/ElCars/${selectedCompany}/${selectedCarModel}/${carVersion}`)
       .then((response) => response.json())
       .then((data) => {
         if (Array.isArray(data) && data.length > 0) {
