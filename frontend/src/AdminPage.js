@@ -17,6 +17,7 @@ const AdminPage = () => {
       const authenticationCheck = async () => {
         try {
           const accessToken = sessionStorage.getItem('accessToken');
+          console.log(accessToken);
           if (!accessToken) {
             navigate('/login');
             return;
