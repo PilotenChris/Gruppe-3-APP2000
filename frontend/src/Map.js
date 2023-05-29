@@ -64,24 +64,11 @@ function Map() {
 	// Get all charging stations and details, from our REST API
 	// Chris
 	const getChargerJson = (bounds) => {
-		let idList = '';
-		if (markers.length > 0) {
-			for (let i = 0; i < markers.length; i++) {
-				if (i > 0 && markers[i].id !== '') {
-					idList += ',';
-				}
-				if (markers[i].id) {
-					idList += markers[i].id;
-				}
-			}
-		}
-
 		const ne = bounds.getNorthEast().toString();
 		const sw = bounds.getSouthWest().toString();
 
 		const body = {
-			bounds: { ne, sw },
-			existingIds: idList
+			bounds: { ne, sw }
 		};
 
 		fetch("https://testgruppe3usnexpress.onrender.com/charger-stations", {
