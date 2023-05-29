@@ -140,8 +140,6 @@ function Map() {
 					addRangeM = getAddRange(carInfo.charMIN, maxChargeM, carInfo.charSpeed, carInfo.battCap, carInfo.maxRange, distanceM, getRangeById(lastStation.id));
 					rangeM = addRangeM + getRangeMarker(getRangeById(lastStation.id), distanceM);
 					checkRange = getRangeById(lastStation.id);
-					console.log(distanceM);
-					console.log(checkRange);
 				}
 				// Checks if the station is out of range or not
 				if (distanceM <= (checkRange*rangeDeviation)) {
