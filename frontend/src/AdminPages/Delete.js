@@ -64,7 +64,7 @@ const Delete = () => {
         if (selectedCompany) {
           fetch(`https://testgruppe3usnexpress.onrender.com/ElCars/${selectedCompany}`)
             .then((response) => response.json())
-            .then((data) => setCarName(data))
+            .then((data) => setCarModels(data))
             .catch((error) => console.error('Error fetching cars:', error));
         }
       }, [selectedCompany]);
@@ -105,7 +105,6 @@ const Delete = () => {
           .then((response) => {
             if (response.ok) {
               setResponseMessage2('Car deleted.');
-              fetchCarModels(selectedCompany);
             } else {
               setResponseMessage2('Failed to delete car.');
             }
