@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addUserMarkSelect, deleteUserMarkSelect, resetUserMark } from './redux/userMarkSelectSlice';
 import { updateLatLng } from './redux/userCarSlice';
 
-const center = { lat: 59.911491, lng: 10.757933 } //midlertidig koordinat
+const center = { lat: 59.911491, lng: 10.757933 } // map coordinates on opening the application
 
 function Map() {
 	const [map, setMap] = useState(null);
@@ -192,7 +192,7 @@ function Map() {
 		}
 	};
 
-	// Extract the charging capasity from the string given from the NOBIL API
+	// Extract the charging capacity from the string given from the NOBIL API
 	// Chris
 	const getCharCap = (charCapString) => {
 		const regex = /([\d,.]+)\s*kW/;
@@ -204,7 +204,7 @@ function Map() {
 		return null;
 	};
 
-	// Calculate distanse between the starting point and the selected station on the map
+	// Calculate distance between the starting point and the selected station on the map
 	// by using the Haversine formula
 	// Chris
 	const mapPointDistanceCalculator = (lat1, lng1, lat2, lng2) => {
