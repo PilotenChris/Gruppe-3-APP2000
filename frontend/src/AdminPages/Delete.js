@@ -59,9 +59,7 @@ const Delete = () => {
       const fetchCompanies = () => {
         fetch('https://testgruppe3usnexpress.onrender.com/ElCars')
           .then((response) => response.json())
-          .then((data) => {
-            setCompanies(data);
-          })
+          .then((data) => setCompanies(data))
           .catch((error) => {
             console.error('Error fetching companies:', error);
           });
