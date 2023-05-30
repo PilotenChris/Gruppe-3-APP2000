@@ -51,8 +51,11 @@ const Delete = () => {
 
     useEffect(() => {
         fetchCompanies();
-        fetchCarModels();
       }, []);
+
+      useEffect(() => {
+        fetchCarModels();
+      }, [companies]);
 
       // Fetching all companies from the database
       // Helge
