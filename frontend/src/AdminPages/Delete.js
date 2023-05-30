@@ -76,7 +76,6 @@ const Delete = () => {
     // Helge
     const handleDeleteCompany = (event) => {
         event.preventDefault();
-        const selectedCompany = document.getElementById('deleteSelskap').value;
         // Make DELETE request to delete a company
         fetch(`https://testgruppe3usnexpress.onrender.com/ElCars/${selectedCompany}`, {
           method: 'DELETE',
@@ -97,9 +96,6 @@ const Delete = () => {
       // Helge
       const handleDeleteCar = (event) => {
         event.preventDefault();
-        const selectedCompany = document.getElementById('deleteSelskap').value;
-        const selectedCar = document.getElementById('deleteBil').value;
-    
         // Make DELETE request to delete a car model
         fetch(`https://testgruppe3usnexpress.onrender.com/ElCars/${selectedCompany}/${selectedCar}`, {
           method: 'DELETE',
@@ -141,7 +137,7 @@ const Delete = () => {
         <div className='selskap'>
           {/* Omar & Truls added dropdown options for company and deletee button*/}
            <h2 className='headline'>Selskap</h2>
-           <select id='companyDropdown' value={selectedCompany} onChange={(e) => setSelectedCompany(e.target.value)}>
+           <select id='deleteSelskap' value={selectedCompany} onChange={(e) => setSelectedCompany(e.target.value)}>
            <option value=''>Velg selskap</option>
               {companies.map((company) => (
                 <option key={company} value={company}>{company}</option>
@@ -154,7 +150,7 @@ const Delete = () => {
             <div className='bil'>
                {/* Omar & Truls added dropdown options for cars and deletee button*/}
                 <h2 className='headline'>Bil</h2>
-                <select id='carDropdown' value={selectedCar} onChange={(e) => setSelectedCar(e.target.value)}>
+                <select id='deleteBil' value={selectedCar} onChange={(e) => setSelectedCar(e.target.value)}>
                 <option value=''>Velg bil</option>
                   {carModels.map((carModel) => (
                   <option key={carModel} value={carModel}>{carModel}</option>
