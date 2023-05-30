@@ -49,38 +49,25 @@ const Delete = () => {
         navigate('/admin-page/create-admin')
     }
 
-    useEffect(() => {
-        fetchCompanies();
-        fetchCarModels();
-      }, []);
-
       // Fetching all companies from the database
       // Helge
-      const fetchCompanies = () => {
-        fetch('https://testgruppe3usnexpress.onrender.com/ElCars')
+      useEffect(() => {
+        fetch("https://testgruppe3usnexpress.onrender.com/ElCars")
           .then((response) => response.json())
           .then((data) => setCompanies(data))
-          .catch((error) => {
-            console.error('Error fetching companies:', error);
-          });
-      };
-
+          .catch((error) => console.error('Error fetching companies:', error));
+      }, []);
+      
       // Fetching all car models of a company from the database
       // Helge
-      const fetchCarModels = (selectedCompany) => {
-        fetch(`https://testgruppe3usnexpress.onrender.com/ElCars/${selectedCompany}`)
-          .then((response) => response.json())
-          .then((data) => {
-            if (Array.isArray(data)) {
-              setCarModels(data);
-            } else {
-              setCarModels([]);
-            }
-          })
-          .catch((error) => {
-            console.error('Error fetching car models:', error);
-          });
-      };
+      useEffect(() => {
+        if (selectedCompany) {
+          fetch(`https://testgruppe3usnexpress.onrender.com/ElCars/${selectedCompany}`)
+            .then((response) => response.json())
+            .then((data) => setCarName(data))
+            .catch((error) => console.error('Error fetching cars:', error));
+        }
+      }, [selectedCompany]);
       
     
     // Deleting a company from database
@@ -153,7 +140,7 @@ const Delete = () => {
         <div className='selskap'>
           {/* Omar & Truls added dropdown options for company and deletee button*/}
            <h2 className='headline'>Selskap</h2>
-           <select id='deleteSelskap' onChange={(e) => fetchCarModels(e.target.value)}>
+           <select id='companyDropdown' value={selectedCompany} onChange={(e) => setSelectedCompany(e.target.value)}>
            <option value=''>Velg selskap</option>
               {companies.map((company) => (
                 <option key={company} value={company}>{company}</option>
@@ -166,7 +153,7 @@ const Delete = () => {
             <div className='bil'>
                {/* Omar & Truls added dropdown options for cars and deletee button*/}
                 <h2 className='headline'>Bil</h2>
-                <select id='deleteBil'>
+                <select id='carDropdown' value={selectedCar} onChange={(e) => setSelectedCar(e.target.value)}>
                 <option value=''>Velg bil</option>
                   {carModels.map((carModel) => (
                   <option key={carModel} value={carModel}>{carModel}</option>
