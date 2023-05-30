@@ -1,12 +1,10 @@
 import {Link} from 'react-router-dom'
 import {useNavigate } from 'react-router-dom'
-import React, { useContext, useEffect } from 'react';
-import { AuthCheck } from './AuthCheck';
+import React, { useEffect } from 'react';
 import './AdminPage.css'
  
 const AdminPage = () => { 
     const navigate = useNavigate()
-    const { accessToken } = useContext(AuthCheck);
 
     const createAdmin = () => {
 
@@ -18,13 +16,14 @@ const AdminPage = () => {
     useEffect(() => {
       const authenticationCheck = async () => {
         try {
+          const accessToken = sessionStorage.getItem('accessToken');
           if (!accessToken) {
             navigate('/login');
             return;
           }
           
           const response = await fetch("/Admin/login", {
-            method: 'GET',
+            method: 'POST',
             headers: {
               'Authorization': 'Bearer ' + accessToken
             }
@@ -40,7 +39,7 @@ const AdminPage = () => {
       };
     
       authenticationCheck();
-    }, [accessToken, navigate]);
+    }, [navigate]);
 
     return (
         <body className='adminSider'>
