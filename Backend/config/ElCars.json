@@ -59,16 +59,75 @@
         "Plus"
       ],
       "range_km": {
-        "Standard": 243,
-        "Plus": 364
+        "Standard": 355,
+        "Plus": 505
       },
       "battery_capacity_kWh": {
         "Standard": 39,
         "Plus": 59
       },
       "charging_speed_kW": {
-        "Standard": 1,
-        "Plus": 2
+        "Standard": 46,
+        "Plus": 46
+      }
+    }
+  }
+},{
+  "_id": {
+    "$oid": "646f35ac51e307fa842f593a"
+  },
+  "Volkswagen": {
+    "ID3": {
+      "versions": [
+        "Pro",
+        "Pro S",
+        "Performance"
+      ],
+      "range_km": {
+        "Pro": 425,
+        "Pro S": 555
+      },
+      "battery_capacity_kWh": {
+        "Pro": 58,
+        "Pro S": 77
+      },
+      "charging_speed_kW": {
+        "Pro": 120,
+        "Pro S": 170
+      }
+    },
+    "ID4": {
+      "versions": [
+        "Pure",
+        "Pure Performance",
+        "Pro",
+        "Pro Performance",
+        "Pro 4MOTION",
+        "GTX"
+      ],
+      "range_km": {
+        "GTX": 575,
+        "Pro": 600,
+        "Pro 4MOTION": 585,
+        "Pro Performance": 600,
+        "Pure": 420,
+        "Pure Performance": 420
+      },
+      "battery_capacity_kWh": {
+        "GTX": 77,
+        "Pro": 77,
+        "Pro 4MOTION": 77,
+        "Pro Performance": 77,
+        "Pure": 52,
+        "Pure Performance": 52
+      },
+      "charging_speed_kW": {
+        "GTX": 175,
+        "Pro": 135,
+        "Pro 4MOTION": 135,
+        "Pro Performance": 135,
+        "Pure": 118,
+        "Pure Performance": 118
       }
     }
   }
