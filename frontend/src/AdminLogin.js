@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { AuthCheck } from './AuthCheck';
 import './AdminLogin.css';
 
 const AdminLogin = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
+  const { setAccessToken } = useContext(AuthCheck);
 
   // Handling login attempt from user
   // Helge
@@ -27,7 +29,7 @@ const AdminLogin = () => {
         navigate('/admin-page');
         const data = await response.json();
         const token = data.token;
-        sessionStorage.setItem('accessToken', token);
+        setAccessToken(token);
         navigate('/admin-page');
       } else if (response.status === 401) {
         alert('Feil brukernavn eller passord');
