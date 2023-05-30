@@ -11,6 +11,8 @@ const Delete = () => {
     const navigate = useNavigate()
     const [companies, setCompanies] = useState([]);
     const [carModels, setCarModels] = useState([]);
+    const [selectedCompany, setSelectedCompany] = useState('');
+    const [selectedCar, setSelectedCar] = useState('');
     const [responseMessage1, setResponseMessage1] = useState('');
     const [responseMessage2, setResponseMessage2] = useState('');
 
