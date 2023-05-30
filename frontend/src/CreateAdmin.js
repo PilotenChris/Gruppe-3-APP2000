@@ -21,7 +21,7 @@ const CreateAdmin = () => {
         }
         
         const response = await fetch('/Admin/login', {
-          method: 'GET',
+          method: 'POST',
           headers: {
             'Authorization': 'Bearer ' + accessToken
           }
