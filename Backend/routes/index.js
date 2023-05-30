@@ -26,7 +26,7 @@ function writeError(res) {
 }
 
 // Parse the respons and send the desired data to the frontend
-// Chris
+// Chris 
 function parseJsonResponse(data) {
 	const newMarkers = [];
 	if (data && data.chargerstations && data.chargerstations.length >= 1) {

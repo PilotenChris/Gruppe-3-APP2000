@@ -246,6 +246,7 @@ function Map() {
 				mapContainerStyle={{ width: '100%', height: '100%' }}
 				onLoad={(map) => setMap(map)}
 				onClick={handleMapClick}>
+				{/*Kevin & Chris*/}
 				{carMarker && (
 					<Marker
 						position={carMarker}
@@ -254,6 +255,7 @@ function Map() {
 						}}
 					/>
 				)}
+				{/*Kevin, Chris has only modyfied some code to change collor*/}
 				{markers.map((marker) => (
 				<React.Fragment key={marker.id}>
 					<Marker
@@ -264,6 +266,7 @@ function Map() {
 							? blueMarkerIcon : 'https://maps.google.com/mapfiles/ms/icons/red-dot.png',
 					}}
 					/>
+					{/*Kevin, Chris has added the callculated range for radius*/}
 					{selectedStations.some((station) => station.id === marker.id) && (
 					<Circle
 						center={marker.latlng}
@@ -279,6 +282,7 @@ function Map() {
 					)}
 				</React.Fragment>
 				))}
+				{/*Chris*/}
 				{selectedMarker ? (
 				<InfoWindow
 					position={selectedMarker.latlng}
@@ -292,6 +296,7 @@ function Map() {
 					</div>
 				</InfoWindow>
 				) : null}
+				{/*Kevin*/}
 				{circlePos &&(
 					<Circle
 						center={circlePos}
