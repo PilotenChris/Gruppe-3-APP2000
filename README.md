@@ -1,4 +1,4 @@
-# Project Name: Visualization of Range and Charging Speed on a Map
+# Visualization of Range and Charging Speed on a Map
 
 ## Project Overview
 This project aims to provide a visualization of the range and charging speed of electric cars on a map. It was developed by Groupe 3 APP2000 at USN Bø during the 2022/2023 academic year. The project spanned two semesters, with the Autumn semester dedicated to planning and learning the necessary programming languages, and the Spring semester focused on programming the website, testing, and writing an end report. The initial customer for this project was Aplia.
