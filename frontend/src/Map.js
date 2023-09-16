@@ -101,7 +101,7 @@ function Map() {
 						connector: markerData.connector,
 						adress: markerData.adress,
 						description: markerData.Description_of_location,
-						maxChargingCapacity: maxChargingCapacity,
+						maxChargingCapacity: data.chargerstations[i].attr.conn[1][5].trans,
 						alreadyadded: false
 					},
 				});
