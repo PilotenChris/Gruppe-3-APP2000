@@ -14,7 +14,7 @@ const app = express();
 
 // Configure the app and routes
 
-app.use(cors({ origin: `https://testgruppe3usn.onrender.com/` }));
+app.use(cors({ origin: `https://testgruppe3usn.onrender.com` }));
 app.use(urlencoded({ extended: true }));
 app.use(json());
 
