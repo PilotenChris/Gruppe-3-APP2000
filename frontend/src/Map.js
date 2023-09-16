@@ -87,22 +87,19 @@ function Map() {
 	// Chris
 	const parseJsonResponse = (data) => {
 		const newMarkers = [];
-		if (data && data.chargerstations && data.chargerstations.length >= 1) {
-			for (let i = 0; i < data.chargerstations.length; i++) {
-				const markerData = data.chargerstations[i].csmd;
-				const arrpunkt = markerData.Position.split(',');
-				const editLat = 1.0 * arrpunkt[0].substr(1);
-				const editLng = 1.0 * arrpunkt[1].substr(0, arrpunkt[1].length - 1);
+		if (data && data.length >= 1) {
+			for (let i = 0; i < data.length; i++) {
+				const markerData = data[i];
 				newMarkers.push({
-					id: markerData.International_id,
-					latlng: { lat: editLat, lng: editLng },
+					id: markerData.id,
+					latlng: markerData.latlng,
 					content: {
 						name: markerData.name,
 						connector: markerData.connector,
 						adress: markerData.adress,
-						description: markerData.Description_of_location,
-						maxChargingCapacity: data.chargerstations[i].attr.conn[1][5].trans,
-						alreadyadded: false
+						description: markerData.description,
+						maxChargingCapacity: markerData.maxChargingCapacity,
+						alreadyadded: markerData.alreadyadded
 					},
 				});
 			}
