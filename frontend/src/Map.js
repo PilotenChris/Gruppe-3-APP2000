@@ -79,7 +79,6 @@ function Map() {
 			body: JSON.stringify(body)
 		})
 		.then((response) => response.json())
-		.then((data) => {console.log(data); return data;})
 		.then((data) => parseJsonResponse(data))
 		.catch((err) => console.error(err.message));
 	};
