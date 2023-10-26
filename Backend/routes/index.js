@@ -80,6 +80,7 @@ const routes = (app) => {
 	// Chris
 	app.post("/charger-stations", async (req, res) => {
 		let bounds = req.body.bounds;
+		console.log(bounds);
 		let ne = bounds.ne;
 		let sw = bounds.sw;
 
