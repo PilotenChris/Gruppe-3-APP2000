@@ -90,6 +90,7 @@ const routes = (app) => {
 			const response = await fetch(apiUrl);
 			const data = await response.json();
 			const newMarkers = parseJsonResponse(data);
+			console.log(newMarkers);
 			res.json(newMarkers);
 		} catch (error) {
 			res.status(500).json({ message: error.message });
