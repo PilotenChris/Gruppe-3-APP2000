@@ -135,7 +135,8 @@ const routes = (app) => {
 		let company = req.params["company"];
 		let car = req.params["car"];
 		let version = req.params["version"]
-		getCarDetails(company, car, version).then(writeData(res), console.log(writeData(res)), writeError(res));
+		console.log(getCarDetails(company, car, version).then(writeData(res), writeError(res)));
+		getCarDetails(company, car, version).then(writeData(res), writeError(res));
 	});
 
 	// Insert a company into the database
