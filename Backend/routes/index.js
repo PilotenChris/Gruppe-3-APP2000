@@ -135,7 +135,6 @@ const routes = (app) => {
 		let company = req.params["company"];
 		let car = req.params["car"];
 		let version = req.params["version"]
-		console.log(getCarDetails(company, car, version).then(writeData(res), writeError(res)));
 		getCarDetails(company, car, version).then(writeData(res), writeError(res));
 	});
 
