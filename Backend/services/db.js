@@ -73,7 +73,6 @@ async function getCarDetails(company, carModel, version) {
                     "Charging Speed (kW)": details.charging_speed_kW[version]
                   }
                 });
-                console.log(result);
               } else if (!version) {
                 result.push({
                   "Company": company,
