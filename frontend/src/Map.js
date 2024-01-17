@@ -224,7 +224,7 @@ function Map() {
 	const blueMarkerIcon = 'https://maps.google.com/mapfiles/ms/icons/blue-dot.png';
 
 	const {isLoaded} = useLoadScript({
-		googleMapsApiKey: "", // Your Google maps api key
+		googleMapsApiKey: "AIzaSyAxiq508gn5-9O8kf_XMMvAerOmpbM9sZw", // Your Google maps api key
 	})
 
 	// Function to hide components on map
